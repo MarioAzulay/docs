@@ -36,99 +36,100 @@
       "url": "sdks"
     }
   ],
-  "navigation": {
-    "groups": [
-      {
-        "group": "Getting Started",
-        "pages": ["introduction", "quickstart", "authentication"]
-      },
-      {
-        "group": "API Reference",
-        "pages": [
-          "api-reference/overview",
-          {
-            "group": "Payments",
-            "pages": [
-              "api-reference/payments/create-payment",
-              "api-reference/payments/retrieve-payment",
-              "api-reference/payments/list-payments"
-            ]
-          },
-          {
-            "group": "Customers",
-            "pages": [
-              "api-reference/customers/create-customer",
-              "api-reference/customers/retrieve-customer",
-              "api-reference/customers/list-customers"
-            ]
-          },
-          {
-            "group": "Invoicing",
-            "pages": [
-              "api-reference/invoicing/create-invoice",
-              "api-reference/invoicing/retrieve-invoice",
-              "api-reference/invoicing/list-invoices"
-            ]
-          },
-          {
-            "group": "Reporting",
-            "pages": [
-              "api-reference/reporting/generate-report",
-              "api-reference/reporting/retrieve-report"
-            ]
-          }
-        ]
-      },
-      {
-        "group": "SDKs & Libraries",
-        "pages": [
-          "sdks/overview",
-          "sdks/javascript",
-          "sdks/python",
-          "sdks/php",
-          "sdks/java",
-          "sdks/dotnet"
-        ]
-      },
-      {
-        "group": "Webhooks",
-        "pages": [
-          "webhooks/overview",
-          "webhooks/events",
-          "webhooks/security"
-        ]
-      },
-      {
-        "group": "Sample Applications",
-        "pages": [
-          "samples/ecommerce",
-          "samples/subscription",
-          "samples/in-person",
-          "samples/mobile"
-        ]
-      }
-    ],
-    "languages": [
-      {
-        "language": "en",
-        "groups": [
-          {
-            "group": "Getting Started",
-            "pages": ["en/overview", "en/quickstart", "en/development"]
-          }
-        ]
-      },
-      {
-        "language": "es",
-        "groups": [
-          {
-            "group": "Getting Started",
-            "pages": ["es/overview", "es/quickstart", "es/development"]
-          }
-        ]
-      }
-    ]
-  },
+  "navigation": [
+    {
+      "group": "Getting Started",
+      "pages": ["introduction", "quickstart", "authentication"]
+    },
+    {
+      "group": "API Reference",
+      "pages": [
+        "api-reference/overview",
+        {
+          "group": "Payments",
+          "pages": [
+            "api-reference/payments/create-payment",
+            "api-reference/payments/retrieve-payment",
+            "api-reference/payments/list-payments"
+          ]
+        },
+        {
+          "group": "Customers",
+          "pages": [
+            "api-reference/customers/create-customer",
+            "api-reference/customers/retrieve-customer",
+            "api-reference/customers/list-customers"
+          ]
+        },
+        {
+          "group": "Invoicing",
+          "pages": [
+            "api-reference/invoicing/create-invoice",
+            "api-reference/invoicing/retrieve-invoice",
+            "api-reference/invoicing/list-invoices"
+          ]
+        },
+        {
+          "group": "Reporting",
+          "pages": [
+            "api-reference/reporting/generate-report",
+            "api-reference/reporting/retrieve-report"
+          ]
+        }
+      ]
+    },
+    {
+      "group": "SDKs & Libraries",
+      "pages": [
+        "sdks/overview",
+        "sdks/javascript",
+        "sdks/python",
+        "sdks/php",
+        "sdks/java",
+        "sdks/dotnet"
+      ]
+    },
+    {
+      "group": "Webhooks",
+      "pages": [
+        "webhooks/overview",
+        "webhooks/events",
+        "webhooks/security"
+      ]
+    },
+    {
+      "group": "Sample Applications",
+      "pages": [
+        "samples/ecommerce",
+        "samples/subscription",
+        "samples/in-person",
+        "samples/mobile"
+      ]
+    },
+    {
+      "group": "Languages",
+      "languages": [
+        {
+          "language": "en",
+          "groups": [
+            {
+              "group": "Getting Started",
+              "pages": ["en/overview", "en/quickstart", "en/development"]
+            }
+          ]
+        },
+        {
+          "language": "es",
+          "groups": [
+            {
+              "group": "Getting Started",
+              "pages": ["es/overview", "es/quickstart", "es/development"]
+            }
+          ]
+        }
+      ]
+    }
+  ],
   "footerSocials": {
     "twitter": "https://twitter.com/izilink",
     "github": "https://github.com/izilink",
