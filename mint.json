@@ -36,17 +36,9 @@
       "url": "sdks"
     }
   ],
-  "navigation": [
-    {
-      "group": "Getting Started",
-      "pages": [
-        "introduction",
-        "quickstart",
-        "authentication"
-      ]
-    },
-    {
-      "languages": [
+  {
+  "navigation": {
+    "languages": [
       {
         "language": "en",
         "groups": [
@@ -57,15 +49,25 @@
         ]
       },
       {
-        "language": "pt",
+        "language": "es",
         "groups": [
           {
             "group": "Getting Started",
-            "pages": ["pt/overview", "pt/quickstart", "pt/development"]
+            "pages": ["es/overview", "es/quickstart", "es/development"]
           }
         ]
       }
     ]
+  }
+},
+  "navigation": [
+    {
+      "group": "Getting Started",
+      "pages": [
+        "introduction",
+        "quickstart",
+        "authentication"
+      ]
     },
     {
       "group": "API Reference",
