@@ -38,6 +38,11 @@
       "name": "SDKs",
       "icon": "code",
       "url": "sdks"
+    },
+    {
+      "name": "Support",
+      "icon": "headset",
+      "url": "mailto:support@izilink.com"
     }
   ],
   "navigation": [
