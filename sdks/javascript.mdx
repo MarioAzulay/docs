@@ -1,0 +1,306 @@
+---
+title: 'JavaScript SDK'
+description: 'IZI Link JavaScript SDK for Node.js and browser applications'
+---
+
+# JavaScript SDK
+
+The IZI Link JavaScript SDK provides a convenient way to interact with the IZI Link API in Node.js and browser applications.
+
+## Installation
+
+<CodeGroup>
+
+```bash npm
+npm install izilink-js
+```
+
+```bash yarn
+yarn add izilink-js
+```
+
+</CodeGroup>
+
+## Initialization
+
+Initialize the SDK with your API key:
+
+```javascript
+const IziLink = require('izilink-js'); // Node.js
+// or
+import IziLink from 'izilink-js'; // ES modules
+
+const izilink = new IziLink('YOUR_API_KEY');
+```
+
+<Note>
+  In browser environments, use your publishable key. In server environments, use your secret key.
+</Note>
+
+## TypeScript Support
+
+The SDK includes TypeScript definitions:
+
+```typescript
+import IziLink from 'izilink-js';
+import { Payment, PaymentCreateParams } from 'izilink-js/types';
+
+const izilink = new IziLink('YOUR_API_KEY');
+
+const params: PaymentCreateParams = {
+  amount: 2000,
+  currency: 'USD',
+  description: 'Payment for Order #123'
+};
+
+const payment: Payment = await izilink.payments.create(params);
+```
+
+## Payments
+
+### Create a Payment
+
+```javascript
+const payment = await izilink.payments.create({
+  amount: 2000, // Amount in cents
+  currency: 'USD',
+  description: 'Payment for Order #123',
+  customer_id: 'cus_123456789', // Optional
+  metadata: {
+    order_id: 'order_123'
+  }
+});
+
+console.log(payment.id);
+```
+
+### Retrieve a Payment
+
+```javascript
+const payment = await izilink.payments.retrieve('pay_123456789');
+console.log(payment.status);
+```
+
+### List Payments
+
+```javascript
+const payments = await izilink.payments.list({
+  limit: 10,
+  customer_id: 'cus_123456789' // Optional filter
+});
+
+payments.data.forEach(payment => {
+  console.log(payment.id, payment.amount);
+});
+
+// Pagination
+if (payments.has_more) {
+  const morePayments = await izilink.payments.list({
+    limit: 10,
+    starting_after: payments.data[payments.data.length - 1].id
+  });
+}
+```
+
+## Customers
+
+### Create a Customer
+
+```javascript
+const customer = await izilink.customers.create({
+  email: 'customer@example.com',
+  name: 'John Doe',
+  phone: '+1234567890',
+  metadata: {
+    user_id: '123'
+  }
+});
+
+console.log(customer.id);
+```
+
+### Retrieve a Customer
+
+```javascript
+const customer = await izilink.customers.retrieve('cus_123456789');
+console.log(customer.email);
+```
+
+### Update a Customer
+
+```javascript
+const customer = await izilink.customers.update('cus_123456789', {
+  name: 'Jane Doe',
+  metadata: {
+    user_id: '123',
+    status: 'active'
+  }
+});
+
+console.log(customer.name);
+```
+
+### List Customers
+
+```javascript
+const customers = await izilink.customers.list({
+  limit: 10,
+  email: 'customer@example.com' // Optional filter
+});
+
+customers.data.forEach(customer => {
+  console.log(customer.id, customer.name);
+});
+```
+
+## Payment Links
+
+### Create a Payment Link
+
+```javascript
+const paymentLink = await izilink.paymentLinks.create({
+  amount: 2000,
+  currency: 'USD',
+  description: 'Payment for Product XYZ',
+  success_url: 'https://example.com/success',
+  cancel_url: 'https://example.com/cancel'
+});
+
+console.log(paymentLink.url);
+```
+
+### Retrieve a Payment Link
+
+```javascript
+const paymentLink = await izilink.paymentLinks.retrieve('plink_123456789');
+console.log(paymentLink.url);
+```
+
+### List Payment Links
+
+```javascript
+const paymentLinks = await izilink.paymentLinks.list({
+  limit: 10
+});
+
+paymentLinks.data.forEach(link => {
+  console.log(link.id, link.url);
+});
+```
+
+## Webhooks
+
+### Construct Event
+
+```javascript
+const express = require('express');
+const app = express();
+
+app.post('/webhooks', express.raw({type: 'application/json'}), (req, res) => {
+  const signature = req.headers['izilink-signature'];
+  
+  try {
+    const event = izilink.webhooks.constructEvent(
+      req.body,
+      signature,
+      'YOUR_WEBHOOK_SECRET'
+    );
+    
+    // Handle the event
+    switch (event.type) {
+      case 'payment.succeeded':
+        const payment = event.data.object;
+        console.log(`Payment succeeded: ${payment.id}`);
+        break;
+      // ... handle other event types
+      default:
+        console.log(`Unhandled event type: ${event.type}`);
+    }
+    
+    res.json({received: true});
+  } catch (err) {
+    console.log(`Webhook Error: ${err.message}`);
+    res.status(400).send(`Webhook Error: ${err.message}`);
+  }
+});
+
+app.listen(3000, () => console.log('Webhook server running on port 3000'));
+```
+
+## Error Handling
+
+The SDK throws errors for various issues that may arise. You should catch these errors and handle them appropriately:
+
+```javascript
+try {
+  const payment = await izilink.payments.create({
+    amount: 2000,
+    currency: 'USD'
+  });
+} catch (error) {
+  if (error.type === 'invalid_request_error') {
+    console.log(`Invalid request: ${error.message}`);
+  } else if (error.type === 'api_error') {
+    console.log(`API error: ${error.message}`);
+  } else {
+    console.log(`Unexpected error: ${error.message}`);
+  }
+}
+```
+
+## Configuration Options
+
+You can configure the SDK with additional options:
+
+```javascript
+const izilink = new IziLink('YOUR_API_KEY', {
+  apiVersion: 'v1',
+  timeout: 30000, // 30 seconds
+  maxNetworkRetries: 2,
+  host: 'api.izilink.com'
+});
+```
+
+## Browser Usage
+
+For browser usage, you should only use your publishable key:
+
+```html
+<script src="https://cdn.izilink.com/v1/izilink.js"></script>
+<script>
+  const izilink = new IziLink('pk_test_your_publishable_key');
+  
+  // Create a payment form
+  const form = izilink.elements.create('payment', {
+    amount: 2000,
+    currency: 'USD'
+  });
+  
+  form.mount('#payment-form');
+  
+  // Handle form submission
+  document.getElementById('payment-form').addEventListener('submit', async (event) => {
+    event.preventDefault();
+    
+    const result = await izilink.confirmPayment({
+      elements: form,
+      confirmParams: {
+        return_url: 'https://example.com/success'
+      }
+    });
+    
+    if (result.error) {
+      console.error(result.error.message);
+    } else {
+      // Payment successful
+      window.location.href = result.paymentIntent.success_url;
+    }
+  });
+</script>
+```
+
+## Next Steps
+
+- Explore the [API Reference](/api-reference/overview)
+- Learn about [Webhooks](/webhooks/overview)
+- Check out [Sample Applications](/samples/ecommerce) 

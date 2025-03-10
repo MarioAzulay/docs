@@ -1,0 +1,246 @@
+---
+title: 'Quickstart Guide'
+description: 'Get started with IZI Link in minutes'
+---
+
+# Quickstart Guide
+
+This guide will help you get started with IZI Link by walking you through the process of creating your first payment link.
+
+## Prerequisites
+
+Before you begin, make sure you have:
+
+1. An IZI Link account. If you don't have one, [sign up here](https://app.izilink.com/signup).
+2. API keys for your account. You can find these in the [Dashboard](https://app.izilink.com/settings/api-keys).
+
+## Step 1: Install the SDK
+
+Choose your preferred language and install the IZI Link SDK:
+
+<CodeGroup>
+
+```bash npm
+npm install izilink-js
+```
+
+```bash yarn
+yarn add izilink-js
+```
+
+```bash pip
+pip install izilink
+```
+
+```bash composer
+composer require izilink/izilink-php
+```
+
+```bash maven
+<dependency>
+  <groupId>com.izilink</groupId>
+  <artifactId>izilink-java</artifactId>
+  <version>1.0.0</version>
+</dependency>
+```
+
+```bash nuget
+dotnet add package IziLink
+```
+
+</CodeGroup>
+
+## Step 2: Initialize the SDK
+
+Initialize the SDK with your API key:
+
+<CodeGroup>
+
+```javascript JavaScript
+const IziLink = require('izilink-js');
+const izilink = new IziLink('YOUR_API_KEY');
+```
+
+```python Python
+from izilink import IziLink
+izilink = IziLink('YOUR_API_KEY')
+```
+
+```php PHP
+<?php
+require_once('vendor/autoload.php');
+$izilink = new \IziLink\IziLink('YOUR_API_KEY');
+```
+
+```java Java
+import com.izilink.IziLink;
+IziLink izilink = new IziLink("YOUR_API_KEY");
+```
+
+```csharp C#
+using IziLink;
+var izilink = new IziLinkClient("YOUR_API_KEY");
+```
+
+</CodeGroup>
+
+## Step 3: Create a Payment Link
+
+Now, let's create a payment link:
+
+<CodeGroup>
+
+```javascript JavaScript
+const paymentLink = await izilink.paymentLinks.create({
+  amount: 1000, // Amount in cents
+  currency: 'USD',
+  description: 'Payment for Product XYZ',
+  success_url: 'https://example.com/success',
+  cancel_url: 'https://example.com/cancel'
+});
+
+console.log(paymentLink.url);
+```
+
+```python Python
+payment_link = izilink.payment_links.create(
+  amount=1000,  # Amount in cents
+  currency='USD',
+  description='Payment for Product XYZ',
+  success_url='https://example.com/success',
+  cancel_url='https://example.com/cancel'
+)
+
+print(payment_link.url)
+```
+
+```php PHP
+$paymentLink = $izilink->paymentLinks->create([
+  'amount' => 1000, // Amount in cents
+  'currency' => 'USD',
+  'description' => 'Payment for Product XYZ',
+  'success_url' => 'https://example.com/success',
+  'cancel_url' => 'https://example.com/cancel'
+]);
+
+echo $paymentLink->url;
+```
+
+```java Java
+PaymentLink paymentLink = izilink.paymentLinks.create(
+  PaymentLinkCreateParams.builder()
+    .setAmount(1000L) // Amount in cents
+    .setCurrency("USD")
+    .setDescription("Payment for Product XYZ")
+    .setSuccessUrl("https://example.com/success")
+    .setCancelUrl("https://example.com/cancel")
+    .build()
+);
+
+System.out.println(paymentLink.getUrl());
+```
+
+```csharp C#
+var paymentLinkOptions = new PaymentLinkCreateOptions
+{
+  Amount = 1000, // Amount in cents
+  Currency = "USD",
+  Description = "Payment for Product XYZ",
+  SuccessUrl = "https://example.com/success",
+  CancelUrl = "https://example.com/cancel"
+};
+
+var paymentLink = await izilink.PaymentLinks.CreateAsync(paymentLinkOptions);
+Console.WriteLine(paymentLink.Url);
+```
+
+</CodeGroup>
+
+## Step 4: Share the Payment Link
+
+Once you've created a payment link, you can share it with your customers via email, SMS, or by embedding it in your website.
+
+```html
+<a href="https://pay.izilink.com/l/abcdef123456">Pay Now</a>
+```
+
+## Step 5: Handle Webhooks (Optional)
+
+To receive notifications about payment events, you can set up webhooks:
+
+<CodeGroup>
+
+```javascript JavaScript
+// Express.js example
+const express = require('express');
+const app = express();
+
+app.post('/webhooks', express.raw({type: 'application/json'}), (req, res) => {
+  const event = izilink.webhooks.constructEvent(
+    req.body,
+    req.headers['izilink-signature'],
+    'YOUR_WEBHOOK_SECRET'
+  );
+
+  switch (event.type) {
+    case 'payment.succeeded':
+      const payment = event.data.object;
+      console.log(`Payment succeeded: ${payment.id}`);
+      break;
+    case 'payment.failed':
+      const failedPayment = event.data.object;
+      console.log(`Payment failed: ${failedPayment.id}`);
+      break;
+    default:
+      console.log(`Unhandled event type: ${event.type}`);
+  }
+
+  res.json({received: true});
+});
+
+app.listen(3000, () => console.log('Webhook server running on port 3000'));
+```
+
+```python Python
+// Flask example
+from flask import Flask, request, jsonify
+
+app = Flask(__name__)
+
+@app.route('/webhooks', methods=['POST'])
+def handle_webhook():
+    payload = request.data
+    sig_header = request.headers.get('IziLink-Signature')
+    
+    try:
+        event = izilink.webhooks.construct_event(
+            payload, sig_header, 'YOUR_WEBHOOK_SECRET'
+        )
+        
+        if event.type == 'payment.succeeded':
+            payment = event.data.object
+            print(f"Payment succeeded: {payment.id}")
+        elif event.type == 'payment.failed':
+            failed_payment = event.data.object
+            print(f"Payment failed: {failed_payment.id}")
+        else:
+            print(f"Unhandled event type: {event.type}")
+            
+        return jsonify(success=True)
+    except Exception as e:
+        return jsonify(error=str(e)), 400
+
+if __name__ == '__main__':
+    app.run(port=3000)
+```
+
+</CodeGroup>
+
+## Next Steps
+
+Congratulations! You've successfully created your first payment link with IZI Link. Here are some next steps to explore:
+
+- Learn more about [API Authentication](/authentication)
+- Explore the [API Reference](/api-reference/overview)
+- Check out our [SDK Documentation](/sdks/overview)
+- Set up [Webhooks](/webhooks/overview) for real-time notifications 

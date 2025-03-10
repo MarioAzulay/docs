@@ -1,0 +1,137 @@
+---
+title: 'Authentication'
+description: 'Learn how to authenticate your API requests'
+---
+
+# Authentication
+
+All API requests to IZI Link require authentication. We use API keys to authenticate requests. This guide explains how to obtain and use your API keys.
+
+## API Keys
+
+IZI Link provides two types of API keys:
+
+- **Test Keys**: Use these for development and testing. Transactions made with test keys don't process real payments.
+- **Live Keys**: Use these in production. Transactions made with live keys process real payments.
+
+Each type has two components:
+
+- **Publishable Key**: Safe to include in client-side code (like JavaScript running in the browser).
+- **Secret Key**: Must be kept confidential and only used in server-side code.
+
+## Obtaining API Keys
+
+To obtain your API keys:
+
+1. Log in to your [IZI Link Dashboard](https://app.izilink.com)
+2. Navigate to **Settings** > **API Keys**
+3. You'll see your test and live API keys
+
+<Warning>
+  Never share your secret API keys in publicly accessible areas such as GitHub, client-side code, or in your browser.
+</Warning>
+
+## Using API Keys
+
+### Server-side Requests
+
+For server-side API requests, use your secret key in the `Authorization` header:
+
+```bash
+curl -X GET \
+  https://api.izilink.com/v1/payments \
+  -H "Authorization: Bearer sk_test_abcdef123456"
+```
+
+### Client-side Requests
+
+For client-side requests, use your publishable key:
+
+```javascript
+const izilink = new IziLink('pk_test_abcdef123456');
+```
+
+## API Key Prefixes
+
+API keys have prefixes that indicate their type:
+
+- `pk_test_`: Test publishable key
+- `sk_test_`: Test secret key
+- `pk_live_`: Live publishable key
+- `sk_live_`: Live secret key
+
+## Environment Switching
+
+To switch between test and live environments, simply use the corresponding API keys. Your code doesn't need to change.
+
+<CodeGroup>
+
+```javascript Test Environment
+const izilink = new IziLink('sk_test_abcdef123456');
+```
+
+```javascript Live Environment
+const izilink = new IziLink('sk_live_abcdef123456');
+```
+
+</CodeGroup>
+
+## API Key Security
+
+Here are some best practices for keeping your API keys secure:
+
+1. **Never expose secret keys**: Keep your secret keys on your server, never in client-side code or mobile apps.
+2. **Use environment variables**: Store API keys in environment variables, not in your code.
+3. **Restrict API key access**: Use IP restrictions and permissions to limit what each key can do.
+4. **Rotate keys regularly**: Periodically generate new API keys and deprecate old ones.
+5. **Monitor usage**: Regularly check your API logs for suspicious activity.
+
+## Example: Storing API Keys Securely
+
+<CodeGroup>
+
+```javascript Node.js
+// .env file
+IZILINK_SECRET_KEY=sk_test_abcdef123456
+
+// server.js
+require('dotenv').config();
+const IziLink = require('izilink-js');
+const izilink = new IziLink(process.env.IZILINK_SECRET_KEY);
+```
+
+```python Python
+# .env file
+IZILINK_SECRET_KEY=sk_test_abcdef123456
+
+# app.py
+import os
+from dotenv import load_dotenv
+from izilink import IziLink
+
+load_dotenv()
+izilink = IziLink(os.environ.get('IZILINK_SECRET_KEY'))
+```
+
+```php PHP
+// .env file
+IZILINK_SECRET_KEY=sk_test_abcdef123456
+
+// index.php
+<?php
+require 'vendor/autoload.php';
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+$dotenv->load();
+
+$izilink = new \IziLink\IziLink($_ENV['IZILINK_SECRET_KEY']);
+```
+
+</CodeGroup>
+
+## Next Steps
+
+Now that you understand how to authenticate your API requests, you can:
+
+- Learn how to [create payments](/api-reference/payments/create-payment)
+- Set up [webhooks](/webhooks/overview) to receive notifications
+- Explore our [SDKs](/sdks/overview) for your preferred language 

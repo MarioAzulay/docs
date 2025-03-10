@@ -1,0 +1,134 @@
+---
+title: 'API Overview'
+description: 'Overview of the IZI Link API'
+---
+
+# API Overview
+
+The IZI Link API is organized around REST. Our API has predictable resource-oriented URLs, accepts JSON-encoded request bodies, returns JSON-encoded responses, and uses standard HTTP response codes, authentication, and verbs.
+
+## Base URL
+
+All API requests should be made to:
+
+```
+https://api.izilink.com/v1/
+```
+
+## Authentication
+
+The IZI Link API uses API keys to authenticate requests. You can view and manage your API keys in the [IZI Link Dashboard](https://app.izilink.com/settings/api-keys).
+
+Authentication to the API is performed via HTTP Bearer Authentication. Provide your API key as the bearer token value in the Authorization header.
+
+```bash
+Authorization: Bearer YOUR_API_KEY
+```
+
+Learn more about [authentication](/authentication).
+
+## Request/Response Format
+
+### Content Type
+
+All requests should include the `Content-Type: application/json` header, and request bodies should be valid JSON.
+
+### Pagination
+
+List API methods return a paginated list of objects. The response includes:
+
+- `data`: An array of objects
+- `has_more`: A boolean indicating if there are more objects
+- `total_count`: The total number of objects available
+- `next_page_token`: A token to fetch the next page
+
+To fetch the next page, include the `page_token` parameter in your request:
+
+```bash
+curl -X GET \
+  "https://api.izilink.com/v1/payments?page_token=next_page_token" \
+  -H "Authorization: Bearer YOUR_API_KEY"
+```
+
+### Error Handling
+
+The IZI Link API uses conventional HTTP response codes to indicate the success or failure of an API request:
+
+- `2xx`: Success
+- `4xx`: Client error (e.g., invalid request)
+- `5xx`: Server error
+
+Error responses include a JSON object with the following properties:
+
+- `error`: An object containing:
+  - `type`: A string representing the error type
+  - `code`: A string representing the error code
+  - `message`: A human-readable message providing more details
+  - `param`: The parameter that caused the error (if applicable)
+
+Example error response:
+
+```json
+{
+  "error": {
+    "type": "invalid_request_error",
+    "code": "parameter_missing",
+    "message": "Missing required parameter: amount",
+    "param": "amount"
+  }
+}
+```
+
+## Rate Limits
+
+The IZI Link API has rate limits to protect against abuse. Current limits are:
+
+- 100 requests per minute for test mode
+- 1000 requests per minute for live mode
+
+If you exceed the rate limit, you'll receive a `429 Too Many Requests` response.
+
+## Versioning
+
+The IZI Link API is versioned. The current version is `v1`. We recommend specifying a version in the URL to ensure compatibility.
+
+## Available APIs
+
+IZI Link provides several APIs to help you build your payment solution:
+
+<CardGroup cols={2}>
+  <Card title="Payments API" icon="credit-card" href="/api-reference/payments/create-payment">
+    Create and manage payments
+  </Card>
+  <Card title="Customers API" icon="user" href="/api-reference/customers/create-customer">
+    Store and manage customer information
+  </Card>
+  <Card title="Invoicing API" icon="file-invoice" href="/api-reference/invoicing/create-invoice">
+    Create and send invoices
+  </Card>
+  <Card title="Reporting API" icon="chart-line" href="/api-reference/reporting/generate-report">
+    Generate reports on your payment activity
+  </Card>
+</CardGroup>
+
+## API Playground
+
+You can test our API endpoints directly in our documentation using the API Playground. Look for the "Try It" button on API reference pages.
+
+<Note>
+  The API Playground uses your actual API keys, so any actions you take will affect your account. We recommend using test mode keys.
+</Note>
+
+## SDKs & Libraries
+
+We provide official client libraries for several programming languages to make integrating with the IZI Link API easier:
+
+- [JavaScript/Node.js](/sdks/javascript)
+- [Python](/sdks/python)
+- [PHP](/sdks/php)
+- [Java](/sdks/java)
+- [.NET](/sdks/dotnet)
+
+## Webhooks
+
+IZI Link can send webhook events to notify your application when events happen in your account. Learn more in our [Webhooks Guide](/webhooks/overview). 

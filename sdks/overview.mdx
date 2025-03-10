@@ -1,0 +1,185 @@
+---
+title: 'SDKs & Libraries'
+description: 'Official client libraries for IZI Link'
+---
+
+# SDKs & Libraries
+
+IZI Link provides official client libraries for several programming languages to make integrating with our API easier. These SDKs handle the details of API authentication, request formatting, and response parsing, allowing you to focus on building your application.
+
+## Available SDKs
+
+<CardGroup cols={2}>
+  <Card title="JavaScript/Node.js" icon="js" href="/sdks/javascript">
+    For browser and Node.js applications
+  </Card>
+  <Card title="Python" icon="python" href="/sdks/python">
+    For Python applications
+  </Card>
+  <Card title="PHP" icon="php" href="/sdks/php">
+    For PHP applications
+  </Card>
+  <Card title="Java" icon="java" href="/sdks/java">
+    For Java applications
+  </Card>
+  <Card title=".NET" icon="code" href="/sdks/dotnet">
+    For .NET applications
+  </Card>
+</CardGroup>
+
+## Installation
+
+<CodeGroup>
+
+```bash npm
+npm install izilink-js
+```
+
+```bash pip
+pip install izilink
+```
+
+```bash composer
+composer require izilink/izilink-php
+```
+
+```bash maven
+<dependency>
+  <groupId>com.izilink</groupId>
+  <artifactId>izilink-java</artifactId>
+  <version>1.0.0</version>
+</dependency>
+```
+
+```bash nuget
+dotnet add package IziLink
+```
+
+</CodeGroup>
+
+## Basic Usage
+
+All SDKs follow a similar pattern for initialization and usage:
+
+<CodeGroup>
+
+```javascript JavaScript
+// Initialize with your API key
+const IziLink = require('izilink-js');
+const izilink = new IziLink('YOUR_API_KEY');
+
+// Create a payment
+const payment = await izilink.payments.create({
+  amount: 2000,
+  currency: 'USD',
+  description: 'Payment for Order #123'
+});
+
+console.log(payment.id);
+```
+
+```python Python
+# Initialize with your API key
+from izilink import IziLink
+izilink = IziLink('YOUR_API_KEY')
+
+# Create a payment
+payment = izilink.payments.create(
+  amount=2000,
+  currency='USD',
+  description='Payment for Order #123'
+)
+
+print(payment.id)
+```
+
+```php PHP
+// Initialize with your API key
+<?php
+require_once('vendor/autoload.php');
+$izilink = new \IziLink\IziLink('YOUR_API_KEY');
+
+// Create a payment
+$payment = $izilink->payments->create([
+  'amount' => 2000,
+  'currency' => 'USD',
+  'description' => 'Payment for Order #123'
+]);
+
+echo $payment->id;
+```
+
+```java Java
+// Initialize with your API key
+import com.izilink.IziLink;
+IziLink izilink = new IziLink("YOUR_API_KEY");
+
+// Create a payment
+PaymentCreateParams params = PaymentCreateParams.builder()
+  .setAmount(2000L)
+  .setCurrency("USD")
+  .setDescription("Payment for Order #123")
+  .build();
+
+Payment payment = izilink.payments().create(params);
+System.out.println(payment.getId());
+```
+
+```csharp C#
+// Initialize with your API key
+using IziLink;
+var izilink = new IziLinkClient("YOUR_API_KEY");
+
+// Create a payment
+var paymentOptions = new PaymentCreateOptions
+{
+  Amount = 2000,
+  Currency = "USD",
+  Description = "Payment for Order #123"
+};
+
+var payment = await izilink.Payments.CreateAsync(paymentOptions);
+Console.WriteLine(payment.Id);
+```
+
+</CodeGroup>
+
+## SDK Features
+
+All our SDKs provide:
+
+- **Authentication**: Automatic handling of API key authentication
+- **Request Formatting**: Proper formatting of API requests
+- **Response Parsing**: Parsing API responses into language-specific objects
+- **Error Handling**: Comprehensive error handling with detailed error messages
+- **Pagination**: Helper methods for paginating through list results
+- **Webhooks**: Utilities for verifying and parsing webhook events
+- **TypeScript Support**: Type definitions for TypeScript users (JavaScript SDK)
+
+## SDK Versioning
+
+Our SDKs follow semantic versioning (MAJOR.MINOR.PATCH). We recommend pinning to a specific version in your dependency management system to avoid unexpected changes.
+
+## SDK Support
+
+If you encounter any issues with our SDKs, please:
+
+1. Check the [documentation](/sdks) for your specific SDK
+2. Look for known issues in our [GitHub repositories](https://github.com/izilink)
+3. Contact our [support team](mailto:support@izilink.com)
+
+## Community Libraries
+
+In addition to our official SDKs, there are community-maintained libraries for other languages. While we don't officially support these, they may be useful for your integration:
+
+- Ruby: [izilink-ruby](https://github.com/community/izilink-ruby)
+- Go: [izilink-go](https://github.com/community/izilink-go)
+- Swift: [izilink-swift](https://github.com/community/izilink-swift)
+
+<Note>
+  Community libraries are not maintained by IZI Link. Use them at your own risk.
+</Note>
+
+## Next Steps
+
+Choose your preferred SDK from the list above to get started with IZI Link integration. 

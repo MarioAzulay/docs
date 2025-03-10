@@ -1,0 +1,129 @@
+{
+  "$schema": "https://mintlify.com/schema.json",
+  "name": "IZI Link Developer Documentation",
+  "logo": {
+    "dark": "/logo/logo-dark.svg",
+    "light": "/logo/logo-light.svg"
+  },
+  "favicon": "/favicon.png",
+  "colors": {
+    "primary": "#007bff",
+    "light": "#4da6ff",
+    "dark": "#0056b3",
+    "background": {
+      "dark": "#111111"
+    }
+  },
+  "topbarLinks": [
+    {
+      "name": "Support",
+      "url": "mailto:support@izilink.com"
+    }
+  ],
+  "topbarCtaButton": {
+    "name": "Dashboard",
+    "url": "https://app.izilink.com"
+  },
+  "anchors": [
+    {
+      "name": "API Reference",
+      "icon": "rectangle-terminal",
+      "url": "api-reference"
+    },
+    {
+      "name": "SDKs",
+      "icon": "code",
+      "url": "sdks"
+    },
+    {
+      "name": "Community",
+      "icon": "discord",
+      "url": "https://discord.gg/izilink"
+    }
+  ],
+  "navigation": [
+    {
+      "group": "Getting Started",
+      "pages": [
+        "introduction",
+        "quickstart",
+        "authentication"
+      ]
+    },
+    {
+      "group": "API Reference",
+      "pages": [
+        "api-reference/overview",
+        {
+          "group": "Payments",
+          "pages": [
+            "api-reference/payments/create-payment",
+            "api-reference/payments/retrieve-payment",
+            "api-reference/payments/list-payments"
+          ]
+        },
+        {
+          "group": "Customers",
+          "pages": [
+            "api-reference/customers/create-customer",
+            "api-reference/customers/retrieve-customer",
+            "api-reference/customers/list-customers"
+          ]
+        },
+        {
+          "group": "Invoicing",
+          "pages": [
+            "api-reference/invoicing/create-invoice",
+            "api-reference/invoicing/retrieve-invoice",
+            "api-reference/invoicing/list-invoices"
+          ]
+        },
+        {
+          "group": "Reporting",
+          "pages": [
+            "api-reference/reporting/generate-report",
+            "api-reference/reporting/retrieve-report"
+          ]
+        }
+      ]
+    },
+    {
+      "group": "SDKs & Libraries",
+      "pages": [
+        "sdks/overview",
+        "sdks/javascript",
+        "sdks/python",
+        "sdks/php",
+        "sdks/java",
+        "sdks/dotnet"
+      ]
+    },
+    {
+      "group": "Webhooks",
+      "pages": [
+        "webhooks/overview",
+        "webhooks/events",
+        "webhooks/security"
+      ]
+    },
+    {
+      "group": "Sample Applications",
+      "pages": [
+        "samples/ecommerce",
+        "samples/subscription",
+        "samples/in-person",
+        "samples/mobile"
+      ]
+    }
+  ],
+  "footerSocials": {
+    "twitter": "https://twitter.com/izilink",
+    "github": "https://github.com/izilink",
+    "linkedin": "https://www.linkedin.com/company/izilink"
+  },
+  "analytics": {
+    "ga4": {
+      "measurementId": "G-XXXXXXXXXX"
+    }
+  }
+} 
