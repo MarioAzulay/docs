@@ -16,8 +16,12 @@
   },
   "topbarLinks": [
     {
-      "name": "Support",
-      "url": "mailto:support@izipay.ao"
+      "name": "English",
+      "url": "/en"
+    },
+    {
+      "name": "Português",
+      "url": "/pt"
     }
   ],
   "topbarCtaButton": {
@@ -60,66 +64,7 @@
             "api-reference/customers/retrieve-customer",
             "api-reference/customers/list-customers"
           ]
-        },
-        {
-          "group": "Invoicing",
-          "pages": [
-            "api-reference/invoicing/create-invoice",
-            "api-reference/invoicing/retrieve-invoice",
-            "api-reference/invoicing/list-invoices"
-          ]
-        },
-        {
-          "group": "Reporting",
-          "pages": [
-            "api-reference/reporting/generate-report",
-            "api-reference/reporting/retrieve-report"
-          ]
         }
-      ]
-    },
-    {
-      "group": "SDKs & Libraries",
-      "pages": [
-        "sdks/overview",
-        "sdks/javascript",
-        "sdks/python",
-        "sdks/php",
-        "sdks/java",
-        "sdks/dotnet"
-      ]
-    },
-    {
-      "group": "Webhooks",
-      "pages": [
-        "webhooks/overview",
-        "webhooks/events",
-        "webhooks/security"
-      ]
-    },
-    {
-      "group": "Sample Applications",
-      "pages": [
-        "samples/ecommerce",
-        "samples/subscription",
-        "samples/in-person",
-        "samples/mobile"
-      ]
-    },
-    {
-      "group": "English Documentation",
-      "pages": [
-        "en/overview",
-        "en/quickstart",
-        "en/development"
-      ]
-    },
-    {
-      "group": "Documentación en Español",
-      "pages": [
-        "es/overview",
-        "es/quickstart",
-        "es/development"
       ]
     }
   ],
