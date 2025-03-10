@@ -17,13 +17,13 @@
   "topbarLinks": [
     {
       "name": "Support",
-      "url": "mailto:support@izilink.com"
+      "url": "mailto:support@izipay.ao"
     }
   ],
   "topbarCtaButton": {
     "name": "Go to izipay.ao",
     "url": "https://izipay.ao"
-  }},
+  },
   "anchors": [
     {
       "name": "API Reference",
@@ -34,11 +34,6 @@
       "name": "SDKs",
       "icon": "code",
       "url": "sdks"
-    },
-    {
-      "name": "Community",
-      "icon": "discord",
-      "url": "https://discord.gg/izilink"
     }
   ],
   "navigation": [
