@@ -21,9 +21,9 @@
     }
   ],
   "topbarCtaButton": {
-    "name": "Dashboard",
-    "url": "https://app.izilink.com"
-  },
+    "name": "Go to izipay.ao",
+    "url": "https://izipay.ao"
+  }},
   "anchors": [
     {
       "name": "API Reference",
