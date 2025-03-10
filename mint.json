@@ -46,6 +46,28 @@
       ]
     },
     {
+      "languages": [
+      {
+        "language": "en",
+        "groups": [
+          {
+            "group": "Getting Started",
+            "pages": ["en/overview", "en/quickstart", "en/development"]
+          }
+        ]
+      },
+      {
+        "language": "pt",
+        "groups": [
+          {
+            "group": "Getting Started",
+            "pages": ["pt/overview", "pt/quickstart", "pt/development"]
+          }
+        ]
+      }
+    ]
+    },
+    {
       "group": "API Reference",
       "pages": [
         "api-reference/overview",
