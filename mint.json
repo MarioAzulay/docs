@@ -15,7 +15,6 @@
       "dark": "#111111"
     }
   },
-  
   "navigation": {
     "languages": [
       {
@@ -36,7 +35,29 @@
           }
         ]
       }
-    ]
+    ],
+    "tabs": [
+    {
+      "tab": "API References",
+      "pages": [
+        "api-reference/get",
+        "api-reference/post",
+        "api-reference/delete"
+      ]
+    },
+    {
+      "tab": "SDKs",
+      "pages": [
+        "sdk/fetch",
+        "sdk/create",
+        "sdk/delete",
+      ]
+    },
+    {
+      "tab": "Blog",
+      "href": "https://external-link.com/blog"
+    }
+  ]
   },
   "topbarLinks": [
     {
