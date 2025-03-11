@@ -35,8 +35,10 @@
           }
         ]
       }
-    ],
-    "tabs": [
+    ]
+  },
+  "navigation": {
+  "tabs": [
     {
       "tab": "API References",
       "pages": [
@@ -58,7 +60,7 @@
       "href": "https://external-link.com/blog"
     }
   ]
-  },
+},
   "topbarLinks": [
     {
       "name": "English",
