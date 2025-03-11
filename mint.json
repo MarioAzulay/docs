@@ -35,32 +35,58 @@
           }
         ]
       }
+    ],
+    "tabs": [
+      {
+        "tab": "API References",
+        "pages": [
+          "api-reference/get",
+          "api-reference/post",
+          "api-reference/delete"
+        ]
+      },
+      {
+        "tab": "SDKs",
+        "pages": [
+          "sdk/fetch",
+          "sdk/create",
+          "sdk/delete"
+        ]
+      },
+      {
+        "tab": "Blog",
+        "href": "https://external-link.com/blog"
+      }
+    ],
+    "sections": [
+      {
+        "group": "Getting Started",
+        "pages": ["introduction", "quickstart", "authentication"]
+      },
+      {
+        "group": "API Reference",
+        "pages": [
+          "api-reference/overview",
+          {
+            "group": "Payments",
+            "pages": [
+              "api-reference/payments/create-payment",
+              "api-reference/payments/retrieve-payment",
+              "api-reference/payments/list-payments"
+            ]
+          },
+          {
+            "group": "Customers",
+            "pages": [
+              "api-reference/customers/create-customer",
+              "api-reference/customers/retrieve-customer",
+              "api-reference/customers/list-customers"
+            ]
+          }
+        ]
+      }
     ]
   },
-  "navigation": {
-  "tabs": [
-    {
-      "tab": "API References",
-      "pages": [
-        "api-reference/get",
-        "api-reference/post",
-        "api-reference/delete"
-      ]
-    },
-    {
-      "tab": "SDKs",
-      "pages": [
-        "sdk/fetch",
-        "sdk/create",
-        "sdk/delete",
-      ]
-    },
-    {
-      "tab": "Blog",
-      "href": "https://external-link.com/blog"
-    }
-  ]
-},
   "topbarLinks": [
     {
       "name": "English",
@@ -90,34 +116,6 @@
       "name": "Support",
       "icon": "headset",
       "url": "mailto:support@izipay.ao"
-    }
-  ],
-  "navigation": [
-    {
-      "group": "Getting Started",
-      "pages": ["introduction", "quickstart", "authentication"]
-    },
-    {
-      "group": "API Reference",
-      "pages": [
-        "api-reference/overview",
-        {
-          "group": "Payments",
-          "pages": [
-            "api-reference/payments/create-payment",
-            "api-reference/payments/retrieve-payment",
-            "api-reference/payments/list-payments"
-          ]
-        },
-        {
-          "group": "Customers",
-          "pages": [
-            "api-reference/customers/create-customer",
-            "api-reference/customers/retrieve-customer",
-            "api-reference/customers/list-customers"
-          ]
-        }
-      ]
     }
   ],
   "footerSocials": {
