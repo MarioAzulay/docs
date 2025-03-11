@@ -15,7 +15,7 @@
       "dark": "#111111"
     }
   },
-  {
+  
   "navigation": {
     "languages": [
       {
@@ -37,8 +37,7 @@
         ]
       }
     ]
-  }
-},
+  },
   "topbarLinks": [
     {
       "name": "English",
