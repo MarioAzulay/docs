@@ -1,65 +1,89 @@
 ---
 title: 'Welcome'
-description: 'Build powerful payment solutions with IZI Link APIs'
+description: 'Build robust payment solutions with IZI Pay APIs'
 ---
 
-<Tabs>
-  <Tab title="First Tab">
-    ☝️ Welcome to the content that you can only see inside the first Tab.
-  </Tab>
-  <Tab title="Second Tab">
-    ✌️ Here's content that's only inside the second Tab.
-  </Tab>
-  <Tab title="Third Tab">
-    💪 Here's content that's only inside the third Tab.
-  </Tab>
-</Tabs>
+# Welcome to IZI Pay
 
-# Welcome to IZI Link
-
-IZI Link provides a comprehensive suite of payment APIs and tools to help businesses accept payments, manage customers, and grow their revenue. Our platform is designed to be flexible, secure, and easy to integrate into your applications.
+IZI Pay provides a comprehensive suite of payment APIs and tools designed to help businesses accept payments, manage customers, and optimize revenue streams. Our enterprise-grade platform delivers flexibility, security, and seamless integration capabilities for your applications in Angola and beyond.
 
 ## Getting Started
 
+To get started with IZI Pay APIs, ensure you have:
+
+- An active merchant account with IZI Pay
+- A valid security key for authentication
+- Access to the base URL provided during registration
+- Set up your callback URL for receiving transaction notifications
+
 <CardGroup cols={2}>
   <Card title="Quickstart" icon="bolt" href="/quickstart">
-    Get up and running with IZI Link in minutes
+    Implement IZI Pay in your environment quickly and efficiently
   </Card>
   <Card title="API Reference" icon="code" href="/api-reference/overview">
-    Explore our API endpoints and how to use them
+    Comprehensive documentation of our API endpoints and implementation guides
   </Card>
   <Card title="SDKs & Libraries" icon="book" href="/sdks/overview">
-    Use our official client libraries for your preferred language
+    Official client libraries optimized for your development environment
   </Card>
   <Card title="Webhooks" icon="webhook" href="/webhooks/overview">
-    Receive real-time notifications about events in your account
+    Real-time event notifications for robust application integration
   </Card>
 </CardGroup>
 
-## Features
+## Core Capabilities
 
-IZI Link offers a wide range of features to help you build a complete payment solution:
+IZI Pay delivers a comprehensive payment solution ecosystem:
 
-- **Payment Processing**: Accept payments online, in-person, or via links
-- **Customer Management**: Store and manage customer information securely
-- **Invoicing**: Create and send professional invoices to your customers
-- **Reporting**: Generate detailed reports on your payment activity
-- **Webhooks**: Receive real-time notifications about events in your account
-- **SDKs & Libraries**: Use our official client libraries for your preferred language
+- **Payment Processing**: Secure transaction handling across online, in-person, and payment link channels
+- **Mobile Money Integration**: Support for various mobile money providers in Angola
+- **Customer Management**: Enterprise-grade customer information storage and management
+- **Invoicing**: Automated, professional invoice generation and distribution
+- **Analytics & Reporting**: Detailed financial insights and transaction analytics
+- **Event Notifications**: Real-time webhooks for system integration and automation
+- **Development Resources**: Extensive SDKs and libraries supporting multiple programming languages
+
+## API Versioning
+
+We continuously improve our APIs to provide better functionality and security. Some changes may not always be backward compatible, so we use versioning to ensure smooth transitions. For versioning purposes, only removal of a non-optional field or alteration of an existing field will be considered incompatible changes. Your implementation should gracefully handle additional fields you do not expect.
 
 ## Authentication
 
-All API requests to IZI Link require authentication. We use API keys to authenticate requests. You can view and manage your API keys in the [IZI Link Dashboard](https://app.izilink.com).
+All API requests to IZI Pay require proper authentication credentials. We implement API key authentication to secure all requests. You can manage your API keys through the [IZI Pay Dashboard](https://app.izipay.com).
+
+### Generating Authentication Hash
+
+The hash is a data string of parameter names and values in alphabetical order. The HMAC hashing algorithm used is SHA256. Here's an example of how to generate the hash:
+
+```javascript
+// Example hash generation in JavaScript
+const Crypto_JS = require('crypto-js');
+const date = Date.now(); // Current date in milliseconds
+const fields = {
+  time: date, // current date
+  vid: 'your_merchant_id', // your merchant ID
+};
+
+// Format dataString as key-value pairs in alphabetical order
+const dataString = `time=${fields.time}&vid=${fields.vid}`;
+const hashKey = 'your_security_key'; // provided during account registration
+const hash = Crypto_JS.HmacSHA256(dataString, hashKey).toString(Crypto_JS.enc.Hex);
+
+// Add the generated hash to the fields
+fields.hash = hash;
+```
+
+### API Request Example
 
 ```bash
 # Example API request with authentication
 curl -X GET \
-  https://api.izilink.com/v1/payments \
+  https://api.izipay.com/v1/payments \
   -H "Authorization: Bearer YOUR_API_KEY"
 ```
 
-Learn more about [authentication](/authentication) in our documentation.
+For detailed information on our authentication protocols, please refer to our [authentication documentation](/authentication).
 
 ## Support
 
-If you need help with anything, please contact our support team at [support@izilink.com](mailto:support@izilink.com) or join our [community Discord](https://discord.gg/izilink). 
+For technical assistance or inquiries, please contact our support team at [support@izipay.com](mailto:support@izipay.com) or access our developer community through our [Discord channel](https://discord.gg/izipay). 

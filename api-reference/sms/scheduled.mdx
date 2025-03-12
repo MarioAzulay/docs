@@ -1,0 +1,240 @@
+---
+title: 'Scheduled SMS'
+api: 'POST https://sms.izipay.ao/api/EnvioAgendado/agendar-envio'
+description: 'Schedule SMS messages to be sent at a specific date and time.'
+---
+
+# Scheduled SMS
+
+Schedule SMS messages to be sent at a specific date and time, allowing you to plan your messaging campaigns in advance.
+
+## Base URL
+
+All API requests should be made to the following base URL:
+
+```
+https://sms.izipay.ao
+```
+
+## Schedule SMS
+
+<ParamField path="EnvioAgendado/agendar-envio" type="string">
+  Endpoint for scheduling an SMS to be sent at a later time.
+</ParamField>
+
+### Request Parameters
+
+<ParamField body="smsId" type="integer" required>
+  ID of the SMS template to use.
+</ParamField>
+
+<ParamField body="ano" type="integer" required>
+  Year for scheduled delivery (e.g., 2023).
+</ParamField>
+
+<ParamField body="mes" type="integer" required>
+  Month for scheduled delivery (1-12).
+</ParamField>
+
+<ParamField body="dia" type="integer" required>
+  Day for scheduled delivery (1-31).
+</ParamField>
+
+<ParamField body="hora" type="integer" required>
+  Hour for scheduled delivery (0-23, 24-hour format).
+</ParamField>
+
+<ParamField body="minuto" type="integer" required>
+  Minute for scheduled delivery (0-59).
+</ParamField>
+
+<ParamField body="contactosIds" type="array" required>
+  Array of contact IDs to send the SMS to.
+</ParamField>
+
+### Headers
+
+<ParamField header="Authorization" type="string" required>
+  Bearer token received from the authentication endpoint. Format: `Bearer YOUR_TOKEN`
+</ParamField>
+
+<ParamField header="Content-Type" type="string" required>
+  Must be set to `application/json`.
+</ParamField>
+
+### Example Request
+
+<CodeGroup>
+
+```bash cURL
+curl -X POST \
+  https://sms.izipay.ao/api/EnvioAgendado/agendar-envio \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_TOKEN" \
+  -d '{
+    "smsId": 123,
+    "ano": 2023,
+    "mes": 3,
+    "dia": 15,
+    "hora": 14,
+    "minuto": 30,
+    "contactosIds": [1, 2, 3, 4]
+  }'
+```
+
+```javascript Node.js
+const axios = require('axios');
+
+const response = await axios.post('https://sms.izipay.ao/api/EnvioAgendado/agendar-envio', {
+  smsId: 123,
+  ano: 2023,
+  mes: 3,
+  dia: 15,
+  hora: 14,
+  minuto: 30,
+  contactosIds: [1, 2, 3, 4]
+}, {
+  headers: {
+    'Authorization': 'Bearer YOUR_TOKEN',
+    'Content-Type': 'application/json'
+  }
+});
+
+console.log('SMS scheduled:', response.data);
+```
+
+```python Python
+import requests
+
+response = requests.post(
+  'https://sms.izipay.ao/api/EnvioAgendado/agendar-envio',
+  json={
+    "smsId": 123,
+    "ano": 2023,
+    "mes": 3,
+    "dia": 15,
+    "hora": 14,
+    "minuto": 30,
+    "contactosIds": [1, 2, 3, 4]
+  },
+  headers={
+    'Authorization': 'Bearer YOUR_TOKEN',
+    'Content-Type': 'application/json'
+  }
+)
+
+data = response.json()
+print(f"SMS scheduled: {data}")
+```
+
+</CodeGroup>
+
+## Schedule SMS to a Contact List
+
+You can also schedule an SMS to be sent to a contact list by using the following endpoint:
+
+<ParamField path="Envio/enviar-para-lista" type="string">
+  Endpoint for sending SMS to a contact list.
+</ParamField>
+
+<ParamField body="listaId" type="integer" required>
+  ID of the contact list to send the SMS to.
+</ParamField>
+
+<ParamField body="remetente" type="string">
+  Sender name or number (if supported by your provider).
+</ParamField>
+
+<ParamField body="conteudo" type="string" required>
+  Content of the SMS message.
+</ParamField>
+
+### Example Request
+
+<CodeGroup>
+
+```bash cURL
+curl -X POST \
+  https://sms.izipay.ao/api/Envio/enviar-para-lista \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_TOKEN" \
+  -d '{
+    "listaId": 123,
+    "remetente": "IZI PAY",
+    "conteudo": "Your scheduled message content here"
+  }'
+```
+
+```javascript Node.js
+const axios = require('axios');
+
+const response = await axios.post('https://sms.izipay.ao/api/Envio/enviar-para-lista', {
+  listaId: 123,
+  remetente: "IZI PAY",
+  conteudo: "Your scheduled message content here"
+}, {
+  headers: {
+    'Authorization': 'Bearer YOUR_TOKEN',
+    'Content-Type': 'application/json'
+  }
+});
+
+console.log('SMS scheduled to list:', response.data);
+```
+
+```python Python
+import requests
+
+response = requests.post(
+  'https://sms.izipay.ao/api/Envio/enviar-para-lista',
+  json={
+    "listaId": 123,
+    "remetente": "IZI PAY",
+    "conteudo": "Your scheduled message content here"
+  },
+  headers={
+    'Authorization': 'Bearer YOUR_TOKEN',
+    'Content-Type': 'application/json'
+  }
+)
+
+data = response.json()
+print(f"SMS scheduled to list: {data}")
+```
+
+</CodeGroup>
+
+## Response Format
+
+<ResponseField name="success" type="boolean">
+  Indicates whether the scheduling operation was successful.
+</ResponseField>
+
+<ResponseField name="data" type="object">
+  Contains information about the scheduled SMS.
+</ResponseField>
+
+<ResponseField name="message" type="string">
+  A message describing the result of the scheduling operation.
+</ResponseField>
+
+## Error Codes
+
+| Code | Description |
+|------|-------------|
+| 400  | Invalid request format or missing required fields |
+| 401  | Unauthorized - Invalid or expired token |
+| 403  | Forbidden - Insufficient permissions |
+| 404  | Template or contact not found |
+| 422  | Invalid scheduling parameters (e.g., date in the past) |
+| 500  | Server error |
+
+## Best Practices
+
+- Schedule messages during business hours to respect recipients' time
+- Avoid scheduling messages for holidays or weekends unless necessary
+- Allow sufficient lead time for scheduling (at least 15 minutes in advance)
+- Verify that all contacts in the list are valid before scheduling
+- Consider time zones when scheduling messages for international recipients
+- Use templates for scheduled messages to ensure consistency
+- Test the scheduling feature with a small group before large campaigns 

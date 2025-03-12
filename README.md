@@ -1,6 +1,6 @@
-# IZI Link Developer Documentation
+# IZI Pay Developer Documentation
 
-This is the source code for the IZI Link developer documentation, built with [Mintlify](https://mintlify.com/).
+This is the source code for the IZI Pay developer documentation, built with [Mintlify](https://mintlify.com/).
 
 ## Local Development
 

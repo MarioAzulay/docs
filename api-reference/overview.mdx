@@ -1,134 +1,90 @@
 ---
-title: 'API Overview'
-description: 'Overview of the IZI Link API'
+title: 'Overview'
+description: 'Get started with the IZI Pay API, a RESTful service for seamless payment processing.'
 ---
 
-# API Overview
+# Introduction to IZI Pay API
 
-The IZI Link API is organized around REST. Our API has predictable resource-oriented URLs, accepts JSON-encoded request bodies, returns JSON-encoded responses, and uses standard HTTP response codes, authentication, and verbs.
+The IZI Pay API is a RESTful service designed for secure and efficient payment processing. It offers predictable resource-oriented URLs, JSON-encoded request and response bodies, and standard HTTP methods and response codes.
 
-## Base URL
+## Base URLs
 
-All API requests should be made to:
+The API supports both production and sandbox environments:
 
-```
-https://api.izilink.com/v1/
-```
+- **Production:** `https://api.izipay.ao`
+- **Sandbox:** `https://api-sandbox.izipay.ao`
 
 ## Authentication
 
-The IZI Link API uses API keys to authenticate requests. You can view and manage your API keys in the [IZI Link Dashboard](https://app.izilink.com/settings/api-keys).
+The IZI Pay API uses HMAC-based authentication. Each application (client) is assigned an `AppId` (client ID) and `AppSecret` (client secret). These credentials must be securely stored and never exposed in public repositories.
 
-Authentication to the API is performed via HTTP Bearer Authentication. Provide your API key as the bearer token value in the Authorization header.
+### HMAC Signature Generation
 
-```bash
-Authorization: Bearer YOUR_API_KEY
+Authentication is done by generating an HMAC signature using the following components:
+
+```plaintext
+AppId + HTTP method + Nonce + URI + UNIX Timestamp + base64 MD5 of payload
 ```
 
-Learn more about [authentication](/authentication).
+This signature is then hashed using SHA256 and sent in the `Authorization` header:
 
-## Request/Response Format
-
-### Content Type
-
-All requests should include the `Content-Type: application/json` header, and request bodies should be valid JSON.
-
-### Pagination
-
-List API methods return a paginated list of objects. The response includes:
-
-- `data`: An array of objects
-- `has_more`: A boolean indicating if there are more objects
-- `total_count`: The total number of objects available
-- `next_page_token`: A token to fetch the next page
-
-To fetch the next page, include the `page_token` parameter in your request:
-
-```bash
-curl -X GET \
-  "https://api.izilink.com/v1/payments?page_token=next_page_token" \
-  -H "Authorization: Bearer YOUR_API_KEY"
+```plaintext
+Authorization: ApiKey AppId:hash:nonce:timestamp
 ```
 
-### Error Handling
+## API Response Codes
 
-The IZI Link API uses conventional HTTP response codes to indicate the success or failure of an API request:
+The API follows standard HTTP status codes to indicate the success or failure of a request:
 
-- `2xx`: Success
-- `4xx`: Client error (e.g., invalid request)
-- `5xx`: Server error
-
-Error responses include a JSON object with the following properties:
-
-- `error`: An object containing:
-  - `type`: A string representing the error type
-  - `code`: A string representing the error code
-  - `message`: A human-readable message providing more details
-  - `param`: The parameter that caused the error (if applicable)
-
-Example error response:
-
-```json
-{
-  "error": {
-    "type": "invalid_request_error",
-    "code": "parameter_missing",
-    "message": "Missing required parameter: amount",
-    "param": "amount"
-  }
-}
-```
+- `200 OK` – Successful request
+- `201 Created` – Resource successfully created
+- `204 No Content` – Resource modified or deleted
+- `400 Bad Request` – Invalid request syntax
+- `401 Unauthorized` – Invalid credentials or missing authorization
+- `403 Forbidden` – Access denied
+- `404 Not Found` – Resource does not exist
+- `422 Unprocessable Entity` – Invalid parameters or business rule violation
+- `429 Too Many Requests` – Rate limit exceeded
+- `500 Internal Server Error` – API failure
 
 ## Rate Limits
 
-The IZI Link API has rate limits to protect against abuse. Current limits are:
+To prevent abuse, the API enforces rate limits:
 
-- 100 requests per minute for test mode
-- 1000 requests per minute for live mode
+- **Test Mode:** 100 requests per minute
+- **Live Mode:** 1000 requests per minute
 
-If you exceed the rate limit, you'll receive a `429 Too Many Requests` response.
-
-## Versioning
-
-The IZI Link API is versioned. The current version is `v1`. We recommend specifying a version in the URL to ensure compatibility.
+Exceeding these limits results in a `429 Too Many Requests` response.
 
 ## Available APIs
 
-IZI Link provides several APIs to help you build your payment solution:
+The IZI Pay API provides multiple endpoints for managing payments and transactions:
 
 <CardGroup cols={2}>
-  <Card title="Payments API" icon="credit-card" href="/api-reference/payments/create-payment">
-    Create and manage payments
+  <Card title="References API" icon="link" href="/api-reference/references">
+    Create, retrieve, and manage payment references
   </Card>
-  <Card title="Customers API" icon="user" href="/api-reference/customers/create-customer">
-    Store and manage customer information
+  <Card title="Payments API" icon="credit-card" href="/api-reference/payments">
+    Process and retrieve payment details
   </Card>
-  <Card title="Invoicing API" icon="file-invoice" href="/api-reference/invoicing/create-invoice">
-    Create and send invoices
+  <Card title="Callbacks/Webhooks API" icon="bell" href="/api-reference/webhooks">
+    Receive real-time event notifications
   </Card>
-  <Card title="Reporting API" icon="chart-line" href="/api-reference/reporting/generate-report">
-    Generate reports on your payment activity
+  <Card title="SMS API" icon="message" href="/api-reference/sms">
+    Send SMS notifications and verification codes
   </Card>
 </CardGroup>
 
-## API Playground
-
-You can test our API endpoints directly in our documentation using the API Playground. Look for the "Try It" button on API reference pages.
-
-<Note>
-  The API Playground uses your actual API keys, so any actions you take will affect your account. We recommend using test mode keys.
-</Note>
-
-## SDKs & Libraries
-
-We provide official client libraries for several programming languages to make integrating with the IZI Link API easier:
-
-- [JavaScript/Node.js](/sdks/javascript)
-- [Python](/sdks/python)
-- [PHP](/sdks/php)
-- [Java](/sdks/java)
-- [.NET](/sdks/dotnet)
-
 ## Webhooks
 
-IZI Link can send webhook events to notify your application when events happen in your account. Learn more in our [Webhooks Guide](/webhooks/overview). 
+The API supports webhook event notifications to keep your system updated in real-time. Learn more in the [Webhooks Guide](/webhooks/overview).
+
+## Getting Started
+
+To start integrating with IZI Pay API:
+
+1. Sign up and obtain your `AppId` and `AppSecret`.
+2. Authenticate requests using the HMAC method.
+3. Refer to the API documentation for endpoint details.
+
+For further support, contact our developer team at [dev-tech@suplitel.ao](mailto:dev-tech@suplitel.ao).

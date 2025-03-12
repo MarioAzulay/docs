@@ -64,11 +64,15 @@
           ]
         },
         {
-          "group": "Customers",
+          "group": "SMS",
           "pages": [
-            "api-reference/customers/create-customer",
-            "api-reference/customers/retrieve-customer",
-            "api-reference/customers/list-customers"
+            "api-reference/sms/authentication",
+            "api-reference/sms/sending",
+            "api-reference/sms/contacts",
+            "api-reference/sms/templates",
+            "api-reference/sms/scheduled",
+            "api-reference/sms/history",
+            "api-reference/sms/balance"
           ]
         }
       ]

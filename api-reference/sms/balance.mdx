@@ -1,0 +1,263 @@
+---
+title: 'SMS Balance'
+api: 'GET https://sms.izipay.ao/api/Saldo/ObterSaldo'
+description: 'Check your SMS credit balance and transaction history.'
+---
+
+# SMS Balance
+
+Monitor your SMS credit balance and view transaction history to manage your messaging resources effectively.
+
+## Base URL
+
+All API requests should be made to the following base URL:
+
+```
+https://sms.izipay.ao
+```
+
+## Get Current Balance
+
+Retrieve your current SMS credit balance.
+
+<ParamField path="Saldo/ObterSaldo" type="string">
+  Endpoint for retrieving current SMS balance.
+</ParamField>
+
+### Headers
+
+<ParamField header="Authorization" type="string" required>
+  Bearer token received from the authentication endpoint. Format: `Bearer YOUR_TOKEN`
+</ParamField>
+
+### Example Request
+
+<CodeGroup>
+
+```bash cURL
+curl -X GET \
+  https://sms.izipay.ao/api/Saldo/ObterSaldo \
+  -H "Authorization: Bearer YOUR_TOKEN"
+```
+
+```javascript Node.js
+const axios = require('axios');
+
+const response = await axios.get('https://sms.izipay.ao/api/Saldo/ObterSaldo', {
+  headers: {
+    'Authorization': 'Bearer YOUR_TOKEN'
+  }
+});
+
+console.log('SMS Balance:', response.data);
+```
+
+```python Python
+import requests
+
+response = requests.get(
+  'https://sms.izipay.ao/api/Saldo/ObterSaldo',
+  headers={
+    'Authorization': 'Bearer YOUR_TOKEN'
+  }
+)
+
+data = response.json()
+print(f"SMS Balance: {data}")
+```
+
+</CodeGroup>
+
+## Get Balance History
+
+Retrieve the history of balance changes, including credits added and SMS sent.
+
+<ParamField path="HistoricoSaldo/ObterHistoricoSaldo" type="string">
+  Endpoint for retrieving balance history.
+</ParamField>
+
+### Example Request
+
+<CodeGroup>
+
+```bash cURL
+curl -X GET \
+  https://sms.izipay.ao/api/HistoricoSaldo/ObterHistoricoSaldo \
+  -H "Authorization: Bearer YOUR_TOKEN"
+```
+
+```javascript Node.js
+const axios = require('axios');
+
+const response = await axios.get('https://sms.izipay.ao/api/HistoricoSaldo/ObterHistoricoSaldo', {
+  headers: {
+    'Authorization': 'Bearer YOUR_TOKEN'
+  }
+});
+
+console.log('Balance History:', response.data);
+```
+
+```python Python
+import requests
+
+response = requests.get(
+  'https://sms.izipay.ao/api/HistoricoSaldo/ObterHistoricoSaldo',
+  headers={
+    'Authorization': 'Bearer YOUR_TOKEN'
+  }
+)
+
+data = response.json()
+print(f"Balance History: {data}")
+```
+
+</CodeGroup>
+
+## Get Company Information
+
+Retrieve information about your company account, including contact details and account status.
+
+<ParamField path="Empresa/ObterDadosDaEmpresa" type="string">
+  Endpoint for retrieving company information.
+</ParamField>
+
+### Example Request
+
+<CodeGroup>
+
+```bash cURL
+curl -X GET \
+  https://sms.izipay.ao/api/Empresa/ObterDadosDaEmpresa \
+  -H "Authorization: Bearer YOUR_TOKEN"
+```
+
+```javascript Node.js
+const axios = require('axios');
+
+const response = await axios.get('https://sms.izipay.ao/api/Empresa/ObterDadosDaEmpresa', {
+  headers: {
+    'Authorization': 'Bearer YOUR_TOKEN'
+  }
+});
+
+console.log('Company Information:', response.data);
+```
+
+```python Python
+import requests
+
+response = requests.get(
+  'https://sms.izipay.ao/api/Empresa/ObterDadosDaEmpresa',
+  headers={
+    'Authorization': 'Bearer YOUR_TOKEN'
+  }
+)
+
+data = response.json()
+print(f"Company Information: {data}")
+```
+
+</CodeGroup>
+
+## Get Current User Information
+
+Retrieve information about the currently logged-in user.
+
+<ParamField path="Empresa/ObterUtilizadorLogado" type="string">
+  Endpoint for retrieving current user information.
+</ParamField>
+
+### Example Request
+
+<CodeGroup>
+
+```bash cURL
+curl -X GET \
+  https://sms.izipay.ao/api/Empresa/ObterUtilizadorLogado \
+  -H "Authorization: Bearer YOUR_TOKEN"
+```
+
+```javascript Node.js
+const axios = require('axios');
+
+const response = await axios.get('https://sms.izipay.ao/api/Empresa/ObterUtilizadorLogado', {
+  headers: {
+    'Authorization': 'Bearer YOUR_TOKEN'
+  }
+});
+
+console.log('User Information:', response.data);
+```
+
+```python Python
+import requests
+
+response = requests.get(
+  'https://sms.izipay.ao/api/Empresa/ObterUtilizadorLogado',
+  headers={
+    'Authorization': 'Bearer YOUR_TOKEN'
+  }
+)
+
+data = response.json()
+print(f"User Information: {data}")
+```
+
+</CodeGroup>
+
+## Response Format
+
+### Balance Response
+
+<ResponseField name="saldo" type="number">
+  Current SMS credit balance.
+</ResponseField>
+
+<ResponseField name="ultimaAtualizacao" type="string">
+  Date and time of the last balance update.
+</ResponseField>
+
+### Balance History Response
+
+<ResponseField name="items" type="array">
+  Array of balance history entries.
+</ResponseField>
+
+<ResponseField name="items[].id" type="integer">
+  Unique identifier for the history entry.
+</ResponseField>
+
+<ResponseField name="items[].data" type="string">
+  Date and time of the balance change.
+</ResponseField>
+
+<ResponseField name="items[].tipo" type="string">
+  Type of transaction (e.g., "Credit", "Debit").
+</ResponseField>
+
+<ResponseField name="items[].valor" type="number">
+  Amount of credits added or used.
+</ResponseField>
+
+<ResponseField name="items[].descricao" type="string">
+  Description of the transaction.
+</ResponseField>
+
+## Error Codes
+
+| Code | Description |
+|------|-------------|
+| 401  | Unauthorized - Invalid or expired token |
+| 403  | Forbidden - Insufficient permissions |
+| 500  | Server error |
+
+## Best Practices
+
+- Regularly monitor your SMS balance to ensure uninterrupted service
+- Set up alerts for low balance thresholds
+- Review balance history to track usage patterns
+- Plan credit purchases based on historical usage data
+- Keep your company information up to date
+- Implement proper user access controls for balance management
+- Consider automatic top-up options for consistent service availability 
