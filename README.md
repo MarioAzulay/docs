@@ -65,4 +65,4 @@ The documentation is automatically deployed when changes are pushed to the main 
 
 ## License
 
-Copyright © IZI Link. All rights reserved. 
+Copyright © IZI Pay. All rights reserved. 

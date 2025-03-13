@@ -1,0 +1,93 @@
+{
+  "$schema": "https://mintlify.com/docs.json",
+  "theme": "maple",
+  "name": "IZI Pay",
+  "colors": {
+    "primary": "#3FAFA2",
+    "light": "#4da6ff",
+    "dark": "#0056b3"
+  },
+  "favicon": "/favicon.png",
+  "navigation": {
+    "anchors": [
+      {
+        "anchor": "Documentation",
+        "icon": "book-open",
+        "groups": [
+          {
+            "group": "Getting Started",
+            "pages": [
+              "introduction",
+              "quickstart",
+              "authentication"
+            ]
+          }
+        ]
+      },
+      {
+        "anchor": "API Reference",
+        "icon": "rectangle-terminal",
+        "groups": [
+          {
+            "group": "API Reference",
+            "pages": [
+              "api-reference/overview",
+              {
+                "group": "Payments",
+                "pages": [
+                  "api-reference/payments/create-payment"
+                ]
+              },
+              {
+                "group": "SMS",
+                "pages": [
+                  "api-reference/sms/authentication",
+                  "api-reference/sms/sending",
+                  "api-reference/sms/contacts",
+                  "api-reference/sms/templates",
+                  "api-reference/sms/scheduled",
+                  "api-reference/sms/history",
+                  "api-reference/sms/balance"
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "anchor": "Support",
+        "href": "mailto:support@izipay.ao",
+        "icon": "headset"
+      }
+    ]
+  },
+  "logo": {
+    "light": "/logo/logo-light.svg",
+    "dark": "/logo/logo-dark.svg"
+  },
+  "background": {
+    "color": {
+      "light": "#FDFDF8",
+      "dark": "#111111"
+    }
+  },
+  "navbar": {
+    "primary": {
+      "type": "button",
+      "label": "Go to izipay.ao",
+      "href": "https://izipay.ao"
+    }
+  },
+  "footer": {
+    "socials": {
+      "twitter": "https://twitter.com/izilink",
+      "github": "https://github.com/izilink",
+      "linkedin": "https://www.linkedin.com/company/izilink"
+    }
+  },
+  "integrations": {
+    "ga4": {
+      "measurementId": "G-XXXXXXXXXX"
+    }
+  }
+}
