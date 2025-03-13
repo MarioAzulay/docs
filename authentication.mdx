@@ -27,8 +27,8 @@ To obtain your API keys:
 2. Navigate to **Settings** > **Client Apps**
 3. You'll see your test and live API Keys
 
-    <Warning>
-  Never share your secret API keys in publicly accessible areas such as GitHub, client-side code, or in your browser.
+<Warning>
+    Never share your secret API keys in publicly accessible areas such as GitHub, client-side code, or in your browser.
 </Warning>
 
 ## Using API Keys
@@ -47,13 +47,13 @@ To switch between test and live environments, simply use the corresponding API k
 
 <CodeGroup>
 
-```javascript Test Environment
-const izikey = new IziPay('sk_test_abcdef123456');
-```
+    ```javascript Test Environment
+    const izikey = new IziPay('sk_test_abcdef123456');
+    ```
 
-```javascript Live Environment
-const izikey = new IziPay('sk_live_abcdef123456');
-```
+    ```javascript Live Environment
+    const izikey = new IziPay('sk_live_abcdef123456');
+    ```
 
 </CodeGroup>
 
@@ -71,41 +71,41 @@ Here are some best practices for keeping your API keys secure:
 
 <CodeGroup>
 
-```javascript Node.js
-// .env file
-IZIPAY_SECRET_KEY=sk_test_abcdef123456
+    ```javascript Node.js
+    // .env file
+    IZIPAY_SECRET_KEY=sk_test_abcdef123456
 
-// server.js
-require('dotenv').config();
-const IziPay = require('izipay-js');
-const izipay = new IziPay(process.env.IZIPAY_SECRET_KEY);
-```
+    // server.js
+    require('dotenv').config();
+    const IziPay = require('izipay-js');
+    const izipay = new IziPay(process.env.IZIPAY_SECRET_KEY);
+    ```
 
-```python Python
-# .env file
-IZIPAY_SECRET_KEY=sk_test_abcdef123456
+    ```python Python
+    # .env file
+    IZIPAY_SECRET_KEY=sk_test_abcdef123456
 
-# app.py
-import os
-from dotenv import load_dotenv
-from izipay import IziPay
+    # app.py
+    import os
+    from dotenv import load_dotenv
+    from izipay import IziPay
 
-load_dotenv()
-izipay = IziPay(os.environ.get('IZIPAY_SECRET_KEY'))
-```
+    load_dotenv()
+    izipay = IziPay(os.environ.get('IZIPAY_SECRET_KEY'))
+    ```
 
-```php PHP
-// .env file
-IZIPAY_SECRET_KEY=sk_test_abcdef123456
+    ```php PHP
+    // .env file
+    IZIPAY_SECRET_KEY=sk_test_abcdef123456
 
-// index.php
-<?php
-require 'vendor/autoload.php';
-$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
-$dotenv->load();
+    // index.php
+    <?php
+    require 'vendor/autoload.php';
+    $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+    $dotenv->load();
 
-$izilink = new \IziPay\IziPay($_ENV['IZIPAY_SECRET_KEY']);
-```
+    $izilink = new \IziPay\IziPay($_ENV['IZIPAY_SECRET_KEY']);
+    ```
 
 </CodeGroup>
 
