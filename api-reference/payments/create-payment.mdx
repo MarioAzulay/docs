@@ -11,162 +11,163 @@ Creates a new payment for processing.
 ## Request
 
 <ParamField body="amount" type="integer" required>
-  The payment amount in cents. For example, $10.00 should be represented as 1000.
+    The payment amount in cents. For example, $10.00 should be represented as 1000.
 </ParamField>
 
 <ParamField body="currency" type="string" required>
-  Three-letter ISO currency code, in lowercase. Must be a supported currency.
+    Three-letter ISO currency code, in lowercase. Must be a supported currency.
 </ParamField>
 
 <ParamField body="description" type="string">
-  An arbitrary string attached to the payment. Often useful for displaying to users.
+    An arbitrary string attached to the payment. Often useful for displaying to users.
 </ParamField>
 
 <ParamField body="customer_id" type="string">
-  The ID of the customer this payment is associated with.
+    The ID of the customer this payment is associated with.
 </ParamField>
 
 <ParamField body="payment_method" type="string">
-  The payment method to use. If not provided, the customer will be prompted to enter payment details.
-  
-  Possible values: `card`, `bank_transfer`, `mobile_money`
+    The payment method to use. If not provided, the customer will be prompted to enter payment details.
+
+    Possible values: `card`, `bank_transfer`, `mobile_money`
 </ParamField>
 
 <ParamField body="metadata" type="object">
-  Set of key-value pairs that you can attach to the payment. Useful for storing additional information in a structured format.
+    Set of key-value pairs that you can attach to the payment. Useful for storing additional information in a structured
+    format.
 </ParamField>
 
 <ParamField body="receipt_email" type="string">
-  Email address to send the receipt to.
+    Email address to send the receipt to.
 </ParamField>
 
 <ParamField body="statement_descriptor" type="string">
-  Statement descriptor that will appear on the customer's statement. Maximum 22 characters.
+    Statement descriptor that will appear on the customer's statement. Maximum 22 characters.
 </ParamField>
 
 <ParamField body="success_url" type="string">
-  URL to redirect the customer to after successful payment.
+    URL to redirect the customer to after successful payment.
 </ParamField>
 
 <ParamField body="cancel_url" type="string">
-  URL to redirect the customer to if they cancel the payment.
+    URL to redirect the customer to if they cancel the payment.
 </ParamField>
 
 ## Response
 
 <ResponseField name="id" type="string">
-  Unique identifier for the payment.
+    Unique identifier for the payment.
 </ResponseField>
 
 <ResponseField name="object" type="string">
-  The object type, which is always `payment`.
+    The object type, which is always `payment`.
 </ResponseField>
 
 <ResponseField name="amount" type="integer">
-  The payment amount in cents.
+    The payment amount in cents.
 </ResponseField>
 
 <ResponseField name="currency" type="string">
-  Three-letter ISO currency code, in lowercase.
+    Three-letter ISO currency code, in lowercase.
 </ResponseField>
 
 <ResponseField name="description" type="string">
-  The description of the payment.
+    The description of the payment.
 </ResponseField>
 
 <ResponseField name="customer_id" type="string">
-  The ID of the customer this payment is associated with.
+    The ID of the customer this payment is associated with.
 </ResponseField>
 
 <ResponseField name="payment_method" type="string">
-  The payment method used.
+    The payment method used.
 </ResponseField>
 
 <ResponseField name="status" type="string">
-  The status of the payment.
-  
-  Possible values: `pending`, `processing`, `succeeded`, `failed`, `canceled`
+    The status of the payment.
+
+    Possible values: `pending`, `processing`, `succeeded`, `failed`, `canceled`
 </ResponseField>
 
 <ResponseField name="created" type="integer">
-  Time at which the payment was created. Unix timestamp in seconds.
+    Time at which the payment was created. Unix timestamp in seconds.
 </ResponseField>
 
 <ResponseField name="updated" type="integer">
-  Time at which the payment was last updated. Unix timestamp in seconds.
+    Time at which the payment was last updated. Unix timestamp in seconds.
 </ResponseField>
 
 <ResponseField name="metadata" type="object">
-  Set of key-value pairs attached to the payment.
+    Set of key-value pairs attached to the payment.
 </ResponseField>
 
 <ResponseField name="receipt_url" type="string">
-  URL to the receipt for this payment.
+    URL to the receipt for this payment.
 </ResponseField>
 
 <ResponseField name="payment_url" type="string">
-  URL that can be used to complete the payment.
+    URL that can be used to complete the payment.
 </ResponseField>
 
 ## Example Request
 
 <CodeGroup>
 
-```bash cURL
-curl -X POST \
-  https://api.izilink.com/v1/payments \
-  -H "Authorization: Bearer YOUR_API_KEY" \
-  -H "Content-Type: application/json" \
-  -d '{
+    ```bash cURL
+    curl -X POST \
+    https://api.izilink.com/v1/payments \
+    -H "Authorization: Bearer YOUR_API_KEY" \
+    -H "Content-Type: application/json" \
+    -d '{
     "amount": 2000,
     "currency": "USD",
     "description": "Payment for Order #123",
     "customer_id": "cus_123456789",
     "metadata": {
-      "order_id": "order_123"
-    },
+    "order_id": "order_123"
+},
     "success_url": "https://example.com/success",
     "cancel_url": "https://example.com/cancel"
-  }'
-```
+}'
+    ```
 
-```javascript Node.js
-const IziLink = require('izilink-js');
-const izilink = new IziLink('YOUR_API_KEY');
+    ```javascript Node.js
+    const IziLink = require('izilink-js');
+    const izilink = new IziLink('YOUR_API_KEY');
 
-const payment = await izilink.payments.create({
-  amount: 2000,
-  currency: 'USD',
-  description: 'Payment for Order #123',
-  customer_id: 'cus_123456789',
-  metadata: {
+    const payment = await izilink.payments.create({
+    amount: 2000,
+    currency: 'USD',
+    description: 'Payment for Order #123',
+    customer_id: 'cus_123456789',
+    metadata: {
     order_id: 'order_123'
-  },
-  success_url: 'https://example.com/success',
-  cancel_url: 'https://example.com/cancel'
+},
+    success_url: 'https://example.com/success',
+    cancel_url: 'https://example.com/cancel'
 });
 
-console.log(payment);
-```
+    console.log(payment);
+    ```
 
-```python Python
-import izilink
-izilink.api_key = 'YOUR_API_KEY'
+    ```python Python
+    import izilink
+    izilink.api_key = 'YOUR_API_KEY'
 
-payment = izilink.Payment.create(
-  amount=2000,
-  currency='USD',
-  description='Payment for Order #123',
-  customer_id='cus_123456789',
-  metadata={
+    payment = izilink.Payment.create(
+    amount=2000,
+    currency='USD',
+    description='Payment for Order #123',
+    customer_id='cus_123456789',
+    metadata={
     'order_id': 'order_123'
-  },
-  success_url='https://example.com/success',
-  cancel_url='https://example.com/cancel'
-)
+},
+    success_url='https://example.com/success',
+    cancel_url='https://example.com/cancel'
+    )
 
-print(payment)
-```
+    print(payment)
+    ```
 
 </CodeGroup>
 
@@ -195,31 +196,31 @@ print(payment)
 ## Try It
 
 <Card>
-  <iframe
-    className="w-full"
-    style={{ height: '500px' }}
-    src="https://api.izilink.com/v1/payments"
-    frameBorder="0"
-    allowFullScreen
-  ></iframe>
+    <iframe
+        className="w-full"
+        style={{height: '500px'}}
+        src="https://api.izilink.com/v1/payments"
+        frameBorder="0"
+        allowFullScreen
+    ></iframe>
 </Card>
 
 ## Error Codes
 
 <ResponseField name="invalid_request_error" type="object">
-  The request was invalid. Check the error message for details.
+    The request was invalid. Check the error message for details.
 </ResponseField>
 
 <ResponseField name="authentication_error" type="object">
-  Authentication failed. Check your API key.
+    Authentication failed. Check your API key.
 </ResponseField>
 
 <ResponseField name="rate_limit_error" type="object">
-  Too many requests. Try again later.
+    Too many requests. Try again later.
 </ResponseField>
 
 <ResponseField name="api_error" type="object">
-  An error occurred on the IZI Link server.
+    An error occurred on the IZI Link server.
 </ResponseField>
 
 ## Webhooks

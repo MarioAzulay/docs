@@ -19,82 +19,83 @@ https://sms.izipay.ao
 ## Request
 
 <ParamField body="message" type="string" required>
-  The SMS message content to be sent to the recipients.
+    The SMS message content to be sent to the recipients.
 </ParamField>
 
 <ParamField body="phoneNumbers" type="array" required>
-  An array of phone numbers to send the SMS to. Each phone number should include the country code (e.g., "244" for Angola).
+    An array of phone numbers to send the SMS to. Each phone number should include the country code (e.g., "244" for
+    Angola).
 </ParamField>
 
 ## Headers
 
 <ParamField header="Authorization" type="string" required>
-  Bearer token received from the authentication endpoint. Format: `Bearer YOUR_TOKEN`
+    Bearer token received from the authentication endpoint. Format: `Bearer YOUR_TOKEN`
 </ParamField>
 
 ## Response
 
 <ResponseField name="Message" type="string">
-  Status message indicating the result of the SMS sending operation.
+    Status message indicating the result of the SMS sending operation.
 </ResponseField>
 
 <ResponseField name="MessageCount" type="string">
-  Number of messages successfully sent, returned as a string.
+    Number of messages successfully sent, returned as a string.
 </ResponseField>
 
 ## Example Request
 
 <CodeGroup>
 
-```bash cURL
-curl -X POST \
-  https://sms.izipay.ao/api/enviar \
-  -H "Content-Type: application/json" \
-  -H "Authorization: Bearer YOUR_TOKEN" \
-  -d '{
+    ```bash cURL
+    curl -X POST \
+    https://sms.izipay.ao/api/enviar \
+    -H "Content-Type: application/json" \
+    -H "Authorization: Bearer YOUR_TOKEN" \
+    -d '{
     "message": "Test SMS to be sent",
     "phoneNumbers": [
-        "244999999999"
+    "244999999999"
     ]
 }'
-```
+    ```
 
-```javascript Node.js
-const axios = require('axios');
+    ```javascript Node.js
+    const axios = require('axios');
 
-const response = await axios.post('https://sms.izipay.ao/api/enviar', {
-  message: "Test SMS to be sent",
-  phoneNumbers: ["244999999999"]
+    const response = await axios.post('https://sms.izipay.ao/api/enviar', {
+    message: "Test SMS to be sent",
+    phoneNumbers: ["244999999999"]
 }, {
-  headers: {
+    headers: {
     'Authorization': 'Bearer YOUR_TOKEN',
     'Content-Type': 'application/json'
-  }
+}
 });
 
-console.log('SMS sent:', response.data);
-console.log(`Message: ${response.data.Message}, Count: ${response.data.MessageCount}`);
-```
+    console.log('SMS sent:', response.data);
+    console.log(`Message: ${response.data.Message}, Count: ${response.data.MessageCount}`);
+    ```
 
-```python Python
-import requests
+    ```python Python
+    import requests
 
-response = requests.post(
-  'https://sms.izipay.ao/api/enviar',
-  json={
+    response = requests.post(
+    'https://sms.izipay.ao/api/enviar',
+    json={
     "message": "Test SMS to be sent",
     "phoneNumbers": ["244999999999"]
-  },
-  headers={
+},
+    headers={
     'Authorization': 'Bearer YOUR_TOKEN',
     'Content-Type': 'application/json'
-  }
-)
+}
+    )
 
-data = response.json()
-print(f"SMS sent: {data}")
-print(f"Message: {data['Message']}, Count: {data['MessageCount']}")
-```
+    data = response.json()
+    print(f"SMS sent: {data}")
+    print(f"Message: {data['Message']}, Count: {data['MessageCount']}")
+    ```
 
 </CodeGroup>
 

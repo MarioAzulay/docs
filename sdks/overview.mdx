@@ -10,50 +10,50 @@ IZI Link provides official client libraries for several programming languages to
 ## Available SDKs
 
 <CardGroup cols={2}>
-  <Card title="JavaScript/Node.js" icon="js" href="/sdks/javascript">
-    For browser and Node.js applications
-  </Card>
-  <Card title="Python" icon="python" href="/sdks/python">
-    For Python applications
-  </Card>
-  <Card title="PHP" icon="php" href="/sdks/php">
-    For PHP applications
-  </Card>
-  <Card title="Java" icon="java" href="/sdks/java">
-    For Java applications
-  </Card>
-  <Card title=".NET" icon="code" href="/sdks/dotnet">
-    For .NET applications
-  </Card>
+    <Card title="JavaScript/Node.js" icon="js" href="/sdks/javascript">
+        For browser and Node.js applications
+    </Card>
+    <Card title="Python" icon="python" href="/sdks/python">
+        For Python applications
+    </Card>
+    <Card title="PHP" icon="php" href="/sdks/php">
+        For PHP applications
+    </Card>
+    <Card title="Java" icon="java" href="/sdks/java">
+        For Java applications
+    </Card>
+    <Card title=".NET" icon="code" href="/sdks/dotnet">
+        For .NET applications
+    </Card>
 </CardGroup>
 
 ## Installation
 
 <CodeGroup>
 
-```bash npm
-npm install izilink-js
-```
+    ```bash npm
+    npm install izilink-js
+    ```
 
-```bash pip
-pip install izilink
-```
+    ```bash pip
+    pip install izilink
+    ```
 
-```bash composer
-composer require izilink/izilink-php
-```
+    ```bash composer
+    composer require izilink/izilink-php
+    ```
 
-```bash maven
-<dependency>
-  <groupId>com.izilink</groupId>
-  <artifactId>izilink-java</artifactId>
-  <version>1.0.0</version>
-</dependency>
-```
+    ```bash maven
+    <dependency>
+        <groupId>com.izilink</groupId>
+        <artifactId>izilink-java</artifactId>
+        <version>1.0.0</version>
+    </dependency>
+    ```
 
-```bash nuget
-dotnet add package IziLink
-```
+    ```bash nuget
+    dotnet add package IziLink
+    ```
 
 </CodeGroup>
 
@@ -63,84 +63,84 @@ All SDKs follow a similar pattern for initialization and usage:
 
 <CodeGroup>
 
-```javascript JavaScript
-// Initialize with your API key
-const IziLink = require('izilink-js');
-const izilink = new IziLink('YOUR_API_KEY');
+    ```javascript JavaScript
+    // Initialize with your API key
+    const IziLink = require('izilink-js');
+    const izilink = new IziLink('YOUR_API_KEY');
 
-// Create a payment
-const payment = await izilink.payments.create({
-  amount: 2000,
-  currency: 'USD',
-  description: 'Payment for Order #123'
+    // Create a payment
+    const payment = await izilink.payments.create({
+    amount: 2000,
+    currency: 'USD',
+    description: 'Payment for Order #123'
 });
 
-console.log(payment.id);
-```
+    console.log(payment.id);
+    ```
 
-```python Python
-# Initialize with your API key
-from izilink import IziLink
-izilink = IziLink('YOUR_API_KEY')
+    ```python Python
+    # Initialize with your API key
+    from izilink import IziLink
+    izilink = IziLink('YOUR_API_KEY')
 
-# Create a payment
-payment = izilink.payments.create(
-  amount=2000,
-  currency='USD',
-  description='Payment for Order #123'
-)
+    # Create a payment
+    payment = izilink.payments.create(
+    amount=2000,
+    currency='USD',
+    description='Payment for Order #123'
+    )
 
-print(payment.id)
-```
+    print(payment.id)
+    ```
 
-```php PHP
-// Initialize with your API key
-<?php
-require_once('vendor/autoload.php');
-$izilink = new \IziLink\IziLink('YOUR_API_KEY');
+    ```php PHP
+    // Initialize with your API key
+    <?php
+    require_once('vendor/autoload.php');
+    $izilink = new \IziLink\IziLink('YOUR_API_KEY');
 
-// Create a payment
-$payment = $izilink->payments->create([
-  'amount' => 2000,
-  'currency' => 'USD',
-  'description' => 'Payment for Order #123'
-]);
+    // Create a payment
+    $payment = $izilink->payments->create([
+    'amount' => 2000,
+    'currency' => 'USD',
+    'description' => 'Payment for Order #123'
+    ]);
 
-echo $payment->id;
-```
+    echo $payment->id;
+    ```
 
-```java Java
-// Initialize with your API key
-import com.izilink.IziLink;
-IziLink izilink = new IziLink("YOUR_API_KEY");
+    ```java Java
+    // Initialize with your API key
+    import com.izilink.IziLink;
+    IziLink izilink = new IziLink("YOUR_API_KEY");
 
-// Create a payment
-PaymentCreateParams params = PaymentCreateParams.builder()
-  .setAmount(2000L)
-  .setCurrency("USD")
-  .setDescription("Payment for Order #123")
-  .build();
+    // Create a payment
+    PaymentCreateParams params = PaymentCreateParams.builder()
+    .setAmount(2000L)
+    .setCurrency("USD")
+    .setDescription("Payment for Order #123")
+    .build();
 
-Payment payment = izilink.payments().create(params);
-System.out.println(payment.getId());
-```
+    Payment payment = izilink.payments().create(params);
+    System.out.println(payment.getId());
+    ```
 
-```csharp C#
-// Initialize with your API key
-using IziLink;
-var izilink = new IziLinkClient("YOUR_API_KEY");
+    ```csharp C#
+    // Initialize with your API key
+    using IziLink;
+    var izilink = new IziLinkClient("YOUR_API_KEY");
 
-// Create a payment
-var paymentOptions = new PaymentCreateOptions
-{
-  Amount = 2000,
-  Currency = "USD",
-  Description = "Payment for Order #123"
-};
+    // Create a payment
+    var paymentOptions = new PaymentCreateOptions
+    {
+        Amount = 2000,
+        Currency = "USD",
+        Description = "Payment for Order #123"
+    };
 
-var payment = await izilink.Payments.CreateAsync(paymentOptions);
-Console.WriteLine(payment.Id);
-```
+    var payment = await izilink.Payments.CreateAsync(paymentOptions);
+    Console.WriteLine(payment.Id);
+    ```
 
 </CodeGroup>
 
@@ -177,7 +177,7 @@ In addition to our official SDKs, there are community-maintained libraries for o
 - Swift: [izilink-swift](https://github.com/community/izilink-swift)
 
 <Note>
-  Community libraries are not maintained by IZI Link. Use them at your own risk.
+    Community libraries are not maintained by IZI Link. Use them at your own risk.
 </Note>
 
 ## Next Steps

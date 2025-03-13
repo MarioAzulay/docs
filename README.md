@@ -30,27 +30,27 @@ The documentation will be available at http://localhost:3000.
 - `quickstart.mdx` - Quickstart guide
 - `authentication.mdx` - Authentication guide
 - `api-reference/` - API reference documentation
-  - `overview.mdx` - API overview
-  - `payments/` - Payments API documentation
-  - `customers/` - Customers API documentation
-  - `invoicing/` - Invoicing API documentation
-  - `reporting/` - Reporting API documentation
+    - `overview.mdx` - API overview
+    - `payments/` - Payments API documentation
+    - `customers/` - Customers API documentation
+    - `invoicing/` - Invoicing API documentation
+    - `reporting/` - Reporting API documentation
 - `sdks/` - SDK documentation
-  - `overview.mdx` - SDK overview
-  - `javascript.mdx` - JavaScript SDK documentation
-  - `python.mdx` - Python SDK documentation
-  - `php.mdx` - PHP SDK documentation
-  - `java.mdx` - Java SDK documentation
-  - `dotnet.mdx` - .NET SDK documentation
+    - `overview.mdx` - SDK overview
+    - `javascript.mdx` - JavaScript SDK documentation
+    - `python.mdx` - Python SDK documentation
+    - `php.mdx` - PHP SDK documentation
+    - `java.mdx` - Java SDK documentation
+    - `dotnet.mdx` - .NET SDK documentation
 - `webhooks/` - Webhooks documentation
-  - `overview.mdx` - Webhooks overview
-  - `events.mdx` - Webhook events reference
-  - `security.mdx` - Webhook security guide
+    - `overview.mdx` - Webhooks overview
+    - `events.mdx` - Webhook events reference
+    - `security.mdx` - Webhook security guide
 - `samples/` - Sample applications
-  - `ecommerce.mdx` - E-commerce integration
-  - `subscription.mdx` - Subscription management
-  - `in-person.mdx` - In-person payments
-  - `mobile.mdx` - Mobile app integration
+    - `ecommerce.mdx` - E-commerce integration
+    - `subscription.mdx` - Subscription management
+    - `in-person.mdx` - In-person payments
+    - `mobile.mdx` - Mobile app integration
 
 ## Deployment
 

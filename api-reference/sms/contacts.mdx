@@ -19,266 +19,266 @@ https://sms.izipay.ao
 ## Create Contact
 
 <ParamField body="id" type="integer">
-  Contact ID (system-generated if not provided).
+    Contact ID (system-generated if not provided).
 </ParamField>
 
 <ParamField body="nome" type="string" required>
-  Contact name.
+    Contact name.
 </ParamField>
 
 <ParamField body="telefone" type="string" required>
-  Contact phone number with country code (e.g., "244999999999").
+    Contact phone number with country code (e.g., "244999999999").
 </ParamField>
 
 ### Headers
 
 <ParamField header="Authorization" type="string" required>
-  Bearer token received from the authentication endpoint. Format: `Bearer YOUR_TOKEN`
+    Bearer token received from the authentication endpoint. Format: `Bearer YOUR_TOKEN`
 </ParamField>
 
 <ParamField header="Content-Type" type="string" required>
-  Must be set to `application/json`.
+    Must be set to `application/json`.
 </ParamField>
 
 ### Example Request
 
 <CodeGroup>
 
-```bash cURL
-curl -X POST \
-  https://sms.izipay.ao/api/Contactos/CadastrarContacto \
-  -H "Content-Type: application/json" \
-  -H "Authorization: Bearer YOUR_TOKEN" \
-  -d '{
+    ```bash cURL
+    curl -X POST \
+    https://sms.izipay.ao/api/Contactos/CadastrarContacto \
+    -H "Content-Type: application/json" \
+    -H "Authorization: Bearer YOUR_TOKEN" \
+    -d '{
     "nome": "John Doe",
     "telefone": "244999999999"
-  }'
-```
+}'
+    ```
 
-```javascript Node.js
-const axios = require('axios');
+    ```javascript Node.js
+    const axios = require('axios');
 
-const response = await axios.post('https://sms.izipay.ao/api/Contactos/CadastrarContacto', {
-  nome: "John Doe",
-  telefone: "244999999999"
+    const response = await axios.post('https://sms.izipay.ao/api/Contactos/CadastrarContacto', {
+    nome: "John Doe",
+    telefone: "244999999999"
 }, {
-  headers: {
+    headers: {
     'Authorization': 'Bearer YOUR_TOKEN',
     'Content-Type': 'application/json'
-  }
+}
 });
 
-console.log('Contact created:', response.data);
-```
+    console.log('Contact created:', response.data);
+    ```
 
-```python Python
-import requests
+    ```python Python
+    import requests
 
-response = requests.post(
-  'https://sms.izipay.ao/api/Contactos/CadastrarContacto',
-  json={
+    response = requests.post(
+    'https://sms.izipay.ao/api/Contactos/CadastrarContacto',
+    json={
     "nome": "John Doe",
     "telefone": "244999999999"
-  },
-  headers={
+},
+    headers={
     'Authorization': 'Bearer YOUR_TOKEN',
     'Content-Type': 'application/json'
-  }
-)
+}
+    )
 
-data = response.json()
-print(f"Contact created: {data}")
-```
+    data = response.json()
+    print(f"Contact created: {data}")
+    ```
 
 </CodeGroup>
 
 ## Create Contact List
 
 <ParamField path="criar-lista-com-contactos" type="string">
-  Endpoint for creating a contact list.
+    Endpoint for creating a contact list.
 </ParamField>
 
 <ParamField body="id" type="integer">
-  List ID (system-generated if not provided).
+    List ID (system-generated if not provided).
 </ParamField>
 
 <ParamField body="nome" type="string" required>
-  Name of the contact list.
+    Name of the contact list.
 </ParamField>
 
 <ParamField body="contactoIds" type="array" required>
-  Array of contact IDs to include in the list.
+    Array of contact IDs to include in the list.
 </ParamField>
 
 ### Example Request
 
 <CodeGroup>
 
-```bash cURL
-curl -X POST \
-  https://sms.izipay.ao/api/Contactos/criar-lista-com-contactos \
-  -H "Content-Type: application/json" \
-  -H "Authorization: Bearer YOUR_TOKEN" \
-  -d '{
+    ```bash cURL
+    curl -X POST \
+    https://sms.izipay.ao/api/Contactos/criar-lista-com-contactos \
+    -H "Content-Type: application/json" \
+    -H "Authorization: Bearer YOUR_TOKEN" \
+    -d '{
     "nome": "Marketing List",
     "contactoIds": [1, 2, 3, 4]
-  }'
-```
+}'
+    ```
 
-```javascript Node.js
-const axios = require('axios');
+    ```javascript Node.js
+    const axios = require('axios');
 
-const response = await axios.post('https://sms.izipay.ao/api/Contactos/criar-lista-com-contactos', {
-  nome: "Marketing List",
-  contactoIds: [1, 2, 3, 4]
+    const response = await axios.post('https://sms.izipay.ao/api/Contactos/criar-lista-com-contactos', {
+    nome: "Marketing List",
+    contactoIds: [1, 2, 3, 4]
 }, {
-  headers: {
+    headers: {
     'Authorization': 'Bearer YOUR_TOKEN',
     'Content-Type': 'application/json'
-  }
+}
 });
 
-console.log('Contact list created:', response.data);
-```
+    console.log('Contact list created:', response.data);
+    ```
 
-```python Python
-import requests
+    ```python Python
+    import requests
 
-response = requests.post(
-  'https://sms.izipay.ao/api/Contactos/criar-lista-com-contactos',
-  json={
+    response = requests.post(
+    'https://sms.izipay.ao/api/Contactos/criar-lista-com-contactos',
+    json={
     "nome": "Marketing List",
     "contactoIds": [1, 2, 3, 4]
-  },
-  headers={
+},
+    headers={
     'Authorization': 'Bearer YOUR_TOKEN',
     'Content-Type': 'application/json'
-  }
-)
+}
+    )
 
-data = response.json()
-print(f"Contact list created: {data}")
-```
+    data = response.json()
+    print(f"Contact list created: {data}")
+    ```
 
 </CodeGroup>
 
 ## List Contacts
 
 <ParamField path="ListarContactos" type="string">
-  Endpoint for retrieving all contacts.
+    Endpoint for retrieving all contacts.
 </ParamField>
 
 <ParamField query="pageNumber" type="integer" default="1">
-  Page number for pagination.
+    Page number for pagination.
 </ParamField>
 
 <ParamField query="pageSize" type="integer" default="10">
-  Number of contacts per page.
+    Number of contacts per page.
 </ParamField>
 
 ### Example Request
 
 <CodeGroup>
 
-```bash cURL
-curl -X GET \
-  "https://sms.izipay.ao/api/Contactos/ListarContactos?pageNumber=1&pageSize=10" \
-  -H "Authorization: Bearer YOUR_TOKEN"
-```
+    ```bash cURL
+    curl -X GET \
+    "https://sms.izipay.ao/api/Contactos/ListarContactos?pageNumber=1&pageSize=10" \
+    -H "Authorization: Bearer YOUR_TOKEN"
+    ```
 
-```javascript Node.js
-const axios = require('axios');
+    ```javascript Node.js
+    const axios = require('axios');
 
-const response = await axios.get('https://sms.izipay.ao/api/Contactos/ListarContactos', {
-  params: {
+    const response = await axios.get('https://sms.izipay.ao/api/Contactos/ListarContactos', {
+    params: {
     pageNumber: 1,
     pageSize: 10
-  },
-  headers: {
+},
+    headers: {
     'Authorization': 'Bearer YOUR_TOKEN'
-  }
+}
 });
 
-console.log('Contacts:', response.data);
-```
+    console.log('Contacts:', response.data);
+    ```
 
-```python Python
-import requests
+    ```python Python
+    import requests
 
-response = requests.get(
-  'https://sms.izipay.ao/api/Contactos/ListarContactos',
-  params={
+    response = requests.get(
+    'https://sms.izipay.ao/api/Contactos/ListarContactos',
+    params={
     'pageNumber': 1,
     'pageSize': 10
-  },
-  headers={
+},
+    headers={
     'Authorization': 'Bearer YOUR_TOKEN'
-  }
-)
+}
+    )
 
-data = response.json()
-print(f"Contacts: {data}")
-```
+    data = response.json()
+    print(f"Contacts: {data}")
+    ```
 
 </CodeGroup>
 
 ## List Contact Lists
 
 <ParamField path="ListarListasDeContactos" type="string">
-  Endpoint for retrieving all contact lists.
+    Endpoint for retrieving all contact lists.
 </ParamField>
 
 <ParamField query="pageNumber" type="integer" default="1">
-  Page number for pagination.
+    Page number for pagination.
 </ParamField>
 
 <ParamField query="pageSize" type="integer" default="10">
-  Number of contact lists per page.
+    Number of contact lists per page.
 </ParamField>
 
 ### Example Request
 
 <CodeGroup>
 
-```bash cURL
-curl -X GET \
-  "https://sms.izipay.ao/api/Contactos/ListarListasDeContactos?pageNumber=1&pageSize=10" \
-  -H "Authorization: Bearer YOUR_TOKEN"
-```
+    ```bash cURL
+    curl -X GET \
+    "https://sms.izipay.ao/api/Contactos/ListarListasDeContactos?pageNumber=1&pageSize=10" \
+    -H "Authorization: Bearer YOUR_TOKEN"
+    ```
 
-```javascript Node.js
-const axios = require('axios');
+    ```javascript Node.js
+    const axios = require('axios');
 
-const response = await axios.get('https://sms.izipay.ao/api/Contactos/ListarListasDeContactos', {
-  params: {
+    const response = await axios.get('https://sms.izipay.ao/api/Contactos/ListarListasDeContactos', {
+    params: {
     pageNumber: 1,
     pageSize: 10
-  },
-  headers: {
+},
+    headers: {
     'Authorization': 'Bearer YOUR_TOKEN'
-  }
+}
 });
 
-console.log('Contact Lists:', response.data);
-```
+    console.log('Contact Lists:', response.data);
+    ```
 
-```python Python
-import requests
+    ```python Python
+    import requests
 
-response = requests.get(
-  'https://sms.izipay.ao/api/Contactos/ListarListasDeContactos',
-  params={
+    response = requests.get(
+    'https://sms.izipay.ao/api/Contactos/ListarListasDeContactos',
+    params={
     'pageNumber': 1,
     'pageSize': 10
-  },
-  headers={
+},
+    headers={
     'Authorization': 'Bearer YOUR_TOKEN'
-  }
-)
+}
+    )
 
-data = response.json()
-print(f"Contact Lists: {data}")
-```
+    data = response.json()
+    print(f"Contact Lists: {data}")
+    ```
 
 </CodeGroup>
 

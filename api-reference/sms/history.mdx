@@ -21,66 +21,66 @@ https://sms.izipay.ao
 Retrieve a paginated list of all SMS messages sent from your account.
 
 <ParamField path="Envio/ListarSmsEnviadas" type="string">
-  Endpoint for listing sent SMS messages.
+    Endpoint for listing sent SMS messages.
 </ParamField>
 
 <ParamField query="pageNumber" type="integer" default="1">
-  Page number for pagination.
+    Page number for pagination.
 </ParamField>
 
 <ParamField query="pageSize" type="integer" default="10">
-  Number of SMS messages per page.
+    Number of SMS messages per page.
 </ParamField>
 
 ### Headers
 
 <ParamField header="Authorization" type="string" required>
-  Bearer token received from the authentication endpoint. Format: `Bearer YOUR_TOKEN`
+    Bearer token received from the authentication endpoint. Format: `Bearer YOUR_TOKEN`
 </ParamField>
 
 ### Example Request
 
 <CodeGroup>
 
-```bash cURL
-curl -X GET \
-  "https://sms.izipay.ao/api/Envio/ListarSmsEnviadas?pageNumber=1&pageSize=10" \
-  -H "Authorization: Bearer YOUR_TOKEN"
-```
+    ```bash cURL
+    curl -X GET \
+    "https://sms.izipay.ao/api/Envio/ListarSmsEnviadas?pageNumber=1&pageSize=10" \
+    -H "Authorization: Bearer YOUR_TOKEN"
+    ```
 
-```javascript Node.js
-const axios = require('axios');
+    ```javascript Node.js
+    const axios = require('axios');
 
-const response = await axios.get('https://sms.izipay.ao/api/Envio/ListarSmsEnviadas', {
-  params: {
+    const response = await axios.get('https://sms.izipay.ao/api/Envio/ListarSmsEnviadas', {
+    params: {
     pageNumber: 1,
     pageSize: 10
-  },
-  headers: {
+},
+    headers: {
     'Authorization': 'Bearer YOUR_TOKEN'
-  }
+}
 });
 
-console.log('SMS History:', response.data);
-```
+    console.log('SMS History:', response.data);
+    ```
 
-```python Python
-import requests
+    ```python Python
+    import requests
 
-response = requests.get(
-  'https://sms.izipay.ao/api/Envio/ListarSmsEnviadas',
-  params={
+    response = requests.get(
+    'https://sms.izipay.ao/api/Envio/ListarSmsEnviadas',
+    params={
     'pageNumber': 1,
     'pageSize': 10
-  },
-  headers={
+},
+    headers={
     'Authorization': 'Bearer YOUR_TOKEN'
-  }
-)
+}
+    )
 
-data = response.json()
-print(f"SMS History: {data}")
-```
+    data = response.json()
+    print(f"SMS History: {data}")
+    ```
 
 </CodeGroup>
 
@@ -89,66 +89,66 @@ print(f"SMS History: {data}")
 Search for SMS messages sent on a specific date.
 
 <ParamField path="Envio/PesquisarSMSEnviados" type="string">
-  Endpoint for searching SMS messages by date.
+    Endpoint for searching SMS messages by date.
 </ParamField>
 
 <ParamField query="dia" type="integer" required>
-  Day of the month (1-31).
+    Day of the month (1-31).
 </ParamField>
 
 <ParamField query="mes" type="integer" required>
-  Month (1-12).
+    Month (1-12).
 </ParamField>
 
 <ParamField query="ano" type="integer" required>
-  Year (e.g., 2023).
+    Year (e.g., 2023).
 </ParamField>
 
 ### Example Request
 
 <CodeGroup>
 
-```bash cURL
-curl -X GET \
-  "https://sms.izipay.ao/api/Envio/PesquisarSMSEnviados?dia=15&mes=3&ano=2023" \
-  -H "Authorization: Bearer YOUR_TOKEN"
-```
+    ```bash cURL
+    curl -X GET \
+    "https://sms.izipay.ao/api/Envio/PesquisarSMSEnviados?dia=15&mes=3&ano=2023" \
+    -H "Authorization: Bearer YOUR_TOKEN"
+    ```
 
-```javascript Node.js
-const axios = require('axios');
+    ```javascript Node.js
+    const axios = require('axios');
 
-const response = await axios.get('https://sms.izipay.ao/api/Envio/PesquisarSMSEnviados', {
-  params: {
+    const response = await axios.get('https://sms.izipay.ao/api/Envio/PesquisarSMSEnviados', {
+    params: {
     dia: 15,
     mes: 3,
     ano: 2023
-  },
-  headers: {
+},
+    headers: {
     'Authorization': 'Bearer YOUR_TOKEN'
-  }
+}
 });
 
-console.log('SMS Messages:', response.data);
-```
+    console.log('SMS Messages:', response.data);
+    ```
 
-```python Python
-import requests
+    ```python Python
+    import requests
 
-response = requests.get(
-  'https://sms.izipay.ao/api/Envio/PesquisarSMSEnviados',
-  params={
+    response = requests.get(
+    'https://sms.izipay.ao/api/Envio/PesquisarSMSEnviados',
+    params={
     'dia': 15,
     'mes': 3,
     'ano': 2023
-  },
-  headers={
+},
+    headers={
     'Authorization': 'Bearer YOUR_TOKEN'
-  }
-)
+}
+    )
 
-data = response.json()
-print(f"SMS Messages: {data}")
-```
+    data = response.json()
+    print(f"SMS Messages: {data}")
+    ```
 
 </CodeGroup>
 
@@ -157,123 +157,124 @@ print(f"SMS Messages: {data}")
 Search for SMS messages sent within a specific date range.
 
 <ParamField path="Envio/pesquisarEnviosPorIntervaloDeDatas" type="string">
-  Endpoint for searching SMS messages by date range.
+    Endpoint for searching SMS messages by date range.
 </ParamField>
 
 <ParamField query="diaInicio" type="integer" required>
-  Start day (1-31).
+    Start day (1-31).
 </ParamField>
 
 <ParamField query="mesInicio" type="integer" required>
-  Start month (1-12).
+    Start month (1-12).
 </ParamField>
 
 <ParamField query="anoInicio" type="integer" required>
-  Start year (e.g., 2023).
+    Start year (e.g., 2023).
 </ParamField>
 
 <ParamField query="diaFim" type="integer" required>
-  End day (1-31).
+    End day (1-31).
 </ParamField>
 
 <ParamField query="mesFim" type="integer" required>
-  End month (1-12).
+    End month (1-12).
 </ParamField>
 
 <ParamField query="anoFim" type="integer" required>
-  End year (e.g., 2023).
+    End year (e.g., 2023).
 </ParamField>
 
 ### Example Request
 
 <CodeGroup>
 
-```bash cURL
-curl -X GET \
-  "https://sms.izipay.ao/api/Envio/pesquisarEnviosPorIntervaloDeDatas?diaInicio=1&mesInicio=3&anoInicio=2023&diaFim=15&mesFim=3&anoFim=2023" \
-  -H "Authorization: Bearer YOUR_TOKEN"
-```
+    ```bash cURL
+    curl -X GET \
+    "https://sms.izipay.ao/api/Envio/pesquisarEnviosPorIntervaloDeDatas?diaInicio=1&mesInicio=3&anoInicio=2023&diaFim=15&mesFim=3&anoFim=2023"
+    \
+    -H "Authorization: Bearer YOUR_TOKEN"
+    ```
 
-```javascript Node.js
-const axios = require('axios');
+    ```javascript Node.js
+    const axios = require('axios');
 
-const response = await axios.get('https://sms.izipay.ao/api/Envio/pesquisarEnviosPorIntervaloDeDatas', {
-  params: {
+    const response = await axios.get('https://sms.izipay.ao/api/Envio/pesquisarEnviosPorIntervaloDeDatas', {
+    params: {
     diaInicio: 1,
     mesInicio: 3,
     anoInicio: 2023,
     diaFim: 15,
     mesFim: 3,
     anoFim: 2023
-  },
-  headers: {
+},
+    headers: {
     'Authorization': 'Bearer YOUR_TOKEN'
-  }
+}
 });
 
-console.log('SMS Messages:', response.data);
-```
+    console.log('SMS Messages:', response.data);
+    ```
 
-```python Python
-import requests
+    ```python Python
+    import requests
 
-response = requests.get(
-  'https://sms.izipay.ao/api/Envio/pesquisarEnviosPorIntervaloDeDatas',
-  params={
+    response = requests.get(
+    'https://sms.izipay.ao/api/Envio/pesquisarEnviosPorIntervaloDeDatas',
+    params={
     'diaInicio': 1,
     'mesInicio': 3,
     'anoInicio': 2023,
     'diaFim': 15,
     'mesFim': 3,
     'anoFim': 2023
-  },
-  headers={
+},
+    headers={
     'Authorization': 'Bearer YOUR_TOKEN'
-  }
-)
+}
+    )
 
-data = response.json()
-print(f"SMS Messages: {data}")
-```
+    data = response.json()
+    print(f"SMS Messages: {data}")
+    ```
 
 </CodeGroup>
 
 ## Response Format
 
 <ResponseField name="items" type="array">
-  Array of SMS message objects.
+    Array of SMS message objects.
 </ResponseField>
 
 <ResponseField name="items[].id" type="integer">
-  Unique identifier for the SMS message.
+    Unique identifier for the SMS message.
 </ResponseField>
 
 <ResponseField name="items[].conteudo" type="string">
-  Content of the SMS message.
+    Content of the SMS message.
 </ResponseField>
 
 <ResponseField name="items[].dataEnvio" type="string">
-  Date and time when the SMS was sent.
+    Date and time when the SMS was sent.
 </ResponseField>
 
 <ResponseField name="items[].destinatario" type="string">
-  Recipient phone number.
+    Recipient phone number.
 </ResponseField>
 
 <ResponseField name="items[].status" type="string">
-  Delivery status of the SMS (e.g., "Delivered", "Failed").
+    Delivery status of the SMS (e.g., "Delivered", "Failed").
 </ResponseField>
 
 <ResponseField name="totalItems" type="integer">
-  Total number of SMS messages matching the query.
+    Total number of SMS messages matching the query.
 </ResponseField>
 
 <ResponseField name="totalPages" type="integer">
-  Total number of pages available.
+    Total number of pages available.
 </ResponseField>
 
 <ResponseField name="currentPage" type="integer">
-  Current page number.
+    Current page number.
 </ResponseField>
 
 ## Error Codes

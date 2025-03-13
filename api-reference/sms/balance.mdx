@@ -21,50 +21,50 @@ https://sms.izipay.ao
 Retrieve your current SMS credit balance.
 
 <ParamField path="Saldo/ObterSaldo" type="string">
-  Endpoint for retrieving current SMS balance.
+    Endpoint for retrieving current SMS balance.
 </ParamField>
 
 ### Headers
 
 <ParamField header="Authorization" type="string" required>
-  Bearer token received from the authentication endpoint. Format: `Bearer YOUR_TOKEN`
+    Bearer token received from the authentication endpoint. Format: `Bearer YOUR_TOKEN`
 </ParamField>
 
 ### Example Request
 
 <CodeGroup>
 
-```bash cURL
-curl -X GET \
-  https://sms.izipay.ao/api/Saldo/ObterSaldo \
-  -H "Authorization: Bearer YOUR_TOKEN"
-```
+    ```bash cURL
+    curl -X GET \
+    https://sms.izipay.ao/api/Saldo/ObterSaldo \
+    -H "Authorization: Bearer YOUR_TOKEN"
+    ```
 
-```javascript Node.js
-const axios = require('axios');
+    ```javascript Node.js
+    const axios = require('axios');
 
-const response = await axios.get('https://sms.izipay.ao/api/Saldo/ObterSaldo', {
-  headers: {
+    const response = await axios.get('https://sms.izipay.ao/api/Saldo/ObterSaldo', {
+    headers: {
     'Authorization': 'Bearer YOUR_TOKEN'
-  }
+}
 });
 
-console.log('SMS Balance:', response.data);
-```
+    console.log('SMS Balance:', response.data);
+    ```
 
-```python Python
-import requests
+    ```python Python
+    import requests
 
-response = requests.get(
-  'https://sms.izipay.ao/api/Saldo/ObterSaldo',
-  headers={
+    response = requests.get(
+    'https://sms.izipay.ao/api/Saldo/ObterSaldo',
+    headers={
     'Authorization': 'Bearer YOUR_TOKEN'
-  }
-)
+}
+    )
 
-data = response.json()
-print(f"SMS Balance: {data}")
-```
+    data = response.json()
+    print(f"SMS Balance: {data}")
+    ```
 
 </CodeGroup>
 
@@ -73,44 +73,44 @@ print(f"SMS Balance: {data}")
 Retrieve the history of balance changes, including credits added and SMS sent.
 
 <ParamField path="HistoricoSaldo/ObterHistoricoSaldo" type="string">
-  Endpoint for retrieving balance history.
+    Endpoint for retrieving balance history.
 </ParamField>
 
 ### Example Request
 
 <CodeGroup>
 
-```bash cURL
-curl -X GET \
-  https://sms.izipay.ao/api/HistoricoSaldo/ObterHistoricoSaldo \
-  -H "Authorization: Bearer YOUR_TOKEN"
-```
+    ```bash cURL
+    curl -X GET \
+    https://sms.izipay.ao/api/HistoricoSaldo/ObterHistoricoSaldo \
+    -H "Authorization: Bearer YOUR_TOKEN"
+    ```
 
-```javascript Node.js
-const axios = require('axios');
+    ```javascript Node.js
+    const axios = require('axios');
 
-const response = await axios.get('https://sms.izipay.ao/api/HistoricoSaldo/ObterHistoricoSaldo', {
-  headers: {
+    const response = await axios.get('https://sms.izipay.ao/api/HistoricoSaldo/ObterHistoricoSaldo', {
+    headers: {
     'Authorization': 'Bearer YOUR_TOKEN'
-  }
+}
 });
 
-console.log('Balance History:', response.data);
-```
+    console.log('Balance History:', response.data);
+    ```
 
-```python Python
-import requests
+    ```python Python
+    import requests
 
-response = requests.get(
-  'https://sms.izipay.ao/api/HistoricoSaldo/ObterHistoricoSaldo',
-  headers={
+    response = requests.get(
+    'https://sms.izipay.ao/api/HistoricoSaldo/ObterHistoricoSaldo',
+    headers={
     'Authorization': 'Bearer YOUR_TOKEN'
-  }
-)
+}
+    )
 
-data = response.json()
-print(f"Balance History: {data}")
-```
+    data = response.json()
+    print(f"Balance History: {data}")
+    ```
 
 </CodeGroup>
 
@@ -119,44 +119,44 @@ print(f"Balance History: {data}")
 Retrieve information about your company account, including contact details and account status.
 
 <ParamField path="Empresa/ObterDadosDaEmpresa" type="string">
-  Endpoint for retrieving company information.
+    Endpoint for retrieving company information.
 </ParamField>
 
 ### Example Request
 
 <CodeGroup>
 
-```bash cURL
-curl -X GET \
-  https://sms.izipay.ao/api/Empresa/ObterDadosDaEmpresa \
-  -H "Authorization: Bearer YOUR_TOKEN"
-```
+    ```bash cURL
+    curl -X GET \
+    https://sms.izipay.ao/api/Empresa/ObterDadosDaEmpresa \
+    -H "Authorization: Bearer YOUR_TOKEN"
+    ```
 
-```javascript Node.js
-const axios = require('axios');
+    ```javascript Node.js
+    const axios = require('axios');
 
-const response = await axios.get('https://sms.izipay.ao/api/Empresa/ObterDadosDaEmpresa', {
-  headers: {
+    const response = await axios.get('https://sms.izipay.ao/api/Empresa/ObterDadosDaEmpresa', {
+    headers: {
     'Authorization': 'Bearer YOUR_TOKEN'
-  }
+}
 });
 
-console.log('Company Information:', response.data);
-```
+    console.log('Company Information:', response.data);
+    ```
 
-```python Python
-import requests
+    ```python Python
+    import requests
 
-response = requests.get(
-  'https://sms.izipay.ao/api/Empresa/ObterDadosDaEmpresa',
-  headers={
+    response = requests.get(
+    'https://sms.izipay.ao/api/Empresa/ObterDadosDaEmpresa',
+    headers={
     'Authorization': 'Bearer YOUR_TOKEN'
-  }
-)
+}
+    )
 
-data = response.json()
-print(f"Company Information: {data}")
-```
+    data = response.json()
+    print(f"Company Information: {data}")
+    ```
 
 </CodeGroup>
 
@@ -165,44 +165,44 @@ print(f"Company Information: {data}")
 Retrieve information about the currently logged-in user.
 
 <ParamField path="Empresa/ObterUtilizadorLogado" type="string">
-  Endpoint for retrieving current user information.
+    Endpoint for retrieving current user information.
 </ParamField>
 
 ### Example Request
 
 <CodeGroup>
 
-```bash cURL
-curl -X GET \
-  https://sms.izipay.ao/api/Empresa/ObterUtilizadorLogado \
-  -H "Authorization: Bearer YOUR_TOKEN"
-```
+    ```bash cURL
+    curl -X GET \
+    https://sms.izipay.ao/api/Empresa/ObterUtilizadorLogado \
+    -H "Authorization: Bearer YOUR_TOKEN"
+    ```
 
-```javascript Node.js
-const axios = require('axios');
+    ```javascript Node.js
+    const axios = require('axios');
 
-const response = await axios.get('https://sms.izipay.ao/api/Empresa/ObterUtilizadorLogado', {
-  headers: {
+    const response = await axios.get('https://sms.izipay.ao/api/Empresa/ObterUtilizadorLogado', {
+    headers: {
     'Authorization': 'Bearer YOUR_TOKEN'
-  }
+}
 });
 
-console.log('User Information:', response.data);
-```
+    console.log('User Information:', response.data);
+    ```
 
-```python Python
-import requests
+    ```python Python
+    import requests
 
-response = requests.get(
-  'https://sms.izipay.ao/api/Empresa/ObterUtilizadorLogado',
-  headers={
+    response = requests.get(
+    'https://sms.izipay.ao/api/Empresa/ObterUtilizadorLogado',
+    headers={
     'Authorization': 'Bearer YOUR_TOKEN'
-  }
-)
+}
+    )
 
-data = response.json()
-print(f"User Information: {data}")
-```
+    data = response.json()
+    print(f"User Information: {data}")
+    ```
 
 </CodeGroup>
 
@@ -211,37 +211,37 @@ print(f"User Information: {data}")
 ### Balance Response
 
 <ResponseField name="saldo" type="number">
-  Current SMS credit balance.
+    Current SMS credit balance.
 </ResponseField>
 
 <ResponseField name="ultimaAtualizacao" type="string">
-  Date and time of the last balance update.
+    Date and time of the last balance update.
 </ResponseField>
 
 ### Balance History Response
 
 <ResponseField name="items" type="array">
-  Array of balance history entries.
+    Array of balance history entries.
 </ResponseField>
 
 <ResponseField name="items[].id" type="integer">
-  Unique identifier for the history entry.
+    Unique identifier for the history entry.
 </ResponseField>
 
 <ResponseField name="items[].data" type="string">
-  Date and time of the balance change.
+    Date and time of the balance change.
 </ResponseField>
 
 <ResponseField name="items[].tipo" type="string">
-  Type of transaction (e.g., "Credit", "Debit").
+    Type of transaction (e.g., "Credit", "Debit").
 </ResponseField>
 
 <ResponseField name="items[].valor" type="number">
-  Amount of credits added or used.
+    Amount of credits added or used.
 </ResponseField>
 
 <ResponseField name="items[].descricao" type="string">
-  Description of the transaction.
+    Description of the transaction.
 </ResponseField>
 
 ## Error Codes

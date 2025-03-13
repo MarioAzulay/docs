@@ -19,60 +19,61 @@ https://sms.izipay.ao
 ## Request
 
 <ParamField body="user" type="string" required>
-  The user's username or email address.
+    The user's username or email address.
 </ParamField>
 
 <ParamField body="password" type="string" required>
-  The user's password.
+    The user's password.
 </ParamField>
 
 ## Response
 
 <ResponseField name="token" type="string">
-  Authentication token (JWT) to be used for subsequent API calls. The token contains encoded user information and expiration details.
+    Authentication token (JWT) to be used for subsequent API calls. The token contains encoded user information and
+    expiration details.
 </ResponseField>
 
 ## Example Request
 
 <CodeGroup>
 
-```bash cURL
-curl -X POST \
-  https://sms.izipay.ao/api/login \
-  -H "Content-Type: application/json" \
-  -d '{
+    ```bash cURL
+    curl -X POST \
+    https://sms.izipay.ao/api/login \
+    -H "Content-Type: application/json" \
+    -d '{
     "user": "user@example.com",
     "password": "your_secure_password"
-  }'
-```
+}'
+    ```
 
-```javascript Node.js
-const axios = require('axios');
+    ```javascript Node.js
+    const axios = require('axios');
 
-const response = await axios.post('https://sms.izipay.ao/api/login', {
-  user: 'user@example.com',
-  password: 'your_secure_password'
+    const response = await axios.post('https://sms.izipay.ao/api/login', {
+    user: 'user@example.com',
+    password: 'your_secure_password'
 });
 
-const { token } = response.data;
-console.log('Authentication successful:', token);
-```
+    const {token} = response.data;
+    console.log('Authentication successful:', token);
+    ```
 
-```python Python
-import requests
+    ```python Python
+    import requests
 
-response = requests.post(
-  'https://sms.izipay.ao/api/login',
-  json={
+    response = requests.post(
+    'https://sms.izipay.ao/api/login',
+    json={
     'user': 'user@example.com',
     'password': 'your_secure_password'
-  }
-)
+}
+    )
 
-data = response.json()
-token = data['token']
-print(f"Authentication successful: {token}")
-```
+    data = response.json()
+    token = data['token']
+    print(f"Authentication successful: {token}")
+    ```
 
 </CodeGroup>
 
