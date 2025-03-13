@@ -40,16 +40,18 @@ Authorization: ApiKey AppId:hash:nonce:timestamp
 
 The API follows standard HTTP status codes to indicate the success or failure of a request:
 
-- `200 OK` – Successful request
-- `201 Created` – Resource successfully created
-- `204 No Content` – Resource modified or deleted
-- `400 Bad Request` – Invalid request syntax
-- `401 Unauthorized` – Invalid credentials or missing authorization
-- `403 Forbidden` – Access denied
-- `404 Not Found` – Resource does not exist
-- `422 Unprocessable Entity` – Invalid parameters or business rule violation
-- `429 Too Many Requests` – Rate limit exceeded
-- `500 Internal Server Error` – API failure
+| Status Code                 | Meaning                                       |
+|-----------------------------|-----------------------------------------------|
+| `200 OK`                    | Successful request                            |
+| `201 Created`               | Resource successfully created                 |
+| `204 No Content`            | Resource modified or deleted                  |
+| `400 Bad Request`           | Invalid request syntax                        |
+| `401 Unauthorized`          | Invalid credentials or missing authorization  |
+| `403 Forbidden`             | Access denied                                 |
+| `404 Not Found`             | Resource does not exist                       |
+| `422 Unprocessable Entity`  | Invalid parameters or business rule violation |
+| `429 Too Many Requests`     | Rate limit exceeded                           |
+| `500 Internal Server Error` | API failure                                   |
 
 ## Rate Limits
 
