@@ -16,7 +16,11 @@ The API supports both production and sandbox environments:
 
 ## Authentication
 
-The IZI Pay API uses HMAC-based authentication. Each application (client) is assigned an `AppId` (client ID) and `AppSecret` (client secret). These credentials must be securely stored and never exposed in public repositories.
+The IZI Pay API uses HMAC-based authentication. Each application (client) is assigned an `AppId` (client ID) and `AppSecret` (client secret).
+
+<Warning>
+    These credentials must be securely stored and never exposed in public repositories.
+</Warning>
 
 ### HMAC Signature Generation
 
@@ -54,25 +58,27 @@ To prevent abuse, the API enforces rate limits:
 - **Test Mode:** 100 requests per minute
 - **Live Mode:** 1000 requests per minute
 
-Exceeding these limits results in a `429 Too Many Requests` response.
+<Warning>
+    Exceeding these limits results in a `429 Too Many Requests` response.
+</Warning>
 
 ## Available APIs
 
 The IZI Pay API provides multiple endpoints for managing payments and transactions:
 
 <CardGroup cols={2}>
-  <Card title="References API" icon="link" href="/api-reference/references">
-    Create, retrieve, and manage payment references
-  </Card>
-  <Card title="Payments API" icon="credit-card" href="/api-reference/payments">
-    Process and retrieve payment details
-  </Card>
-  <Card title="Callbacks/Webhooks API" icon="bell" href="/api-reference/webhooks">
-    Receive real-time event notifications
-  </Card>
-  <Card title="SMS API" icon="message" href="/api-reference/sms">
-    Send SMS notifications and verification codes
-  </Card>
+    <Card title="References API" icon="link" href="/api-reference/references">
+        Create, retrieve, and manage payment references
+    </Card>
+    <Card title="Payments API" icon="credit-card" href="/api-reference/payments">
+        Process and retrieve payment details
+    </Card>
+    <Card title="Callbacks/Webhooks API" icon="bell" href="/api-reference/webhooks">
+        Receive real-time event notifications
+    </Card>
+    <Card title="SMS API" icon="message" href="/api-reference/sms">
+        Send SMS notifications and verification codes
+    </Card>
 </CardGroup>
 
 ## Webhooks

@@ -1,226 +1,109 @@
 ---
-title: 'Webhooks Overview'
-description: 'Learn how to use IZI Link webhooks to receive real-time notifications'
+title: 'Callback Notifications'
+description: 'Learn how to receive real-time payment notifications via IZI Pay callbacks'
 ---
 
-# Webhooks Overview
+# Overview
 
-Webhooks allow you to receive real-time notifications when events happen in your IZI Link account. Instead of polling the API for changes, webhooks push notifications to your application as events occur.
+Callback notifications (also known as webhooks) allow merchants to receive real-time updates when payments are successfully processed through IZI Pay. Instead of continuously polling the API for transaction updates, your system can automatically receive notifications when a payment is completed.
 
-## How Webhooks Work
+## How Callbacks Work
 
-1. You register a URL in your IZI Link Dashboard where you want to receive webhook events
-2. IZI Link sends HTTP POST requests to that URL when events occur in your account
-3. Your server processes these events and takes appropriate actions
+1. Your system registers a public callback URL where IZI Pay will send notifications.
+2. When a payment is successfully processed, IZI Pay sends an HTTP `POST` request to your callback URL.
+3. Your server processes the notification and updates your system accordingly.
 
-## Setting Up Webhooks
+## Setting Up Callbacks
 
-To set up webhooks:
+To set up a callback endpoint:
 
-1. Log in to your [IZI Link Dashboard](https://app.izilink.com)
-2. Navigate to **Settings** > **Webhooks**
-3. Click **Add Endpoint**
-4. Enter the URL where you want to receive webhook events
-5. Select the events you want to receive
-6. Click **Add Endpoint**
+1. Define a publicly accessible URL where you want to receive notifications (e.g., `https://yourdomain.com/callback`).
+2. Ensure your endpoint is capable of handling `POST` requests with JSON payloads.
+3. Implement authentication to verify incoming requests.
+4. Register the callback URL within the IZI Pay system.
 
-<Frame>
-  <img src="/images/webhooks-setup.png" alt="Webhook Setup" />
-</Frame>
+## Callback Request Structure
 
-## Webhook Events
+IZI Pay sends payment notifications as HTTP `POST` requests with a JSON payload. Below is an example of the callback request format:
 
-IZI Link sends different types of events depending on what happens in your account. Each event has a specific `type` that identifies it.
+### HTTP Headers:
+```json
+{
+  "access-key": "your-authentication-key",
+  "Content-Type": "application/json"
+}
+```
 
-Common event types include:
+### JSON Payload:
+```json
+{
+  "idTransacao": "00000",
+  "numLogSistema": "04795451",
+  "idLogSistema": "7219",
+  "dataTransaccaoCliente": "2022-09-08T15:53:46.0000000",
+  "montantePago": 500.00,
+  "tipoTerminal": "M",
+  "iIdentTerminal": "0000000000",
+  "localidadeTerminal": "Internet",
+  "refPagamento": "871704668",
+  "Id": "450610e8-942c-4760-b1d3-185073f35736"
+}
+```
 
-- `payment.created`: A payment was created
-- `payment.succeeded`: A payment was successful
-- `payment.failed`: A payment failed
-- `customer.created`: A customer was created
-- `customer.updated`: A customer was updated
-- `invoice.created`: An invoice was created
-- `invoice.paid`: An invoice was paid
+## Callback Response Structure
 
-See the [Events Reference](/webhooks/events) for a complete list of events.
-
-## Webhook Format
-
-Webhook events are sent as HTTP POST requests with a JSON body. The body contains information about the event, including:
-
-- `id`: A unique identifier for the event
-- `type`: The type of event (e.g., `payment.succeeded`)
-- `created`: When the event was created (Unix timestamp)
-- `data`: An object containing the relevant data for the event
-
-Example webhook payload:
+Your server should respond to IZI Pay's callback request with the following JSON format:
 
 ```json
 {
-  "id": "evt_123456789",
-  "type": "payment.succeeded",
-  "created": 1619712000,
-  "data": {
-    "object": {
-      "id": "pay_123456789",
-      "object": "payment",
-      "amount": 2000,
-      "currency": "USD",
-      "status": "succeeded",
-      "customer_id": "cus_123456789",
-      "created": 1619712000,
-      "updated": 1619712000
-    }
-  }
+  "Success": true,
+  "Obs": "xxxxxx",
+  "Id": "xxxxxxx"
 }
 ```
+<Tip>
+    - Success: Indicates if the callback was processed successfully.
+    - Obs: Any additional observations or messages.
+    - Id: The payment ID.
+</Tip>
 
-## Verifying Webhooks
 
-To ensure that webhook events are actually coming from IZI Link, you should verify their signatures. IZI Link signs webhook events by including a signature in the `IziLink-Signature` header.
+## Handling Callback Notifications
 
-<CodeGroup>
+When your system receives a callback notification from IZI Pay, follow these best practices:
 
-```javascript Node.js
-const express = require('express');
-const app = express();
+1. **Validate the Request:** Verify the `access-key` in the request header to ensure authenticity.
+2. **Process the Data:** Update your system with the transaction details (e.g., marking a payment as successful).
+3. **Respond with a 2xx Status Code:** Send an HTTP `200 OK` response to acknowledge receipt. If IZI Pay does not receive a successful response, it will retry the request.
 
-app.post('/webhooks', express.raw({type: 'application/json'}), (req, res) => {
-  const signature = req.headers['izilink-signature'];
-  
-  try {
-    const event = izilink.webhooks.constructEvent(
-      req.body,
-      signature,
-      'YOUR_WEBHOOK_SECRET'
-    );
-    
-    // Handle the event
-    switch (event.type) {
-      case 'payment.succeeded':
-        const payment = event.data.object;
-        console.log(`Payment succeeded: ${payment.id}`);
-        break;
-      // ... handle other event types
-      default:
-        console.log(`Unhandled event type: ${event.type}`);
-    }
-    
-    res.json({received: true});
-  } catch (err) {
-    console.log(`Webhook Error: ${err.message}`);
-    res.status(400).send(`Webhook Error: ${err.message}`);
-  }
-});
+## Callback Retries
 
-app.listen(3000, () => console.log('Webhook server running on port 3000'));
-```
+If your server does not respond with a `2xx` status code, IZI Pay will retry the callback using an exponential backoff strategy:
 
-```python Python
-from flask import Flask, request, jsonify
-import izilink
+- **1st retry:** 5 minutes after the original attempt
+- **2nd retry:** 30 minutes after the 1st retry
+- **3rd retry:** 2 hours after the 2nd retry
+- **4th retry:** 5 hours after the 3rd retry
+- **5th retry:** 10 hours after the 4th retry
 
-app = Flask(__name__)
-
-@app.route('/webhooks', methods=['POST'])
-def handle_webhook():
-    payload = request.data
-    signature = request.headers.get('IziLink-Signature')
-    
-    try:
-        event = izilink.Webhook.construct_event(
-            payload, signature, 'YOUR_WEBHOOK_SECRET'
-        )
-        
-        // Handle the event
-        if event.type == 'payment.succeeded':
-            payment = event.data.object
-            print(f"Payment succeeded: {payment.id}")
-        // ... handle other event types
-        else:
-            print(f"Unhandled event type: {event.type}")
-            
-        return jsonify(success=True)
-    except Exception as e:
-        print(f"Webhook Error: {str(e)}")
-        return jsonify(error=str(e)), 400
-
-if __name__ == '__main__':
-    app.run(port=3000)
-```
-
-```php PHP
-<?php
-require 'vendor/autoload.php';
-
-$payload = file_get_contents('php://input');
-$signature = $_SERVER['HTTP_IZILINK_SIGNATURE'];
-
-try {
-    $event = \IziLink\Webhook::constructEvent(
-        $payload, $signature, 'YOUR_WEBHOOK_SECRET'
-    );
-    
-    // Handle the event
-    switch ($event->type) {
-        case 'payment.succeeded':
-            $payment = $event->data->object;
-            echo "Payment succeeded: " . $payment->id;
-            break;
-        // ... handle other event types
-        default:
-            echo "Unhandled event type: " . $event->type;
-    }
-    
-    http_response_code(200);
-} catch (\Exception $e) {
-    echo "Webhook Error: " . $e->getMessage();
-    http_response_code(400);
-}
-```
-
-</CodeGroup>
+<Warning>
+    After the 5th attempt, IZI Pay will stop trying to deliver the callback.
+</Warning>
 
 ## Best Practices
 
-### Respond Quickly
-
-Respond to webhook events quickly with a `2xx` status code. If IZI Link doesn't receive a `2xx` response, it will retry the webhook several times.
-
-### Idempotency
-
-Design your webhook handler to be idempotent. IZI Link may send the same event multiple times if your server doesn't respond with a `2xx` status code.
-
-### Error Handling
-
-Implement proper error handling in your webhook endpoint. Log errors for debugging but don't expose sensitive information in error responses.
-
-### Testing Webhooks
-
-Use the IZI Link Dashboard to send test webhook events to your endpoint. This helps you verify that your webhook handler is working correctly.
-
-## Webhook Retries
-
-If your endpoint returns a non-`2xx` status code, IZI Link will retry the webhook with an exponential backoff:
-
-- 1st retry: 5 minutes after the original attempt
-- 2nd retry: 30 minutes after the 1st retry
-- 3rd retry: 2 hours after the 2nd retry
-- 4th retry: 5 hours after the 3rd retry
-- 5th retry: 10 hours after the 4th retry
-
-After the 5th retry, IZI Link will stop trying to deliver the webhook.
-
-## Webhook Logs
-
-You can view webhook delivery attempts and responses in the IZI Link Dashboard under **Settings** > **Webhooks** > **Logs**.
-
-<Frame>
-  <img src="/images/webhook-logs.png" alt="Webhook Logs" />
-</Frame>
+- **Secure Your Endpoint:** Use authentication mechanisms to verify requests.
+- **Log All Incoming Requests:** Maintain logs for debugging and reconciliation.
+- **Ensure High Availability:** Make sure your callback URL is highly available to receive notifications.
+- **Handle Duplicate Notifications Gracefully:** IZI Pay may send the same event multiple times in case of failures.
 
 ## Next Steps
 
-- Learn about all available [webhook events](/webhooks/events)
-- Implement [webhook security](/webhooks/security) to verify webhook signatures
-- Set up your webhook endpoint using our [sample code](https://github.com/izilink/webhook-examples) 
+- Implement your callback endpoint using the provided structure.
+- Test notifications using IZI Pay's sandbox or test mode.
+- Monitor callback logs to ensure proper handling and troubleshooting.
+
+<Tip>
+    By integrating callback notifications, merchants can automate payment processing workflows efficiently and securely.
+</Tip>
+
