@@ -1,0 +1,101 @@
+---
+title: 'Get Purchase Token'
+api: 'POST https://gpo-sandbox.izipay.ao/v1/webframe/tokens'
+description: 'Generate a token for initiating a purchase through the webframe'
+---
+
+## Get Purchase Token
+
+This service allows you to generate a token that can be used to initiate a purchase through the webframe interface.
+
+### Authentication
+
+<ParamField header="Authorization" type="string" required>
+  Bearer token in the format: `Bearer {token}`
+</ParamField>
+
+### Request Body Parameters
+
+<ParamField body="amount" type="number" required>
+  Purchase amount
+</ParamField>
+
+<ParamField body="currency" type="string" required>
+  Currency code (e.g., AOA)
+</ParamField>
+
+<ParamField body="merchantId" type="string" required>
+  Merchant ID
+</ParamField>
+
+<ParamField body="merchantReferenceNumber" type="string">
+  Merchant reference number for the transaction
+</ParamField>
+
+<ParamField body="description" type="string">
+  Description of the purchase
+</ParamField>
+
+<ParamField body="callbackUrl" type="string" required>
+  URL to which the system will send the transaction result
+</ParamField>
+
+<ParamField body="returnUrl" type="string" required>
+  URL to which the customer will be redirected after the transaction
+</ParamField>
+
+<ParamField body="expirationTime" type="number">
+  Token expiration time in minutes (default: 30)
+</ParamField>
+
+### Response
+
+<ResponseField name="token" type="string">
+  Purchase token to be used with the webframe
+</ResponseField>
+
+<ResponseField name="expirationDate" type="string">
+  Expiration date of the token
+</ResponseField>
+
+<ResponseField name="webframeUrl" type="string">
+  URL to the webframe with the token included
+</ResponseField>
+
+### Example Request
+
+```bash
+curl --request POST \
+  --url "https://gpo-sandbox.izipay.ao/v1/webframe/tokens" \
+  --header "Content-Type: application/json" \
+  --header "Authorization: Bearer YOUR_TOKEN" \
+  --data '{
+    "amount": 1000.00,
+    "currency": "AOA",
+    "merchantId": "MERCH123",
+    "merchantReferenceNumber": "ORDER12345",
+    "description": "Purchase of products",
+    "callbackUrl": "https://example.com/callback",
+    "returnUrl": "https://example.com/return",
+    "expirationTime": 60
+  }'
+```
+
+### Example Response
+
+```json
+{
+  "token": "WF_TOKEN_123456789ABCDEF",
+  "expirationDate": "2023-01-01T13:00:00Z",
+  "webframeUrl": "https://gpo-sandbox.izipay.ao/webframe?token=WF_TOKEN_123456789ABCDEF"
+}
+```
+
+### Response Codes
+
+| Status Code | Description |
+|-------------|-------------|
+| 200 | OK - Token generated successfully |
+| 400 | Bad Request - Invalid parameters |
+| 401 | Unauthorized - Invalid token |
+| 500 | Internal Server Error - Failed to generate token | 

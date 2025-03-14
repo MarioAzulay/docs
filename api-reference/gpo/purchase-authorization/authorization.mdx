@@ -1,0 +1,164 @@
+---
+title: 'Authorization'
+api: 'POST https://gpo-sandbox.izipay.ao/v1/points-of-sale/{posId}/authorizations'
+description: 'Create a payment authorization'
+---
+
+## Authorization
+
+An authorization is a request to the cardholder's bank to reserve a specific amount. This service should be used when the merchant wants to guarantee and reserve funds from the customer's account for the purchase they intend to make. The amount is reserved until the expiration date defined by the bank or until receiving the purchase related to the authorization, at which point the customer's account balance is updated. It is possible to use Card or mobile phone (MCXExpress) payment methods with this service.
+
+This service creates an **Authorization** resource when it receives a response from the customer's bank, regardless of whether the business result from the processor is accepted or rejected. If communication is not possible, a resource will not be created and an appropriate error message will be returned.
+
+### Authentication
+
+<ParamField header="Authorization" type="string" required>
+  Bearer token in the format: `Bearer {token}`
+</ParamField>
+
+### Path Parameters
+
+<ParamField path="posId" type="string" required>
+  Terminal ID
+</ParamField>
+
+### Request Body
+
+<ParamField body="amount" type="number" required>
+  Payment amount
+</ParamField>
+
+<ParamField body="orderOrigin" type="string" required>
+  Order origin (PRESENT, MOBILE)
+</ParamField>
+
+<ParamField body="merchantReferenceNumber" type="string">
+  Merchant reference number
+</ParamField>
+
+<ParamField body="paymentInfo" type="object" required>
+  <Expandable title="Properties">
+    <ParamField body="mobile" type="object">
+      <Expandable title="Properties">
+        <ParamField body="phoneNumber" type="string" required>
+          Customer phone number
+        </ParamField>
+      </Expandable>
+    </ParamField>
+  </Expandable>
+</ParamField>
+
+<ParamField body="currency" type="string" required>
+  Currency code (e.g., AOA)
+</ParamField>
+
+### Response
+
+<ResponseField name="result" type="object">
+  <Expandable title="Properties">
+    <ResponseField name="id" type="string">
+      Authorization ID
+    </ResponseField>
+    <ResponseField name="transactionType" type="string">
+      Transaction type (AUTHORIZATION)
+    </ResponseField>
+    <ResponseField name="transactionState" type="string">
+      Transaction state
+    </ResponseField>
+    <ResponseField name="amount" type="number">
+      Authorized amount
+    </ResponseField>
+    <ResponseField name="currency" type="string">
+      Currency code
+    </ResponseField>
+    <ResponseField name="createdDate" type="string">
+      Creation date
+    </ResponseField>
+    <ResponseField name="updatedDate" type="string">
+      Update date
+    </ResponseField>
+    <ResponseField name="merchantReferenceNumber" type="string">
+      Merchant reference number
+    </ResponseField>
+    <ResponseField name="paymentMethod" type="object">
+      <Expandable title="Properties">
+        <ResponseField name="type" type="string">
+          Payment method type (MOBILE, CARD)
+        </ResponseField>
+        <ResponseField name="mobile" type="object">
+          <Expandable title="Properties">
+            <ResponseField name="phoneNumber" type="string">
+              Customer phone number
+            </ResponseField>
+          </Expandable>
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+    <ResponseField name="pointOfSale" type="object">
+      <Expandable title="Properties">
+        <ResponseField name="id" type="string">
+          Terminal ID
+        </ResponseField>
+        <ResponseField name="name" type="string">
+          Terminal name
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+### Example Request
+
+```bash
+curl --request POST \
+  --url "https://gpo-sandbox.izipay.ao/v1/points-of-sale/413206/authorizations" \
+  --header "Authorization: Bearer YOUR_TOKEN" \
+  --header "Content-Type: application/json" \
+  --data '{
+    "amount": 1000.00,
+    "orderOrigin": "PRESENT",
+    "merchantReferenceNumber": "REF123456",
+    "paymentInfo": {
+      "mobile": {
+        "phoneNumber": "923456789"
+      }
+    },
+    "currency": "AOA"
+  }'
+```
+
+### Example Response
+
+```json
+{
+  "result": {
+    "id": "3WJ0PDFXH76GVLT3",
+    "transactionType": "AUTHORIZATION",
+    "transactionState": "COMPLETED",
+    "amount": 1000.00,
+    "currency": "AOA",
+    "createdDate": "2023-01-01T12:00:00Z",
+    "updatedDate": "2023-01-01T12:00:00Z",
+    "merchantReferenceNumber": "REF123456",
+    "paymentMethod": {
+      "type": "MOBILE",
+      "mobile": {
+        "phoneNumber": "923456789"
+      }
+    },
+    "pointOfSale": {
+      "id": "413206",
+      "name": "Terminal Name"
+    }
+  }
+}
+```
+
+### Response Codes
+
+| Status Code | Description |
+|-------------|-------------|
+| 200 | OK - Authorization created successfully |
+| 400 | Bad Request - Invalid request |
+| 401 | Unauthorized - Invalid token |
+| 404 | Not Found - Terminal not found | 

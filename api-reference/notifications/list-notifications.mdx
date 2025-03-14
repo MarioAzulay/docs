@@ -1,0 +1,105 @@
+---
+title: 'List Notifications'
+api: 'GET /v1/notificacoes'
+description: 'List all notifications associated with your IZI Pay account'
+---
+
+## List Notifications
+
+Returns a list of system notifications associated with your IZI Pay account. Notifications are returned in order, with the most recent notifications first.
+
+### Query Parameters
+
+<ParamField query="page" type="integer" default="1">
+  Page number to display
+</ParamField>
+
+<ParamField query="pageSize" type="integer" default="50">
+  Number of items to display per page
+</ParamField>
+
+<ParamField query="estado" type="string">
+  Notification state filter. Valid states are `Não Lido` (Unread) and `Lido` (Read)
+</ParamField>
+
+### Response
+
+<ResponseField name="result" type="array">
+  <Expandable title="Items">
+    <ResponseField name="titulo" type="string">
+      Notification title
+    </ResponseField>
+    <ResponseField name="descricao" type="string">
+      Notification description
+    </ResponseField>
+    <ResponseField name="estado" type="string">
+      Notification state
+    </ResponseField>
+    <ResponseField name="id" type="string">
+      Unique notification ID
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="currentPage" type="integer">
+  Current page number
+</ResponseField>
+
+<ResponseField name="pageSize" type="integer">
+  Number of items per page
+</ResponseField>
+
+<ResponseField name="rowCount" type="integer">
+  Total number of items
+</ResponseField>
+
+<ResponseField name="firstRowOnPage" type="integer">
+  Index of the first item on the current page
+</ResponseField>
+
+<ResponseField name="lastRowOnPage" type="integer">
+  Index of the last item on the current page
+</ResponseField>
+
+### Example Request
+
+```bash
+curl --request GET \
+  --url 'https://api.izipay.ao/v1/notificacoes?page=1&pageSize=100' \
+  --header 'Authorization: ApiKey YOUR_API_KEY'
+```
+
+### Example Response
+
+```json
+{
+  "result": [
+    {
+      "titulo": "Referência 000000000 foi paga.",
+      "descricao": "Recebeu o valor de Kz 9 999,99 da referência 000000000 pelas 01/01/2020 02:50:50",
+      "estado": "Lido",
+      "id": "10000000-0000-0000-0000-000000000000"
+    },
+    {
+      "titulo": "Referência 111111111 foi paga.",
+      "descricao": "Recebeu o valor de Kz 9 999,99 da referência 111111111 pelas 01/01/2020 02:50:51",
+      "estado": "Não Lido",
+      "id": "00000000-0000-0000-0000-00000000000x"
+    }
+  ],
+  "currentPage": 1,
+  "pageSize": 100,
+  "rowCount": 7,
+  "firstRowOnPage": 1,
+  "lastRowOnPage": 7
+}
+```
+
+### Response Codes
+
+| Status Code | Description |
+|-------------|-------------|
+| 200 | OK - Successfully retrieved notifications |
+| 400 | Bad Request - Invalid request |
+| 401 | Unauthorized - Invalid signature |
+| 402 | Payment Required - Delinquent account | 

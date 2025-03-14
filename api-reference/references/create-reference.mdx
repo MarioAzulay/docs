@@ -1,0 +1,243 @@
+---
+title: 'Create a Reference'
+api: 'POST https://api-sandbox.izipay.ao/v1/referencias'
+description: 'Create a new payment reference'
+---
+
+## Create a Reference
+
+Creates a new payment reference for processing payments through the multicaixa network.
+
+### Authentication
+
+<ParamField header="Authorization" type="string" required>
+  HMAC signature in the format: `ApiKey AppId:hash:nonce:timestamp`
+</ParamField>
+
+<ParamField query="AppId" type="string" required>
+  Your application ID provided by IZI Pay
+</ParamField>
+
+<ParamField query="AppSecret" type="string" required>
+  Your application secret provided by IZI Pay (Base64 encoded)
+</ParamField>
+
+### Request Body
+
+<ParamField body="montante" type="number" required>
+  Payment amount
+</ParamField>
+
+<ParamField body="validade" type="string" required>
+  Reference validity date (format: DD/MM/YYYY HH:MM)
+</ParamField>
+
+<ParamField body="cliente" type="object" required>
+  <Expandable title="Properties">
+    <ParamField body="nome" type="string" required>
+      Customer name
+    </ParamField>
+    <ParamField body="email" type="string">
+      Customer email
+    </ParamField>
+    <ParamField body="telefone" type="string">
+      Customer phone number
+    </ParamField>
+  </Expandable>
+</ParamField>
+
+<ParamField body="referencia" type="string">
+  Reference number (if not provided, a random one will be generated)
+</ParamField>
+
+### Response
+
+<ResponseField name="result" type="object">
+  <Expandable title="Properties">
+    <ResponseField name="pago" type="string">
+      Amount paid
+    </ResponseField>
+    <ResponseField name="montante" type="string">
+      Total amount
+    </ResponseField>
+    <ResponseField name="emissao" type="string">
+      Issue date
+    </ResponseField>
+    <ResponseField name="validade" type="string">
+      Validity date
+    </ResponseField>
+    <ResponseField name="numero" type="string">
+      Reference number
+    </ResponseField>
+    <ResponseField name="tipo" type="string">
+      Reference type
+    </ResponseField>
+    <ResponseField name="estado" type="string">
+      Reference state
+    </ResponseField>
+    <ResponseField name="entidade" type="object">
+      <Expandable title="Properties">
+        <ResponseField name="nome" type="string">
+          Entity name
+        </ResponseField>
+        <ResponseField name="numero" type="string">
+          Entity number
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+    <ResponseField name="cliente" type="object">
+      <Expandable title="Properties">
+        <ResponseField name="nome" type="string">
+          Customer name
+        </ResponseField>
+        <ResponseField name="email" type="string">
+          Customer email
+        </ResponseField>
+        <ResponseField name="telefone" type="string">
+          Customer phone
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+    <ResponseField name="id" type="string">
+      Unique reference ID
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+### Example Request
+
+```bash
+curl --request POST \
+  --url https://api.izipay.ao/v1/referencias \
+  --header 'Authorization: ApiKey YOUR_HMAC_SIGNATURE' \
+  --header 'Content-Type: application/json' \
+  --data '{
+  "montante": 10000,
+  "validade": "31/12/2023 23:59",
+  "cliente": {
+    "nome": "John Doe",
+    "email": "john.doe@domain.xx",
+    "telefone": "900000000"
+  }
+}'
+```
+
+### C# Authentication Example
+
+```csharp
+using System;
+using System.Net.Http;
+using System.Security.Cryptography;
+using System.Text;
+using System.Threading.Tasks;
+using Newtonsoft.Json;
+
+class Program
+{
+    private static readonly HttpClient client = new();
+
+    static async Task Main(string[] args)
+    {
+        try
+        {
+            var uri = "https://api.izipay.ao/v1/referencias";
+            var referenceRequest = new
+            {
+                montante = "1000,25",
+                validade = "27/02/2025 17:00",
+                cliente = new
+                {
+                    nome = "John Doe",
+                    email = "john.doe@domain.xx",
+                    telefone = "900000000"
+                }
+            };
+
+            var jsonBody = JsonConvert.SerializeObject(referenceRequest);
+            Console.WriteLine("Request Body: " + jsonBody);
+
+            var hmacSignature = GenerateHmacSignature(uri, HttpMethod.Post, jsonBody);
+            Console.WriteLine("Generated HMAC Signature: " + hmacSignature);
+
+            client.DefaultRequestHeaders.Add("Authorization", $"ApiKey {hmacSignature}");
+
+            var content = new StringContent(jsonBody, Encoding.UTF8, "application/json");
+
+            Console.WriteLine("Sending request to: " + uri);
+            var response = await client.PostAsync(uri, content);
+
+            var responseContent = await response.Content.ReadAsStringAsync();
+            Console.WriteLine("Response Status Code: " + response.StatusCode);
+            Console.WriteLine("Response Content: " + responseContent);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error: {ex.Message}");
+            Console.WriteLine(ex.StackTrace);
+        }
+    }
+
+    static string GenerateHmacSignature(string uri, HttpMethod method, string? body = null)
+    {
+        var appId = "YOUR_APP_ID"; // Replace with your AppId
+        var appSecret = Convert.FromBase64String("YOUR_APP_SECRET"); // Replace with your Base64 encoded AppSecret
+
+        var content = string.Empty;
+        var nonce = Guid.NewGuid().ToString("N");
+        var epochStart = new DateTime(1970, 01, 01, 0, 0, 0, 0, DateTimeKind.Utc);
+        var timeSpan = DateTime.UtcNow - epochStart;
+        var timeStamp = Convert.ToUInt64(timeSpan.TotalSeconds).ToString();
+
+        if (body != null)
+        {
+            var bodyBytes = Encoding.UTF8.GetBytes(body);
+            var bodyHash = MD5.Create().ComputeHash(bodyBytes);
+            content = Convert.ToBase64String(bodyHash);
+        }
+        var message = $"{appId}{method.Method}{uri}{timeStamp}{nonce}{content}";
+        var signatureBytes = Encoding.UTF8.GetBytes(message);
+        using (var hmac = new HMACSHA256(appSecret))
+        {
+            var signature = hmac.ComputeHash(signatureBytes);
+            var hashed = Convert.ToBase64String(signature);
+            return $"{appId}:{hashed}:{nonce}:{timeStamp}";
+        }
+    }
+}
+```
+
+### Example Response
+
+```json
+{
+  "result": {
+    "pago": "0,00",
+    "montante": "10 000,00",
+    "emissao": "01/01/2023 00:00",
+    "validade": "31/12/2023 23:59",
+    "numero": "100100100",
+    "tipo": "Fixa",
+    "estado": "Válida",
+    "entidade": {
+      "nome": "entidade",
+      "numero": "00000"
+    },
+    "cliente": {
+      "nome": "John Doe",
+      "email": "john.doe@domain.xx",
+      "telefone": "900000000"
+    },
+    "id": "00000000-0000-0000-0000-000000000000"
+  }
+}
+```
+
+### Response Codes
+
+| Status Code | Description |
+|-------------|-------------|
+| 200 | OK - Successfully created reference |
+| 400 | Bad Request - Invalid request |
+| 401 | Unauthorized - Invalid signature |
+| 402 | Payment Required - Delinquent account |
+| 422 | Unprocessable Entity - Reference already exists | 

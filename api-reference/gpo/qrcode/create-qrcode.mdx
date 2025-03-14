@@ -1,0 +1,157 @@
+---
+title: 'Create QR Code'
+api: 'POST https://gpo-sandbox.izipay.ao/v1/merchants/{merchantId}/qrcodes'
+description: 'Create a payment QR Code'
+---
+
+## Create QR Code
+
+This service allows you to create a QR Code that can be displayed to customers for payment. The QR Code is associated with a specific merchant and can be scanned by customers to initiate a payment.
+
+### Authentication
+
+<ParamField header="Authorization" type="string" required>
+  Bearer token in the format: `Bearer {token}`
+</ParamField>
+
+### Path Parameters
+
+<ParamField path="merchantId" type="string" required>
+  Merchant ID
+</ParamField>
+
+### Request Body
+
+<ParamField body="amount" type="number" required>
+  Payment amount
+</ParamField>
+
+<ParamField body="currency" type="string" required>
+  Currency code (e.g., "AOA")
+</ParamField>
+
+<ParamField body="expirationDate" type="string" required>
+  Expiration date in ISO 8601 format (e.g., "2023-12-31T23:59:59Z")
+</ParamField>
+
+<ParamField body="merchantReferenceNumber" type="string">
+  Merchant reference number for tracking purposes
+</ParamField>
+
+<ParamField body="description" type="string">
+  Description of the payment
+</ParamField>
+
+<ParamField body="callbackUrl" type="string">
+  URL to be called after payment completion
+</ParamField>
+
+### Response
+
+<ResponseField name="id" type="string">
+  QR Code ID
+</ResponseField>
+
+<ResponseField name="qrCodeUrl" type="string">
+  URL to access the QR Code image
+</ResponseField>
+
+<ResponseField name="qrCodeContent" type="string">
+  Content encoded in the QR Code
+</ResponseField>
+
+<ResponseField name="amount" type="number">
+  Payment amount
+</ResponseField>
+
+<ResponseField name="currency" type="string">
+  Currency code
+</ResponseField>
+
+<ResponseField name="expirationDate" type="string">
+  Expiration date in ISO 8601 format
+</ResponseField>
+
+<ResponseField name="merchantReferenceNumber" type="string">
+  Merchant reference number
+</ResponseField>
+
+<ResponseField name="description" type="string">
+  Description of the payment
+</ResponseField>
+
+<ResponseField name="callbackUrl" type="string">
+  URL to be called after payment completion
+</ResponseField>
+
+<ResponseField name="status" type="string">
+  QR Code status (ACTIVE, EXPIRED, COMPLETED, CANCELLED)
+</ResponseField>
+
+<ResponseField name="createdDate" type="string">
+  Creation date
+</ResponseField>
+
+<ResponseField name="updatedDate" type="string">
+  Update date
+</ResponseField>
+
+<ResponseField name="merchant" type="object">
+  <Expandable title="Properties">
+    <ResponseField name="id" type="string">
+      Merchant ID
+    </ResponseField>
+    <ResponseField name="name" type="string">
+      Merchant name
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+### Example Request
+
+```bash
+curl --request POST \
+  --url "https://gpo-sandbox.izipay.ao/v1/merchants/123456/qrcodes" \
+  --header "Authorization: Bearer YOUR_TOKEN" \
+  --header "Content-Type: application/json" \
+  --data '{
+    "amount": 1000.00,
+    "currency": "AOA",
+    "expirationDate": "2023-12-31T23:59:59Z",
+    "merchantReferenceNumber": "REF123456",
+    "description": "Payment for order #123456",
+    "callbackUrl": "https://example.com/callback"
+  }'
+```
+
+### Example Response
+
+```json
+{
+  "id": "QR8TU5PDFXH76GVLT8",
+  "qrCodeUrl": "https://pay.example.com/qrcode/QR8TU5PDFXH76GVLT8.png",
+  "qrCodeContent": "https://pay.example.com/qr/QR8TU5PDFXH76GVLT8",
+  "amount": 1000.00,
+  "currency": "AOA",
+  "expirationDate": "2023-12-31T23:59:59Z",
+  "merchantReferenceNumber": "REF123456",
+  "description": "Payment for order #123456",
+  "callbackUrl": "https://example.com/callback",
+  "status": "ACTIVE",
+  "createdDate": "2023-01-01T12:00:00Z",
+  "updatedDate": "2023-01-01T12:00:00Z",
+  "merchant": {
+    "id": "123456",
+    "name": "Merchant Name"
+  }
+}
+```
+
+### Response Codes
+
+| Status Code | Description |
+|-------------|-------------|
+| 201 | Created - QR Code created successfully |
+| 400 | Bad Request - Invalid request body |
+| 401 | Unauthorized - Invalid token |
+| 404 | Not Found - Merchant not found | 

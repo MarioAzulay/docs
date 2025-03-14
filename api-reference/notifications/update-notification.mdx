@@ -1,0 +1,46 @@
+---
+title: 'Update Notification Status'
+api: 'PUT /v1/notificacoes/:id'
+description: 'Change the status of a system notification'
+---
+
+## Update Notification Status
+
+Changes the status of a system notification. A notification can have the states `Lido` (Read) or `Não Lido` (Unread).
+
+### Path Parameters
+
+<ParamField path="id" type="string" required>
+  Unique notification ID
+</ParamField>
+
+### Request Body
+
+<ParamField body="estado" type="integer" required>
+  Notification state. `0` for Unread, `1` for Read.
+</ParamField>
+
+### Example Request
+
+```bash
+curl --request PUT \
+  --url https://api.izipay.ao/v1/notificacoes/00000000-0000-0000-0000-00000000000x \
+  --header 'Authorization: ApiKey YOUR_API_KEY' \
+  --header 'Content-Type: application/json' \
+  --data '{
+  "estado": 1
+}'
+```
+
+### Response
+
+No content is returned for a successful request.
+
+### Response Codes
+
+| Status Code | Description |
+|-------------|-------------|
+| 204 | No Content - Successfully updated notification status |
+| 400 | Bad Request - Invalid request |
+| 401 | Unauthorized - Invalid signature |
+| 402 | Payment Required - Delinquent account | 

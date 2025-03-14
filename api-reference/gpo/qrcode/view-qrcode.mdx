@@ -1,0 +1,125 @@
+---
+title: 'View QR Code'
+api: 'GET https://gpo-sandbox.izipay.ao/v1/qrcode/{qrcodeId}'
+description: 'Get a QR code for payment'
+---
+
+## View QR Code
+
+This service allows you to retrieve a QR code that can be used for payment processing.
+
+### Authentication
+
+<ParamField header="Authorization" type="string" required>
+  Bearer token in the format: `Bearer {token}`
+</ParamField>
+
+### Path Parameters
+
+<ParamField path="qrcodeId" type="string" required>
+  QR Code ID
+</ParamField>
+
+### Query Parameters
+
+<ParamField query="format" type="string">
+  Response format. Possible values: `image` (returns PNG image), `json` (returns JSON with data). Default: `json`
+</ParamField>
+
+<ParamField query="size" type="integer">
+  Size of the QR code image in pixels. Only applicable when format=image. Default: 300
+</ParamField>
+
+### Response (format=json)
+
+<ResponseField name="id" type="string">
+  QR Code ID
+</ResponseField>
+
+<ResponseField name="data" type="string">
+  QR Code data content
+</ResponseField>
+
+<ResponseField name="imageUrl" type="string">
+  URL to the QR code image
+</ResponseField>
+
+<ResponseField name="status" type="string">
+  QR Code status (ACTIVE, EXPIRED, USED)
+</ResponseField>
+
+<ResponseField name="createdDate" type="string">
+  Creation date
+</ResponseField>
+
+<ResponseField name="expirationDate" type="string">
+  Expiration date
+</ResponseField>
+
+<ResponseField name="amount" type="number">
+  Payment amount
+</ResponseField>
+
+<ResponseField name="currency" type="string">
+  Currency code
+</ResponseField>
+
+<ResponseField name="merchantId" type="string">
+  Merchant ID
+</ResponseField>
+
+<ResponseField name="merchantName" type="string">
+  Merchant name
+</ResponseField>
+
+<ResponseField name="merchantReferenceNumber" type="string">
+  Merchant reference number
+</ResponseField>
+
+### Response (format=image)
+
+Binary image data (PNG format) of the QR code.
+
+### Example Request (JSON format)
+
+```bash
+curl --request GET \
+  --url "https://gpo-sandbox.izipay.ao/v1/qrcode/QR123456789" \
+  --header "Authorization: Bearer YOUR_TOKEN"
+```
+
+### Example Request (Image format)
+
+```bash
+curl --request GET \
+  --url "https://gpo-sandbox.izipay.ao/v1/qrcode/QR123456789?format=image&size=400" \
+  --header "Authorization: Bearer YOUR_TOKEN" \
+  --output qrcode.png
+```
+
+### Example Response (format=json)
+
+```json
+{
+  "id": "QR123456789",
+  "data": "00020101021226580009ao.izipay0112MERCH1234567810306PAYMENT5204999.995802AO5912Example Shop6005Luanda630445F2",
+  "imageUrl": "https://gpo-sandbox.izipay.ao/v1/qrcode/QR123456789?format=image",
+  "status": "ACTIVE",
+  "createdDate": "2023-01-01T12:00:00Z",
+  "expirationDate": "2023-01-01T13:00:00Z",
+  "amount": 999.99,
+  "currency": "AOA",
+  "merchantId": "MERCH123456",
+  "merchantName": "Example Shop",
+  "merchantReferenceNumber": "ORDER12345"
+}
+```
+
+### Response Codes
+
+| Status Code | Description |
+|-------------|-------------|
+| 200 | OK - QR code retrieved successfully |
+| 401 | Unauthorized - Invalid token |
+| 404 | Not Found - QR code not found |
+| 410 | Gone - QR code has expired | 

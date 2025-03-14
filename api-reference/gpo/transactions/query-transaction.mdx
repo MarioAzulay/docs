@@ -1,0 +1,126 @@
+---
+title: 'Query Transaction'
+api: 'GET https://gpo-sandbox.izipay.ao/v1/points-of-sale/{posId}/transactions/{transactionId}'
+description: 'Get details of a specific transaction'
+---
+
+## Query Transaction
+
+This service allows you to retrieve detailed information about a specific transaction by its ID.
+
+### Authentication
+
+<ParamField header="Authorization" type="string" required>
+  Bearer token in the format: `Bearer {token}`
+</ParamField>
+
+### Path Parameters
+
+<ParamField path="posId" type="string" required>
+  Terminal ID
+</ParamField>
+
+<ParamField path="transactionId" type="string" required>
+  Transaction ID
+</ParamField>
+
+### Response
+
+<ResponseField name="id" type="string">
+  Transaction ID
+</ResponseField>
+
+<ResponseField name="transactionType" type="string">
+  Transaction type (PAYMENT, AUTHORIZATION, REFUND, CANCELLATION, OPEN, CLOSE)
+</ResponseField>
+
+<ResponseField name="transactionState" type="string">
+  Transaction state
+</ResponseField>
+
+<ResponseField name="amount" type="number">
+  Transaction amount
+</ResponseField>
+
+<ResponseField name="currency" type="string">
+  Currency code
+</ResponseField>
+
+<ResponseField name="createdDate" type="string">
+  Creation date
+</ResponseField>
+
+<ResponseField name="updatedDate" type="string">
+  Update date
+</ResponseField>
+
+<ResponseField name="merchantReferenceNumber" type="string">
+  Merchant reference number
+</ResponseField>
+
+<ResponseField name="paymentMethod" type="object">
+  <Expandable title="Properties">
+    <ResponseField name="type" type="string">
+      Payment method type (MOBILE, CARD)
+    </ResponseField>
+    <ResponseField name="mobile" type="object">
+      <Expandable title="Properties">
+        <ResponseField name="phoneNumber" type="string">
+          Customer phone number
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="pointOfSale" type="object">
+  <Expandable title="Properties">
+    <ResponseField name="id" type="string">
+      Terminal ID
+    </ResponseField>
+    <ResponseField name="name" type="string">
+      Terminal name
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+### Example Request
+
+```bash
+curl --request GET \
+  --url "https://gpo-sandbox.izipay.ao/v1/points-of-sale/413206/transactions/8TU5PDFXH76GVLT8" \
+  --header "Authorization: Bearer YOUR_TOKEN"
+```
+
+### Example Response
+
+```json
+{
+  "id": "8TU5PDFXH76GVLT8",
+  "transactionType": "REFUND",
+  "transactionState": "COMPLETED",
+  "amount": 500.00,
+  "currency": "AOA",
+  "createdDate": "2023-01-01T14:00:00Z",
+  "updatedDate": "2023-01-01T14:00:00Z",
+  "merchantReferenceNumber": "REF123456",
+  "paymentMethod": {
+    "type": "MOBILE",
+    "mobile": {
+      "phoneNumber": "923456789"
+    }
+  },
+  "pointOfSale": {
+    "id": "413206",
+    "name": "Terminal Name"
+  }
+}
+```
+
+### Response Codes
+
+| Status Code | Description |
+|-------------|-------------|
+| 200 | OK - Transaction details retrieved successfully |
+| 401 | Unauthorized - Invalid token |
+| 404 | Not Found - Terminal or transaction not found | 

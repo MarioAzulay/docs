@@ -1,0 +1,134 @@
+---
+title: 'Cancel Authorization'
+api: 'POST https://gpo-sandbox.izipay.ao/v1/points-of-sale/{posId}/authorizations/{authorizationId}/cancellations'
+description: 'Cancel a payment authorization'
+---
+
+## Cancel Authorization
+
+This service allows you to cancel an authorization. The cancellation always includes the entire authorized amount.
+
+### Authentication
+
+<ParamField header="Authorization" type="string" required>
+  Bearer token in the format: `Bearer {token}`
+</ParamField>
+
+### Path Parameters
+
+<ParamField path="posId" type="string" required>
+  Terminal ID
+</ParamField>
+
+<ParamField path="authorizationId" type="string" required>
+  Authorization ID
+</ParamField>
+
+### Response
+
+<ResponseField name="result" type="object">
+  <Expandable title="Properties">
+    <ResponseField name="id" type="string">
+      Cancellation ID
+    </ResponseField>
+    <ResponseField name="transactionType" type="string">
+      Transaction type (CANCELLATION)
+    </ResponseField>
+    <ResponseField name="transactionState" type="string">
+      Transaction state
+    </ResponseField>
+    <ResponseField name="createdDate" type="string">
+      Creation date
+    </ResponseField>
+    <ResponseField name="updatedDate" type="string">
+      Update date
+    </ResponseField>
+    <ResponseField name="merchantReferenceNumber" type="string">
+      Merchant reference number
+    </ResponseField>
+    <ResponseField name="authorization" type="object">
+      <Expandable title="Properties">
+        <ResponseField name="id" type="string">
+          Authorization ID
+        </ResponseField>
+        <ResponseField name="amount" type="number">
+          Authorized amount
+        </ResponseField>
+        <ResponseField name="currency" type="string">
+          Currency code
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+    <ResponseField name="paymentMethod" type="object">
+      <Expandable title="Properties">
+        <ResponseField name="type" type="string">
+          Payment method type (MOBILE, CARD)
+        </ResponseField>
+        <ResponseField name="mobile" type="object">
+          <Expandable title="Properties">
+            <ResponseField name="phoneNumber" type="string">
+              Customer phone number
+            </ResponseField>
+          </Expandable>
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+    <ResponseField name="pointOfSale" type="object">
+      <Expandable title="Properties">
+        <ResponseField name="id" type="string">
+          Terminal ID
+        </ResponseField>
+        <ResponseField name="name" type="string">
+          Terminal name
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+### Example Request
+
+```bash
+curl --request POST \
+  --url "https://gpo-sandbox.izipay.ao/v1/points-of-sale/413206/authorizations/3WJ0PDFXH76GVLT3/cancellations" \
+  --header "Authorization: Bearer YOUR_TOKEN"
+```
+
+### Example Response
+
+```json
+{
+  "result": {
+    "id": "6PQ3PDFXH76GVLT6",
+    "transactionType": "CANCELLATION",
+    "transactionState": "COMPLETED",
+    "createdDate": "2023-01-01T18:00:00Z",
+    "updatedDate": "2023-01-01T18:00:00Z",
+    "merchantReferenceNumber": "REF123456",
+    "authorization": {
+      "id": "3WJ0PDFXH76GVLT3",
+      "amount": 1000.00,
+      "currency": "AOA"
+    },
+    "paymentMethod": {
+      "type": "MOBILE",
+      "mobile": {
+        "phoneNumber": "923456789"
+      }
+    },
+    "pointOfSale": {
+      "id": "413206",
+      "name": "Terminal Name"
+    }
+  }
+}
+```
+
+### Response Codes
+
+| Status Code | Description |
+|-------------|-------------|
+| 200 | OK - Authorization cancelled successfully |
+| 400 | Bad Request - Invalid request |
+| 401 | Unauthorized - Invalid token |
+| 404 | Not Found - Terminal or authorization not found | 

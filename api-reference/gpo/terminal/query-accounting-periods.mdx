@@ -1,0 +1,124 @@
+---
+title: 'Query Accounting Periods'
+api: 'GET https://gpo-sandbox.izipay.ao/v1/points-of-sale/{posId}/periods'
+description: 'Query the history of local accounting periods for a terminal'
+---
+
+## Query Accounting Periods
+
+This service allows you to query the history of local accounting periods for a terminal. The accounting period contains an aggregated view of transactions, amounts, commissions, and other information corresponding to a specific period between a terminal opening and closing.
+
+### Authentication
+
+<ParamField header="Authorization" type="string" required>
+  Bearer token in the format: `Bearer {token}`
+</ParamField>
+
+### Path Parameters
+
+<ParamField path="posId" type="string" required>
+  Terminal ID
+</ParamField>
+
+### Query Parameters
+
+<ParamField query="$skip" type="integer">
+  Number of records to skip (for pagination)
+</ParamField>
+
+<ParamField query="$top" type="integer">
+  Maximum number of records to return (for pagination)
+</ParamField>
+
+<ParamField query="$orderBy" type="string">
+  Field and direction to order results (e.g., "number desc")
+</ParamField>
+
+### Response
+
+<ResponseField name="result" type="array">
+  <Expandable title="Items">
+    <ResponseField name="number" type="integer">
+      Accounting period number
+    </ResponseField>
+    <ResponseField name="openDate" type="string">
+      Opening date
+    </ResponseField>
+    <ResponseField name="closeDate" type="string">
+      Closing date
+    </ResponseField>
+    <ResponseField name="state" type="string">
+      Period state (OPEN, CLOSED)
+    </ResponseField>
+    <ResponseField name="transactionCount" type="integer">
+      Number of transactions
+    </ResponseField>
+    <ResponseField name="totalAmount" type="number">
+      Total amount
+    </ResponseField>
+    <ResponseField name="currency" type="string">
+      Currency code
+    </ResponseField>
+    <ResponseField name="pointOfSale" type="object">
+      <Expandable title="Properties">
+        <ResponseField name="id" type="string">
+          Terminal ID
+        </ResponseField>
+        <ResponseField name="name" type="string">
+          Terminal name
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+### Example Request
+
+```bash
+curl --request GET \
+  --url "https://gpo-sandbox.izipay.ao/v1/points-of-sale/413206/periods" \
+  --header "Authorization: Bearer YOUR_TOKEN"
+```
+
+### Example Response
+
+```json
+{
+  "result": [
+    {
+      "number": 123,
+      "openDate": "2023-01-01T12:00:00Z",
+      "closeDate": "2023-01-02T12:00:00Z",
+      "state": "CLOSED",
+      "transactionCount": 10,
+      "totalAmount": 5000.00,
+      "currency": "AOA",
+      "pointOfSale": {
+        "id": "413206",
+        "name": "Terminal Name"
+      }
+    },
+    {
+      "number": 122,
+      "openDate": "2022-12-31T12:00:00Z",
+      "closeDate": "2023-01-01T12:00:00Z",
+      "state": "CLOSED",
+      "transactionCount": 5,
+      "totalAmount": 2500.00,
+      "currency": "AOA",
+      "pointOfSale": {
+        "id": "413206",
+        "name": "Terminal Name"
+      }
+    }
+  ]
+}
+```
+
+### Response Codes
+
+| Status Code | Description |
+|-------------|-------------|
+| 200 | OK - Accounting periods retrieved successfully |
+| 401 | Unauthorized - Invalid token |
+| 404 | Not Found - Terminal not found | 

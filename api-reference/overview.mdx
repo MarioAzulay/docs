@@ -47,6 +47,7 @@ The API follows standard HTTP status codes to indicate the success or failure of
 | `204 No Content`            | Resource modified or deleted                  |
 | `400 Bad Request`           | Invalid request syntax                        |
 | `401 Unauthorized`          | Invalid credentials or missing authorization  |
+| `402 Payment Required`      | Delinquent account                            |
 | `403 Forbidden`             | Access denied                                 |
 | `404 Not Found`             | Resource does not exist                       |
 | `422 Unprocessable Entity`  | Invalid parameters or business rule violation |
@@ -69,23 +70,19 @@ To prevent abuse, the API enforces rate limits:
 The IZI Pay API provides multiple endpoints for managing payments and transactions:
 
 <CardGroup cols={2}>
-    <Card title="References API" icon="link" href="/api-reference/references">
+    <Card title="References API" icon="link" href="/api-reference/references/create-reference">
         Create, retrieve, and manage payment references
     </Card>
-    <Card title="Payments API" icon="credit-card" href="/api-reference/payments">
+    <Card title="Payments API" icon="credit-card" href="/api-reference/payments/list-payments">
         Process and retrieve payment details
     </Card>
-    <Card title="Callbacks/Webhooks API" icon="bell" href="/api-reference/webhooks">
-        Receive real-time event notifications
+    <Card title="Notifications API" icon="bell" href="/api-reference/notifications/list-notifications">
+        Receive and manage system notifications
     </Card>
-    <Card title="SMS API" icon="message" href="/api-reference/sms">
+    <Card title="SMS API" icon="message" href="/api-reference/sms/authentication">
         Send SMS notifications and verification codes
     </Card>
 </CardGroup>
-
-## Webhooks
-
-The API supports webhook event notifications to keep your system updated in real-time. Learn more in the [Webhooks Guide](/webhooks/overview).
 
 ## Getting Started
 

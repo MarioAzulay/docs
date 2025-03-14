@@ -1,0 +1,102 @@
+---
+title: 'Close Terminal'
+api: 'GET https://gpo-sandbox.izipay.ao/v1/points-of-sale/{posId}/close'
+description: 'Close a terminal to end the current accounting period'
+---
+
+## Close Terminal
+
+Closing the terminal allows the merchant to close a local accounting period of the terminal, requesting with this operation that the network transfer the funds in the terminal to their account as well as determine the associated commissions.
+
+### Authentication
+
+<ParamField header="Authorization" type="string" required>
+  Bearer token in the format: `Bearer {token}`
+</ParamField>
+
+### Path Parameters
+
+<ParamField path="posId" type="string" required>
+  Terminal ID
+</ParamField>
+
+### Query Parameters
+
+<ParamField query="supervisorId" type="string" required>
+  Supervisor ID
+</ParamField>
+
+### Response
+
+<ResponseField name="result" type="object">
+  <Expandable title="Properties">
+    <ResponseField name="id" type="string">
+      Transaction ID
+    </ResponseField>
+    <ResponseField name="transactionType" type="string">
+      Transaction type (CLOSE)
+    </ResponseField>
+    <ResponseField name="transactionState" type="string">
+      Transaction state
+    </ResponseField>
+    <ResponseField name="createdDate" type="string">
+      Creation date
+    </ResponseField>
+    <ResponseField name="updatedDate" type="string">
+      Update date
+    </ResponseField>
+    <ResponseField name="clearingPeriodNumber" type="integer">
+      Accounting period number
+    </ResponseField>
+    <ResponseField name="pointOfSale" type="object">
+      <Expandable title="Properties">
+        <ResponseField name="id" type="string">
+          Terminal ID
+        </ResponseField>
+        <ResponseField name="name" type="string">
+          Terminal name
+        </ResponseField>
+        <ResponseField name="state" type="string">
+          Terminal state
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+### Example Request
+
+```bash
+curl --request GET \
+  --url "https://gpo-sandbox.izipay.ao/v1/points-of-sale/413206/close?supervisorId=0000000000000000000000" \
+  --header "Authorization: Bearer YOUR_TOKEN"
+```
+
+### Example Response
+
+```json
+{
+  "result": {
+    "id": "3WJ0PDFXH76GVLT4",
+    "transactionType": "CLOSE",
+    "transactionState": "COMPLETED",
+    "createdDate": "2023-01-02T12:00:00Z",
+    "updatedDate": "2023-01-02T12:00:00Z",
+    "clearingPeriodNumber": 123,
+    "pointOfSale": {
+      "id": "413206",
+      "name": "Terminal Name",
+      "state": "CLOSED"
+    }
+  }
+}
+```
+
+### Response Codes
+
+| Status Code | Description |
+|-------------|-------------|
+| 200 | OK - Terminal closed successfully |
+| 400 | Bad Request - Invalid request |
+| 401 | Unauthorized - Invalid token |
+| 404 | Not Found - Terminal not found | 
