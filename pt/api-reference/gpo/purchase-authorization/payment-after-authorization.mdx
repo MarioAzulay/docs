@@ -1,0 +1,150 @@
+---
+title: 'Payment After Authorization'
+api: 'POST https://gpo-sandbox.izipay.ao/v1/points-of-sale/{posId}/authorizations/{authorizationId}/payments'
+description: 'Process a payment for a previously authorized amount'
+---
+
+## Payment After Authorization
+
+This service allows you to charge an amount that has been reserved in the customer's account related to an authorization. The service requests the authorization amount, and it's possible to use a lower value.
+
+This service creates an **AuthorizedPayment** resource when it receives a response from the customer's bank, regardless of whether the business result from the processor is accepted or rejected. If communication is not possible, a resource will not be created and an appropriate error message will be returned.
+
+### Authentication
+
+<ParamField header="Authorization" type="string" required>
+  Bearer token in the format: `Bearer {token}`
+</ParamField>
+
+### Path Parameters
+
+<ParamField path="posId" type="string" required>
+  Terminal ID
+</ParamField>
+
+<ParamField path="authorizationId" type="string" required>
+  Authorization ID
+</ParamField>
+
+### Request Body
+
+<ParamField body="amount" type="number" required>
+  Payment amount (must be less than or equal to the authorized amount)
+</ParamField>
+
+### Response
+
+<ResponseField name="result" type="object">
+  <Expandable title="Properties">
+    <ResponseField name="id" type="string">
+      Payment ID
+    </ResponseField>
+    <ResponseField name="transactionType" type="string">
+      Transaction type (PAYMENT)
+    </ResponseField>
+    <ResponseField name="transactionState" type="string">
+      Transaction state
+    </ResponseField>
+    <ResponseField name="amount" type="number">
+      Payment amount
+    </ResponseField>
+    <ResponseField name="currency" type="string">
+      Currency code
+    </ResponseField>
+    <ResponseField name="createdDate" type="string">
+      Creation date
+    </ResponseField>
+    <ResponseField name="updatedDate" type="string">
+      Update date
+    </ResponseField>
+    <ResponseField name="merchantReferenceNumber" type="string">
+      Merchant reference number
+    </ResponseField>
+    <ResponseField name="authorization" type="object">
+      <Expandable title="Properties">
+        <ResponseField name="id" type="string">
+          Authorization ID
+        </ResponseField>
+        <ResponseField name="amount" type="number">
+          Authorized amount
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+    <ResponseField name="paymentMethod" type="object">
+      <Expandable title="Properties">
+        <ResponseField name="type" type="string">
+          Payment method type (MOBILE, CARD)
+        </ResponseField>
+        <ResponseField name="mobile" type="object">
+          <Expandable title="Properties">
+            <ResponseField name="phoneNumber" type="string">
+              Customer phone number
+            </ResponseField>
+          </Expandable>
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+    <ResponseField name="pointOfSale" type="object">
+      <Expandable title="Properties">
+        <ResponseField name="id" type="string">
+          Terminal ID
+        </ResponseField>
+        <ResponseField name="name" type="string">
+          Terminal name
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+### Example Request
+
+```bash
+curl --request POST \
+  --url "https://gpo-sandbox.izipay.ao/v1/points-of-sale/413206/authorizations/3WJ0PDFXH76GVLT3/payments" \
+  --header "Authorization: Bearer YOUR_TOKEN" \
+  --header "Content-Type: application/json" \
+  --data '{
+    "amount": 1000.00
+  }'
+```
+
+### Example Response
+
+```json
+{
+  "result": {
+    "id": "4KL1PDFXH76GVLT4",
+    "transactionType": "PAYMENT",
+    "transactionState": "COMPLETED",
+    "amount": 1000.00,
+    "currency": "AOA",
+    "createdDate": "2023-01-01T14:00:00Z",
+    "updatedDate": "2023-01-01T14:00:00Z",
+    "merchantReferenceNumber": "REF123456",
+    "authorization": {
+      "id": "3WJ0PDFXH76GVLT3",
+      "amount": 1000.00
+    },
+    "paymentMethod": {
+      "type": "MOBILE",
+      "mobile": {
+        "phoneNumber": "923456789"
+      }
+    },
+    "pointOfSale": {
+      "id": "413206",
+      "name": "Terminal Name"
+    }
+  }
+}
+```
+
+### Response Codes
+
+| Status Code | Description |
+|-------------|-------------|
+| 200 | OK - Payment processed successfully |
+| 400 | Bad Request - Invalid request |
+| 401 | Unauthorized - Invalid token |
+| 404 | Not Found - Terminal or authorization not found | 

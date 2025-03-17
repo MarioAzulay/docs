@@ -9,149 +9,302 @@
   },
   "favicon": "/favicon.png",
   "navigation": {
-    "anchors": [
+    "languages": [
       {
-        "anchor": "Welcome",
-        "icon": "book-open",
-        "groups": [
+        "language": "en",
+        "anchors": [
           {
-            "group": "Getting Started",
-            "pages": [
-              "introduction",
-              "quickstart",
-              "authentication"
+            "anchor": "Welcome",
+            "icon": "book-open",
+            "groups": [
+              {
+                "group": "Getting Started",
+                "pages": [
+                  "en/introduction",
+                  "en/quickstart",
+                  "en/authentication"
+                ]
+              }
             ]
-          }
-        ]
-      },
-      {
-        "anchor": "API Reference",
-        "icon": "rectangle-terminal",
-        "groups": [
+          },
           {
-            "group": "API Reference",
-            "pages": [
-              "api-reference/overview",
+            "anchor": "API Reference",
+            "icon": "rectangle-terminal",
+            "groups": [
               {
-                "group": "References",
+                "group": "API Reference",
                 "pages": [
-                  "api-reference/references/create-reference",
-                  "api-reference/references/get-reference",
-                  "api-reference/references/delete-reference",
-                  "api-reference/references/get-reference-history",
-                  "api-reference/references/verify-reference",
-                  "api-reference/references/list-references"
-                ]
-              },
-              {
-                "group": "Payments",
-                "pages": [
-                  "api-reference/payments/list-payments",
-                  "api-reference/payments/get-payment"
-                ]
-              },
-              {
-                "group": "Notifications",
-                "pages": [
-                  "api-reference/notifications/list-notifications",
-                  "api-reference/notifications/update-notification"
-                ]
-              },
-              {
-                "group": "SMS",
-                "pages": [
-                  "api-reference/sms/authentication",
-                  "api-reference/sms/sending",
-                  "api-reference/sms/contacts",
-                  "api-reference/sms/templates",
-                  "api-reference/sms/scheduled",
-                  "api-reference/sms/history",
-                  "api-reference/sms/balance"
-                ]
-              },
-              {
-                "group": "GPO",
-                "pages": [
-                  "api-reference/gpo/overview",
-                  {
-                    "group": "Terminal Management",
-                    "pages": [
-                      "api-reference/gpo/terminal/open-terminal",
-                      "api-reference/gpo/terminal/query-terminal",
-                      "api-reference/gpo/terminal/query-accounting-periods",
-                      "api-reference/gpo/terminal/query-accounting-period",
-                      "api-reference/gpo/terminal/close-terminal"
-                    ]
-                  },
-                  {
-                    "group": "Merchant Management",
-                    "pages": [
-                      "api-reference/gpo/merchant/query-merchant",
-                      "api-reference/gpo/merchant/query-establishment",
-                      "api-reference/gpo/merchant/query-merchant-terminals",
-                      "api-reference/gpo/merchant/update-terminal-name"
-                    ]
-                  },
-                  {
-                    "group": "Purchase with Authorization",
-                    "pages": [
-                      "api-reference/gpo/purchase-authorization/authorization",
-                      "api-reference/gpo/purchase-authorization/payment-after-authorization",
-                      "api-reference/gpo/purchase-authorization/refund-purchase",
-                      "api-reference/gpo/purchase-authorization/cancel-authorization"
-                    ]
-                  },
-                  {
-                    "group": "Immediate Purchase",
-                    "pages": [
-                      "api-reference/gpo/immediate-purchase/one-time-purchase",
-                      "api-reference/gpo/immediate-purchase/refund-purchase"
-                    ]
-                  },
-                  {
-                    "group": "Transactions",
-                    "pages": [
-                      "api-reference/gpo/transactions/query-transactions",
-                      "api-reference/gpo/transactions/query-transaction"
-                    ]
-                  },
+                  "en/api-reference/overview",
                   {
                     "group": "References",
                     "pages": [
-                      "api-reference/gpo/references/query-references",
-                      "api-reference/gpo/references/query-reference"
+                      "en/api-reference/references/create-reference",
+                      "en/api-reference/references/get-reference",
+                      "en/api-reference/references/delete-reference",
+                      "en/api-reference/references/get-reference-history",
+                      "en/api-reference/references/verify-reference",
+                      "en/api-reference/references/list-references"
                     ]
                   },
                   {
-                    "group": "WebFrame",
+                    "group": "Payments",
                     "pages": [
-                      "api-reference/gpo/webframe/get-purchase-token",
-                      "api-reference/gpo/webframe/webframe"
+                      "en/api-reference/payments/list-payments",
+                      "en/api-reference/payments/get-payment"
                     ]
                   },
                   {
-                    "group": "QR Code",
+                    "group": "Notifications",
                     "pages": [
-                      "api-reference/gpo/qrcode/create-qrcode",
-                      "api-reference/gpo/qrcode/view-qrcode"
+                      "en/api-reference/notifications/list-notifications",
+                      "en/api-reference/notifications/update-notification"
                     ]
                   },
                   {
-                    "group": "Scheduling",
+                    "group": "SMS",
                     "pages": [
-                      "api-reference/gpo/scheduling/new-schedule"
+                      "en/api-reference/sms/authentication",
+                      "en/api-reference/sms/sending",
+                      "en/api-reference/sms/contacts",
+                      "en/api-reference/sms/templates",
+                      "en/api-reference/sms/scheduled",
+                      "en/api-reference/sms/history",
+                      "en/api-reference/sms/balance"
+                    ]
+                  },
+                  {
+                    "group": "GPO",
+                    "pages": [
+                      "en/api-reference/gpo/overview",
+                      {
+                        "group": "Terminal Management",
+                        "pages": [
+                          "en/api-reference/gpo/terminal/open-terminal",
+                          "en/api-reference/gpo/terminal/query-terminal",
+                          "en/api-reference/gpo/terminal/query-accounting-periods",
+                          "en/api-reference/gpo/terminal/query-accounting-period",
+                          "en/api-reference/gpo/terminal/close-terminal"
+                        ]
+                      },
+                      {
+                        "group": "Merchant Management",
+                        "pages": [
+                          "en/api-reference/gpo/merchant/query-merchant",
+                          "en/api-reference/gpo/merchant/query-establishment",
+                          "en/api-reference/gpo/merchant/query-merchant-terminals",
+                          "en/api-reference/gpo/merchant/update-terminal-name"
+                        ]
+                      },
+                      {
+                        "group": "Purchase with Authorization",
+                        "pages": [
+                          "en/api-reference/gpo/purchase-authorization/authorization",
+                          "en/api-reference/gpo/purchase-authorization/payment-after-authorization",
+                          "en/api-reference/gpo/purchase-authorization/refund-purchase",
+                          "en/api-reference/gpo/purchase-authorization/cancel-authorization"
+                        ]
+                      },
+                      {
+                        "group": "Immediate Purchase",
+                        "pages": [
+                          "en/api-reference/gpo/immediate-purchase/one-time-purchase",
+                          "en/api-reference/gpo/immediate-purchase/refund-purchase"
+                        ]
+                      },
+                      {
+                        "group": "Transactions",
+                        "pages": [
+                          "en/api-reference/gpo/transactions/query-transactions",
+                          "en/api-reference/gpo/transactions/query-transaction"
+                        ]
+                      },
+                      {
+                        "group": "References",
+                        "pages": [
+                          "en/api-reference/gpo/references/query-references",
+                          "en/api-reference/gpo/references/query-reference"
+                        ]
+                      },
+                      {
+                        "group": "WebFrame",
+                        "pages": [
+                          "en/api-reference/gpo/webframe/get-purchase-token",
+                          "en/api-reference/gpo/webframe/webframe"
+                        ]
+                      },
+                      {
+                        "group": "QR Code",
+                        "pages": [
+                          "en/api-reference/gpo/qrcode/create-qrcode",
+                          "en/api-reference/gpo/qrcode/view-qrcode"
+                        ]
+                      },
+                      {
+                        "group": "Scheduling",
+                        "pages": [
+                          "en/api-reference/gpo/scheduling/new-schedule"
+                        ]
+                      }
                     ]
                   }
                 ]
               }
             ]
+          },
+          {
+            "anchor": "Support",
+            "href": "mailto:suporte@izipay.ao",
+            "icon": "headset"
           }
         ]
       },
       {
-        "anchor": "Support",
-        "href": "mailto:suporte@izipay.ao",
-        "icon": "headset"
+        "language": "pt",
+        "anchors": [
+          {
+            "anchor": "Bem-vindo",
+            "icon": "book-open",
+            "groups": [
+              {
+                "group": "Primeiros Passos",
+                "pages": [
+                  "pt/introduction",
+                  "pt/quickstart",
+                  "pt/authentication"
+                ]
+              }
+            ]
+          },
+          {
+            "anchor": "Referência da API",
+            "icon": "rectangle-terminal",
+            "groups": [
+              {
+                "group": "Referência da API",
+                "pages": [
+                  "pt/api-reference/overview",
+                  {
+                    "group": "Referências",
+                    "pages": [
+                      "pt/api-reference/references/create-reference",
+                      "pt/api-reference/references/get-reference",
+                      "pt/api-reference/references/delete-reference",
+                      "pt/api-reference/references/get-reference-history",
+                      "pt/api-reference/references/verify-reference",
+                      "pt/api-reference/references/list-references"
+                    ]
+                  },
+                  {
+                    "group": "Pagamentos",
+                    "pages": [
+                      "pt/api-reference/payments/list-payments",
+                      "pt/api-reference/payments/get-payment"
+                    ]
+                  },
+                  {
+                    "group": "Notificações",
+                    "pages": [
+                      "pt/api-reference/notifications/list-notifications",
+                      "pt/api-reference/notifications/update-notification"
+                    ]
+                  },
+                  {
+                    "group": "SMS",
+                    "pages": [
+                      "pt/api-reference/sms/authentication",
+                      "pt/api-reference/sms/sending",
+                      "pt/api-reference/sms/contacts",
+                      "pt/api-reference/sms/templates",
+                      "pt/api-reference/sms/scheduled",
+                      "pt/api-reference/sms/history",
+                      "pt/api-reference/sms/balance"
+                    ]
+                  },
+                  {
+                    "group": "GPO",
+                    "pages": [
+                      "pt/api-reference/gpo/overview",
+                      {
+                        "group": "Gestão de Terminais",
+                        "pages": [
+                          "pt/api-reference/gpo/terminal/open-terminal",
+                          "pt/api-reference/gpo/terminal/query-terminal",
+                          "pt/api-reference/gpo/terminal/query-accounting-periods",
+                          "pt/api-reference/gpo/terminal/query-accounting-period",
+                          "pt/api-reference/gpo/terminal/close-terminal"
+                        ]
+                      },
+                      {
+                        "group": "Gestão de Comerciantes",
+                        "pages": [
+                          "pt/api-reference/gpo/merchant/query-merchant",
+                          "pt/api-reference/gpo/merchant/query-establishment",
+                          "pt/api-reference/gpo/merchant/query-merchant-terminals",
+                          "pt/api-reference/gpo/merchant/update-terminal-name"
+                        ]
+                      },
+                      {
+                        "group": "Compra com Autorização",
+                        "pages": [
+                          "pt/api-reference/gpo/purchase-authorization/authorization",
+                          "pt/api-reference/gpo/purchase-authorization/payment-after-authorization",
+                          "pt/api-reference/gpo/purchase-authorization/refund-purchase",
+                          "pt/api-reference/gpo/purchase-authorization/cancel-authorization"
+                        ]
+                      },
+                      {
+                        "group": "Compra Imediata",
+                        "pages": [
+                          "pt/api-reference/gpo/immediate-purchase/one-time-purchase",
+                          "pt/api-reference/gpo/immediate-purchase/refund-purchase"
+                        ]
+                      },
+                      {
+                        "group": "Transações",
+                        "pages": [
+                          "pt/api-reference/gpo/transactions/query-transactions",
+                          "pt/api-reference/gpo/transactions/query-transaction"
+                        ]
+                      },
+                      {
+                        "group": "Referências",
+                        "pages": [
+                          "pt/api-reference/gpo/references/query-references",
+                          "pt/api-reference/gpo/references/query-reference"
+                        ]
+                      },
+                      {
+                        "group": "WebFrame",
+                        "pages": [
+                          "pt/api-reference/gpo/webframe/get-purchase-token",
+                          "pt/api-reference/gpo/webframe/webframe"
+                        ]
+                      },
+                      {
+                        "group": "Código QR",
+                        "pages": [
+                          "pt/api-reference/gpo/qrcode/create-qrcode",
+                          "pt/api-reference/gpo/qrcode/view-qrcode"
+                        ]
+                      },
+                      {
+                        "group": "Agendamento",
+                        "pages": [
+                          "pt/api-reference/gpo/scheduling/new-schedule"
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "anchor": "Suporte",
+            "href": "mailto:suporte@izipay.ao",
+            "icon": "headset"
+          }
+        ]
       }
     ]
   },

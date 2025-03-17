@@ -1,0 +1,85 @@
+---
+title: 'Bem-vindo ao IZI Pay'
+description: 'O IZI Pay fornece um conjunto abrangente de APIs de pagamento e ferramentas projetadas para ajudar empresas a aceitar pagamentos, gerenciar clientes e otimizar fluxos de receita. Nossa plataforma de nível empresarial oferece flexibilidade, segurança e recursos de integração perfeitos para suas aplicações em Angola e além.'
+---
+
+## Primeiros Passos
+
+Para começar com a API do IZI Pay, certifique-se de ter:
+
+- Uma conta de comerciante ativa com o IZI Pay
+- Uma chave de segurança válida para autenticação
+- Acesso à URL base fornecida durante o registro
+- Configurado sua URL de callback para receber notificações de transações
+
+<CardGroup cols={2}>
+    <Card title="Início Rápido" icon="bolt" href="/pt/quickstart">
+        Implemente o IZI Pay em seu ambiente de forma rápida e eficiente
+    </Card>
+    <Card title="Referência da API" icon="code" href="/pt/api-reference/overview">
+        Documentação abrangente de nossos endpoints de API e guias de implementação
+    </Card>
+    <Card title="SDKs e Bibliotecas" icon="book" href="/pt/sdks/overview">
+        Bibliotecas de cliente oficiais otimizadas para seu ambiente de desenvolvimento
+    </Card>
+    <Card title="Webhooks" icon="webhook" href="/pt/webhooks/overview">
+        Notificações de eventos em tempo real para integração robusta de aplicativos
+    </Card>
+</CardGroup>
+
+## Capacidades Principais
+
+O IZI Pay oferece um ecossistema abrangente de soluções de pagamento:
+
+- **Processamento de Pagamentos**: Tratamento seguro de transações em canais online, presenciais e links de pagamento
+- **Integração com Dinheiro Móvel**: Suporte para vários provedores de dinheiro móvel em Angola
+- **Gestão de Clientes**: Armazenamento e gerenciamento de informações de clientes de nível empresarial
+- **Análises e Relatórios**: Insights financeiros detalhados e análises de transações
+- **Notificações de Eventos**: Webhooks em tempo real para integração e automação de sistemas
+- **Recursos de Desenvolvimento**: Extensos SDKs e bibliotecas que suportam múltiplas linguagens de programação
+
+## Versionamento da API
+
+Melhoramos continuamente nossas APIs para fornecer melhor funcionalidade e segurança. Algumas mudanças podem nem sempre ser compatíveis com versões anteriores, por isso usamos versionamento para garantir transições suaves. Para fins de versionamento, apenas a remoção de um campo não opcional ou a alteração de um campo existente serão consideradas mudanças incompatíveis. Sua implementação deve lidar graciosamente com campos adicionais que você não espera.
+
+## Autenticação
+
+Todas as solicitações de API para o IZI Pay requerem credenciais de autenticação adequadas. Implementamos autenticação por chave de API para proteger todas as solicitações. Você pode gerenciar suas chaves de API através do [Portal do Comerciante IZI Pay](https://portal.izipay.ao).
+
+### Gerando Hash de Autenticação
+
+O hash é uma string de dados de nomes e valores de parâmetros em ordem alfabética. O algoritmo de hash HMAC usado é SHA256. Aqui está um exemplo de como gerar o hash:
+
+```javascript
+// Exemplo de geração de hash em JavaScript
+const Crypto_JS = require('crypto-js');
+const date = Date.now(); // Data atual em milissegundos
+const fields = {
+  time: date, // data atual
+  vid: 'seu_id_de_comerciante', // seu ID de comerciante
+};
+
+// Formatar dataString como pares de chave-valor em ordem alfabética
+const dataString = `time=${fields.time}&vid=${fields.vid}`;
+const hashKey = 'sua_chave_de_seguranca'; // fornecida durante o registro da conta
+const hash = Crypto_JS.HmacSHA256(dataString, hashKey).toString(Crypto_JS.enc.Hex);
+
+// Adicionar o hash gerado aos campos
+fields.hash = hash;
+```
+
+### Exemplo de Solicitação de API
+
+```bash
+# Exemplo de solicitação de API com autenticação
+curl -X GET \
+  https://api.izipay.com/v1/payments \
+  -H "Authorization: Bearer SUA_CHAVE_DE_API"
+```
+<Tip>
+    Para informações detalhadas sobre nossos protocolos de autenticação, consulte nossa [documentação de autenticação](/pt/authentication).
+</Tip>
+
+## Suporte
+
+Para assistência técnica ou dúvidas, entre em contato com nossa equipe de suporte em [suporte@izipay.ao](mailto:suporte@izipay.ao). 

@@ -1,0 +1,101 @@
+---
+title: 'GPO API Overview'
+description: 'Gateway de Pagamento Online (GPO) API documentation'
+---
+
+# Gateway de Pagamento Online (GPO)
+
+The Gateway de Pagamento Online (GPO) system provides APIs for various functionalities, including authorizations, payments, refunds, terminal management, and user management.
+
+## Authentication
+
+<ParamField header="Authorization" type="string" required>
+  Bearer token in the format: `Bearer {token}`
+</ParamField>
+
+To obtain an access token, use the following endpoint:
+
+```bash
+POST {{baseuri}}/v2/AccessToken
+```
+
+Request body:
+```json
+{
+  "username": "your_username",
+  "password": "your_password"
+}
+```
+
+## API Modules
+
+The GPO API is organized into the following modules:
+
+### Terminal Operational Management
+
+Manage terminal operations such as opening, closing, and querying terminal information.
+
+- [Open Terminal](/api-reference/gpo/terminal/open-terminal)
+- [Query Terminal](/api-reference/gpo/terminal/query-terminal)
+- [Query Accounting Periods](/api-reference/gpo/terminal/query-accounting-periods)
+- [Query Accounting Period](/api-reference/gpo/terminal/query-accounting-period)
+- [Close Terminal](/api-reference/gpo/terminal/close-terminal)
+
+### Merchant Operational Management
+
+Query merchant information, establishments, and terminals.
+
+- [Query Merchant](/api-reference/gpo/merchant/query-merchant)
+- [Query Establishment](/api-reference/gpo/merchant/query-establishment)
+- [Query Merchant Terminals](/api-reference/gpo/merchant/query-merchant-terminals)
+- [Update Terminal Name](/api-reference/gpo/merchant/update-terminal-name)
+
+### Purchase with Authorization
+
+Perform authorized purchases, including authorization, payment, refund, and cancellation.
+
+- [Authorization](/api-reference/gpo/purchase-authorization/authorization)
+- [Payment After Authorization](/api-reference/gpo/purchase-authorization/payment-after-authorization)
+- [Refund Purchase](/api-reference/gpo/purchase-authorization/refund-purchase)
+- [Cancel Authorization](/api-reference/gpo/purchase-authorization/cancel-authorization)
+
+### Immediate Purchase
+
+Perform immediate purchases without prior authorization.
+
+- [One-Time Purchase](/api-reference/gpo/immediate-purchase/one-time-purchase)
+- [Refund Purchase](/api-reference/gpo/immediate-purchase/refund-purchase)
+
+### Transaction Query
+
+Query transaction information.
+
+- [Query Transactions](/api-reference/gpo/transactions/query-transactions)
+- [Query Transaction](/api-reference/gpo/transactions/query-transaction)
+
+### Reference Query
+
+Query reference information.
+
+- [Query References](/api-reference/gpo/references/query-references)
+- [Query Reference](/api-reference/gpo/references/query-reference)
+
+### WebFrame
+
+Integrate with the merchant's virtual terminal.
+
+- [Get Purchase Token](/api-reference/gpo/webframe/get-purchase-token)
+- [WebFrame](/api-reference/gpo/webframe/webframe)
+
+### QR Code
+
+Generate and display QR codes for payments.
+
+- [Create QR Code](/api-reference/gpo/qrcode/create-qrcode)
+- [View QR Code](/api-reference/gpo/qrcode/view-qrcode)
+
+### Scheduling
+
+Schedule daily operations.
+
+- [New Schedule](/api-reference/gpo/scheduling/new-schedule) 

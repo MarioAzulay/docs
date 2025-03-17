@@ -1,0 +1,105 @@
+---
+title: 'Webframe Integration'
+description: 'Guide for integrating the payment webframe into your application'
+---
+
+# Webframe Integration
+
+The Webframe is a pre-built payment interface that can be embedded into your application to handle payment processing securely. This guide explains how to integrate and use the webframe in your application.
+
+## Overview
+
+The webframe integration follows these steps:
+
+1. Generate a purchase token using the [Get Purchase Token](/api-reference/gpo/webframe/get-purchase-token) endpoint
+2. Embed the webframe in your application using the URL provided in the response
+3. Handle the callback and return URL events to process the payment result
+
+## Integration Methods
+
+### iFrame Integration
+
+You can embed the webframe as an iFrame in your web application:
+
+```html
+<iframe 
+  src="https://gpo-sandbox.izipay.ao/webframe?token=YOUR_TOKEN" 
+  width="100%" 
+  height="600px" 
+  frameborder="0">
+</iframe>
+```
+
+### Redirect Integration
+
+Alternatively, you can redirect the user to the webframe URL:
+
+```javascript
+window.location.href = "https://gpo-sandbox.izipay.ao/webframe?token=YOUR_TOKEN";
+```
+
+## Handling Callbacks
+
+The webframe will send payment results to two URLs:
+
+1. **callbackUrl**: Server-to-server notification with payment result
+2. **returnUrl**: Where the customer is redirected after completing the payment process
+
+### Callback Payload
+
+The callback will include the following information:
+
+```json
+{
+  "transactionId": "TRX123456789",
+  "merchantReferenceNumber": "ORDER12345",
+  "status": "COMPLETED",
+  "amount": 1000.00,
+  "currency": "AOA",
+  "paymentMethod": {
+    "type": "MOBILE",
+    "mobile": {
+      "phoneNumber": "923456789"
+    }
+  },
+  "timestamp": "2023-01-01T12:30:45Z"
+}
+```
+
+## Customization Options
+
+The webframe appearance can be customized by adding parameters to the token generation request:
+
+```json
+{
+  "customization": {
+    "primaryColor": "#3498db",
+    "logoUrl": "https://example.com/logo.png",
+    "merchantName": "Display Name",
+    "language": "pt"
+  }
+}
+```
+
+## Testing
+
+For testing purposes, you can use the following test credentials:
+
+| Payment Method | Test Credentials |
+|----------------|------------------|
+| Mobile Money   | Phone: 923456789, PIN: 1234 |
+| Card           | Card Number: 4111 1111 1111 1111, Expiry: 12/25, CVV: 123 |
+
+## Security Considerations
+
+- Always validate the callback payload by verifying the transaction with the [Query Transaction](/api-reference/gpo/transactions/query-transaction) endpoint
+- Use HTTPS for all communications
+- Do not store sensitive payment information in your application
+
+## Troubleshooting
+
+| Issue | Solution |
+|-------|----------|
+| Token expired | Generate a new token |
+| Invalid parameters | Check the required parameters in the token generation request |
+| Callback not received | Verify the callbackUrl is accessible and properly configured | 

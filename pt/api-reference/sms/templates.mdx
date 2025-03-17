@@ -1,0 +1,293 @@
+---
+title: 'SMS Templates'
+api: 'GET https://sms.izipay.ao/api/TemplatesSMS/ListarTemplatesSms'
+description: 'Create and manage reusable SMS templates.'
+---
+
+# SMS Templates
+
+Create and manage reusable SMS templates to streamline your messaging campaigns.
+
+## Base URL
+
+All API requests should be made to the following base URL:
+
+```
+https://sms.izipay.ao
+```
+
+## List SMS Templates
+
+Retrieve all SMS templates associated with your account.
+
+### Headers
+
+<ParamField header="Authorization" type="string" required>
+    Bearer token received from the authentication endpoint. Format: `Bearer YOUR_TOKEN`
+</ParamField>
+
+### Example Request
+
+<CodeGroup>
+
+    ```bash cURL
+    curl -X GET \
+    https://sms.izipay.ao/api/TemplatesSMS/ListarTemplatesSms \
+    -H "Authorization: Bearer YOUR_TOKEN"
+    ```
+
+    ```javascript Node.js
+    const axios = require('axios');
+
+    const response = await axios.get('https://sms.izipay.ao/api/TemplatesSMS/ListarTemplatesSms', {
+    headers: {
+    'Authorization': 'Bearer YOUR_TOKEN'
+}
+});
+
+    console.log('SMS Templates:', response.data);
+    ```
+
+    ```python Python
+    import requests
+
+    response = requests.get(
+    'https://sms.izipay.ao/api/TemplatesSMS/ListarTemplatesSms',
+    headers={
+    'Authorization': 'Bearer YOUR_TOKEN'
+}
+    )
+
+    data = response.json()
+    print(f"SMS Templates: {data}")
+    ```
+
+</CodeGroup>
+
+## Get SMS Template by ID
+
+Retrieve a specific SMS template by its ID.
+
+<ParamField path="ObterTemplatesSmsPorId/:smsId" type="string">
+    Endpoint for retrieving a specific SMS template.
+</ParamField>
+
+<ParamField path="smsId" type="integer" required>
+    ID of the SMS template to retrieve.
+</ParamField>
+
+### Example Request
+
+<CodeGroup>
+
+    ```bash cURL
+    curl -X GET \
+    https://sms.izipay.ao/api/TemplatesSMS/ObterTemplatesSmsPorId/123 \
+    -H "Authorization: Bearer YOUR_TOKEN"
+    ```
+
+    ```javascript Node.js
+    const axios = require('axios');
+
+    const smsId = 123;
+    const response = await axios.get(`https://sms.izipay.ao/api/TemplatesSMS/ObterTemplatesSmsPorId/${smsId}`, {
+    headers: {
+    'Authorization': 'Bearer YOUR_TOKEN'
+}
+});
+
+    console.log('SMS Template:', response.data);
+    ```
+
+    ```python Python
+    import requests
+
+    sms_id = 123
+    response = requests.get(
+    f'https://sms.izipay.ao/api/TemplatesSMS/ObterTemplatesSmsPorId/{sms_id}',
+    headers={
+    'Authorization': 'Bearer YOUR_TOKEN'
+}
+    )
+
+    data = response.json()
+    print(f"SMS Template: {data}")
+    ```
+
+</CodeGroup>
+
+## Search SMS Templates by Date
+
+Search for SMS templates created on a specific date.
+
+<ParamField path="pesquisarTemplateSMSporData" type="string">
+    Endpoint for searching SMS templates by date.
+</ParamField>
+
+<ParamField query="dia" type="integer" required>
+    Day of the month (1-31).
+</ParamField>
+
+<ParamField query="mes" type="integer" required>
+    Month (1-12).
+</ParamField>
+
+<ParamField query="ano" type="integer" required>
+    Year (e.g., 2023).
+</ParamField>
+
+### Example Request
+
+<CodeGroup>
+
+    ```bash cURL
+    curl -X GET \
+    "https://sms.izipay.ao/api/TemplatesSMS/pesquisarTemplateSMSporData?dia=15&mes=3&ano=2023" \
+    -H "Authorization: Bearer YOUR_TOKEN"
+    ```
+
+    ```javascript Node.js
+    const axios = require('axios');
+
+    const response = await axios.get('https://sms.izipay.ao/api/TemplatesSMS/pesquisarTemplateSMSporData', {
+    params: {
+    dia: 15,
+    mes: 3,
+    ano: 2023
+},
+    headers: {
+    'Authorization': 'Bearer YOUR_TOKEN'
+}
+});
+
+    console.log('SMS Templates:', response.data);
+    ```
+
+    ```python Python
+    import requests
+
+    response = requests.get(
+    'https://sms.izipay.ao/api/TemplatesSMS/pesquisarTemplateSMSporData',
+    params={
+    'dia': 15,
+    'mes': 3,
+    'ano': 2023
+},
+    headers={
+    'Authorization': 'Bearer YOUR_TOKEN'
+}
+    )
+
+    data = response.json()
+    print(f"SMS Templates: {data}")
+    ```
+
+</CodeGroup>
+
+## Send SMS Using Template
+
+Send an SMS using a predefined template.
+
+<ParamField path="Envio/enviarSmsTemplate" type="string">
+    Endpoint for sending SMS using a template.
+</ParamField>
+
+<ParamField body="smsId" type="integer" required>
+    ID of the SMS template to use.
+</ParamField>
+
+<ParamField body="numerosDestino" type="array" required>
+    Array of phone numbers to send the SMS to.
+</ParamField>
+
+<ParamField body="remetente" type="string">
+    Sender name or number (if supported by your provider).
+</ParamField>
+
+### Example Request
+
+<CodeGroup>
+
+    ```bash cURL
+    curl -X POST \
+    https://sms.izipay.ao/api/Envio/enviarSmsTemplate \
+    -H "Content-Type: application/json" \
+    -H "Authorization: Bearer YOUR_TOKEN" \
+    -d '{
+    "smsId": 123,
+    "numerosDestino": ["244999999999", "244888888888"],
+    "remetente": "IZI PAY"
+}'
+    ```
+
+    ```javascript Node.js
+    const axios = require('axios');
+
+    const response = await axios.post('https://sms.izipay.ao/api/Envio/enviarSmsTemplate', {
+    smsId: 123,
+    numerosDestino: ["244999999999", "244888888888"],
+    remetente: "IZI PAY"
+}, {
+    headers: {
+    'Authorization': 'Bearer YOUR_TOKEN',
+    'Content-Type': 'application/json'
+}
+});
+
+    console.log('SMS sent:', response.data);
+    ```
+
+    ```python Python
+    import requests
+
+    response = requests.post(
+    'https://sms.izipay.ao/api/Envio/enviarSmsTemplate',
+    json={
+    "smsId": 123,
+    "numerosDestino": ["244999999999", "244888888888"],
+    "remetente": "IZI PAY"
+},
+    headers={
+    'Authorization': 'Bearer YOUR_TOKEN',
+    'Content-Type': 'application/json'
+}
+    )
+
+    data = response.json()
+    print(f"SMS sent: {data}")
+    ```
+
+</CodeGroup>
+
+## Response Format
+
+<ResponseField name="success" type="boolean">
+    Indicates whether the operation was successful.
+</ResponseField>
+
+<ResponseField name="data" type="object">
+    Contains the template data or operation result.
+</ResponseField>
+
+<ResponseField name="message" type="string">
+    A message describing the result of the operation.
+</ResponseField>
+
+## Error Codes
+
+| Code | Description |
+|------|-------------|
+| 400  | Invalid request format or missing required fields |
+| 401  | Unauthorized - Invalid or expired token |
+| 403  | Forbidden - Insufficient permissions |
+| 404  | Template not found |
+| 500  | Server error |
+
+## Best Practices
+
+- Create templates for frequently sent messages to save time
+- Use placeholders in templates for personalization
+- Keep templates concise and clear
+- Test templates before using them in production
+- Regularly review and update templates to ensure accuracy
+- Consider character limits when designing templates 

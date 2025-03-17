@@ -1,0 +1,105 @@
+---
+title: 'Query Merchant'
+api: 'GET https://gpo-sandbox.izipay.ao/v1/merchants/id'
+description: 'Get details of a specific merchant'
+---
+
+## Query Merchant
+
+This service allows you to query information about a merchant.
+
+### Authentication
+
+<ParamField header="Authorization" type="string" required>
+  Bearer token in the format: `Bearer {token}`
+</ParamField>
+
+### Response
+
+<ResponseField name="result" type="object">
+  <Expandable title="Properties">
+    <ResponseField name="id" type="string">
+      Merchant ID
+    </ResponseField>
+    <ResponseField name="name" type="string">
+      Merchant name
+    </ResponseField>
+    <ResponseField name="taxId" type="string">
+      Tax ID
+    </ResponseField>
+    <ResponseField name="createdDate" type="string">
+      Creation date
+    </ResponseField>
+    <ResponseField name="updatedDate" type="string">
+      Update date
+    </ResponseField>
+    <ResponseField name="contact" type="object">
+      <Expandable title="Properties">
+        <ResponseField name="email" type="string">
+          Contact email
+        </ResponseField>
+        <ResponseField name="phone" type="string">
+          Contact phone
+        </ResponseField>
+        <ResponseField name="address" type="string">
+          Contact address
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+    <ResponseField name="establishments" type="array">
+      <Expandable title="Items">
+        <ResponseField name="id" type="string">
+          Establishment ID
+        </ResponseField>
+        <ResponseField name="name" type="string">
+          Establishment name
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+### Example Request
+
+```bash
+curl --request GET \
+  --url "https://gpo-sandbox.izipay.ao/v1/merchants/id" \
+  --header "Authorization: Bearer YOUR_TOKEN"
+```
+
+### Example Response
+
+```json
+{
+  "result": {
+    "id": "185737",
+    "name": "Merchant Name",
+    "taxId": "123456789",
+    "createdDate": "2022-01-01T12:00:00Z",
+    "updatedDate": "2022-01-01T12:00:00Z",
+    "contact": {
+      "email": "contact@merchant.com",
+      "phone": "900000000",
+      "address": "123 Main St, City"
+    },
+    "establishments": [
+      {
+        "id": "12345",
+        "name": "Establishment 1"
+      },
+      {
+        "id": "67890",
+        "name": "Establishment 2"
+      }
+    ]
+  }
+}
+```
+
+### Response Codes
+
+| Status Code | Description |
+|-------------|-------------|
+| 200 | OK - Merchant information retrieved successfully |
+| 401 | Unauthorized - Invalid token |
+| 404 | Not Found - Merchant not found | 

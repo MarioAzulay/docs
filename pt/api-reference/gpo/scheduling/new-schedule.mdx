@@ -1,0 +1,251 @@
+---
+title: 'Create New Schedule'
+api: 'POST https://gpo-sandbox.izipay.ao/v1/points-of-sale/{posId}/schedules'
+description: 'Create a new payment schedule'
+---
+
+## Create New Schedule
+
+This service allows you to create a new payment schedule for recurring payments.
+
+### Authentication
+
+<ParamField header="Authorization" type="string" required>
+  Bearer token in the format: `Bearer {token}`
+</ParamField>
+
+### Path Parameters
+
+<ParamField path="posId" type="string" required>
+  Terminal ID
+</ParamField>
+
+### Request Body Parameters
+
+<ParamField body="amount" type="number" required>
+  Payment amount
+</ParamField>
+
+<ParamField body="currency" type="string" required>
+  Currency code (e.g., AOA)
+</ParamField>
+
+<ParamField body="merchantReferenceNumber" type="string">
+  Merchant reference number for the transaction
+</ParamField>
+
+<ParamField body="paymentInfo" type="object" required>
+  <Expandable title="Properties">
+    <ParamField body="paymentMethod" type="string" required>
+      Payment method type (MOBILE, CARD)
+    </ParamField>
+    <ParamField body="mobile" type="object">
+      <Expandable title="Properties">
+        <ParamField body="phoneNumber" type="string" required>
+          Customer phone number
+        </ParamField>
+      </Expandable>
+    </ParamField>
+  </Expandable>
+</ParamField>
+
+<ParamField body="scheduleInfo" type="object" required>
+  <Expandable title="Properties">
+    <ParamField body="frequency" type="string" required>
+      Schedule frequency (DAILY, WEEKLY, MONTHLY, YEARLY)
+    </ParamField>
+    <ParamField body="startDate" type="string" required>
+      Start date for the schedule (ISO 8601 format)
+    </ParamField>
+    <ParamField body="endDate" type="string">
+      End date for the schedule (ISO 8601 format)
+    </ParamField>
+    <ParamField body="occurrences" type="integer">
+      Number of occurrences (required if endDate is not provided)
+    </ParamField>
+    <ParamField body="dayOfWeek" type="integer">
+      Day of week (1-7, where 1 is Monday) for WEEKLY frequency
+    </ParamField>
+    <ParamField body="dayOfMonth" type="integer">
+      Day of month (1-31) for MONTHLY frequency
+    </ParamField>
+  </Expandable>
+</ParamField>
+
+<ParamField body="description" type="string">
+  Description of the scheduled payment
+</ParamField>
+
+<ParamField body="notificationUrl" type="string">
+  URL to which the system will send notifications about scheduled payments
+</ParamField>
+
+### Response
+
+<ResponseField name="id" type="string">
+  Schedule ID
+</ResponseField>
+
+<ResponseField name="status" type="string">
+  Schedule status (ACTIVE, PAUSED, COMPLETED, CANCELLED)
+</ResponseField>
+
+<ResponseField name="createdDate" type="string">
+  Creation date
+</ResponseField>
+
+<ResponseField name="updatedDate" type="string">
+  Update date
+</ResponseField>
+
+<ResponseField name="amount" type="number">
+  Payment amount
+</ResponseField>
+
+<ResponseField name="currency" type="string">
+  Currency code
+</ResponseField>
+
+<ResponseField name="merchantReferenceNumber" type="string">
+  Merchant reference number
+</ResponseField>
+
+<ResponseField name="description" type="string">
+  Schedule description
+</ResponseField>
+
+<ResponseField name="scheduleInfo" type="object">
+  <Expandable title="Properties">
+    <ResponseField name="frequency" type="string">
+      Schedule frequency
+    </ResponseField>
+    <ResponseField name="startDate" type="string">
+      Start date
+    </ResponseField>
+    <ResponseField name="endDate" type="string">
+      End date
+    </ResponseField>
+    <ResponseField name="occurrences" type="integer">
+      Number of occurrences
+    </ResponseField>
+    <ResponseField name="completedOccurrences" type="integer">
+      Number of completed occurrences
+    </ResponseField>
+    <ResponseField name="nextExecutionDate" type="string">
+      Next execution date
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="paymentMethod" type="object">
+  <Expandable title="Properties">
+    <ResponseField name="type" type="string">
+      Payment method type
+    </ResponseField>
+    <ResponseField name="mobile" type="object">
+      <Expandable title="Properties">
+        <ResponseField name="phoneNumber" type="string">
+          Customer phone number
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="pointOfSale" type="object">
+  <Expandable title="Properties">
+    <ResponseField name="id" type="string">
+      Terminal ID
+    </ResponseField>
+    <ResponseField name="name" type="string">
+      Terminal name
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="payments" type="array">
+  <Expandable title="Properties">
+    <ResponseField name="id" type="string">
+      Payment ID
+    </ResponseField>
+    <ResponseField name="status" type="string">
+      Payment status
+    </ResponseField>
+    <ResponseField name="executionDate" type="string">
+      Execution date
+    </ResponseField>
+    <ResponseField name="amount" type="number">
+      Payment amount
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+### Example Request
+
+```bash
+curl --request POST \
+  --url "https://gpo-sandbox.izipay.ao/v1/points-of-sale/413206/schedules" \
+  --header "Content-Type: application/json" \
+  --header "Authorization: Bearer YOUR_TOKEN" \
+  --data '{
+    "amount": 1000.00,
+    "currency": "AOA",
+    "merchantReferenceNumber": "SUBS12345",
+    "paymentInfo": {
+      "paymentMethod": "MOBILE",
+      "mobile": {
+        "phoneNumber": "923456789"
+      }
+    },
+    "scheduleInfo": {
+      "frequency": "MONTHLY",
+      "startDate": "2023-01-15T00:00:00Z",
+      "occurrences": 12,
+      "dayOfMonth": 15
+    },
+    "description": "Monthly subscription",
+    "notificationUrl": "https://example.com/notifications"
+  }'
+```
+
+### Example Response
+
+```json
+{
+  "id": "SCH123456789",
+  "status": "ACTIVE",
+  "createdDate": "2023-01-01T12:00:00Z",
+  "updatedDate": "2023-01-01T12:00:00Z",
+  "amount": 1000.00,
+  "currency": "AOA",
+  "merchantReferenceNumber": "SUBS12345",
+  "description": "Monthly subscription",
+  "scheduleInfo": {
+    "frequency": "MONTHLY",
+    "startDate": "2023-01-15T00:00:00Z",
+    "occurrences": 12,
+    "completedOccurrences": 0,
+    "nextExecutionDate": "2023-01-15T00:00:00Z"
+  },
+  "paymentMethod": {
+    "type": "MOBILE",
+    "mobile": {
+      "phoneNumber": "923456789"
+    }
+  },
+  "pointOfSale": {
+    "id": "413206",
+    "name": "Terminal Name"
+  },
+  "payments": []
+}
+```
+
+### Response Codes
+
+| Status Code | Description |
+|-------------|-------------|
+| 200 | OK - Schedule created successfully |
+| 400 | Bad Request - Invalid parameters |
+| 401 | Unauthorized - Invalid token |
+| 404 | Not Found - Terminal not found | 

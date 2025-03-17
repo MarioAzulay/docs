@@ -1,0 +1,130 @@
+---
+title: 'Query Reference'
+api: 'GET https://gpo-sandbox.izipay.ao/v1/references/{referenceId}'
+description: 'Get details of a specific reference'
+---
+
+## Query Reference
+
+This service allows you to retrieve detailed information about a specific reference by its ID.
+
+### Authentication
+
+<ParamField header="Authorization" type="string" required>
+  Bearer token in the format: `Bearer {token}`
+</ParamField>
+
+### Path Parameters
+
+<ParamField path="referenceId" type="string" required>
+  Reference ID
+</ParamField>
+
+### Response
+
+<ResponseField name="id" type="string">
+  Reference ID
+</ResponseField>
+
+<ResponseField name="type" type="string">
+  Reference type
+</ResponseField>
+
+<ResponseField name="status" type="string">
+  Reference status
+</ResponseField>
+
+<ResponseField name="createdDate" type="string">
+  Creation date
+</ResponseField>
+
+<ResponseField name="updatedDate" type="string">
+  Update date
+</ResponseField>
+
+<ResponseField name="expirationDate" type="string">
+  Expiration date
+</ResponseField>
+
+<ResponseField name="merchantId" type="string">
+  Merchant ID
+</ResponseField>
+
+<ResponseField name="merchantName" type="string">
+  Merchant name
+</ResponseField>
+
+<ResponseField name="amount" type="number">
+  Reference amount
+</ResponseField>
+
+<ResponseField name="currency" type="string">
+  Currency code
+</ResponseField>
+
+<ResponseField name="description" type="string">
+  Reference description
+</ResponseField>
+
+<ResponseField name="transactions" type="array">
+  <Expandable title="Properties">
+    <ResponseField name="id" type="string">
+      Transaction ID
+    </ResponseField>
+    <ResponseField name="type" type="string">
+      Transaction type
+    </ResponseField>
+    <ResponseField name="status" type="string">
+      Transaction status
+    </ResponseField>
+    <ResponseField name="amount" type="number">
+      Transaction amount
+    </ResponseField>
+    <ResponseField name="createdDate" type="string">
+      Transaction creation date
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+### Example Request
+
+```bash
+curl --request GET \
+  --url "https://gpo-sandbox.izipay.ao/v1/references/REF123456789" \
+  --header "Authorization: Bearer YOUR_TOKEN"
+```
+
+### Example Response
+
+```json
+{
+  "id": "REF123456789",
+  "type": "PAYMENT",
+  "status": "ACTIVE",
+  "createdDate": "2023-01-01T12:00:00Z",
+  "updatedDate": "2023-01-01T12:00:00Z",
+  "expirationDate": "2023-01-08T12:00:00Z",
+  "merchantId": "MERCH123",
+  "merchantName": "Example Merchant",
+  "amount": 1000.00,
+  "currency": "AOA",
+  "description": "Payment for order #12345",
+  "transactions": [
+    {
+      "id": "TRX123456",
+      "type": "PAYMENT",
+      "status": "COMPLETED",
+      "amount": 1000.00,
+      "createdDate": "2023-01-01T14:30:00Z"
+    }
+  ]
+}
+```
+
+### Response Codes
+
+| Status Code | Description |
+|-------------|-------------|
+| 200 | OK - Reference details retrieved successfully |
+| 401 | Unauthorized - Invalid token |
+| 404 | Not Found - Reference not found | 

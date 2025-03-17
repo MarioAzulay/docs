@@ -1,0 +1,119 @@
+---
+title: 'Authentication'
+description: 'Learn how to authenticate your API requests'
+---
+
+# Authentication & Authorization
+
+All API requests to IZI Pay require authentication. We use API keys to authenticate requests. This guide explains how to obtain and use your API keys.
+
+## API Keys
+
+IZI Pay provides two types of API keys:
+
+- **Test Keys**: Use these for development and testing. Transactions made with test keys don't process real payments.
+- **Live Keys**: Use these in production. Transactions made with live keys process real payments.
+
+Each type has two components:
+
+- **App Id**: Safe to include in client-side code (like JavaScript running in the browser).
+- **App Secret**: Must be kept confidential and only used in server-side code.
+
+## Obtaining API Keys
+
+To obtain your API keys:
+
+1. Log in to your [Merchant Portal](https://portal.izipay.ao)
+2. Navigate to **Settings** > **Client Apps**
+3. You'll see your test and live API Keys
+
+<Warning>
+    Never share your secret API keys in publicly accessible areas such as GitHub, client-side code, or in your browser.
+</Warning>
+
+## Using API Keys
+
+Use your secret key in the `Authorization` header:
+
+```bash
+curl -X GET \
+  https://api.izilink.com/v1/payments \
+  -H "Authorization: Bearer sk_test_abcdef123456"
+```
+
+## Environment Switching
+
+To switch between test and live environments, simply use the corresponding API keys. Your code doesn't need to change.
+
+<CodeGroup>
+
+    ```javascript Test Environment
+    const izikey = new IziPay('sk_test_abcdef123456');
+    ```
+
+    ```javascript Live Environment
+    const izikey = new IziPay('sk_live_abcdef123456');
+    ```
+
+</CodeGroup>
+
+## API Key Security
+
+Here are some best practices for keeping your API keys secure:
+
+1. **Never expose secret keys**: Keep your secret keys on your server, never in client-side code or mobile apps.
+2. **Use environment variables**: Store API keys in environment variables, not in your code.
+3. **Restrict API key access**: Use IP restrictions and permissions to limit what each key can do.
+4. **Rotate keys regularly**: Periodically generate new API keys and deprecate old ones.
+5. **Monitor usage**: Regularly check your API logs for suspicious activity.
+
+## Example: Storing API Keys Securely
+
+<CodeGroup>
+
+    ```javascript Node.js
+    // .env file
+    IZIPAY_SECRET_KEY=sk_test_abcdef123456
+
+    // server.js
+    require('dotenv').config();
+    const IziPay = require('izipay-js');
+    const izipay = new IziPay(process.env.IZIPAY_SECRET_KEY);
+    ```
+
+    ```python Python
+    # .env file
+    IZIPAY_SECRET_KEY=sk_test_abcdef123456
+
+    # app.py
+    import os
+    from dotenv import load_dotenv
+    from izipay import IziPay
+
+    load_dotenv()
+    izipay = IziPay(os.environ.get('IZIPAY_SECRET_KEY'))
+    ```
+
+    ```php PHP
+    // .env file
+    IZIPAY_SECRET_KEY=sk_test_abcdef123456
+
+    // index.php
+    <?php
+    require 'vendor/autoload.php';
+    $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+    $dotenv->load();
+
+    $izilink = new \IziPay\IziPay($_ENV['IZIPAY_SECRET_KEY']);
+    ?>
+    ```
+
+</CodeGroup>
+
+## Next Steps
+
+Now that you understand how to authenticate your API requests, you can:
+
+- Learn how to [create payments](/api-reference/payments/create-payment)
+- Set up [webhooks](/webhooks/overview) to receive notifications
+- Explore our [SDKs](/sdks/overview) for your preferred language 

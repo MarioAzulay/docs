@@ -1,0 +1,106 @@
+---
+title: 'Autenticação'
+description: 'Aprenda como autenticar suas requisições de API'
+---
+
+# Autenticação e Autorização
+
+Todas as requisições de API para o IZI Pay requerem autenticação. Usamos chaves de API para autenticar requisições. Este guia explica como obter e usar suas chaves de API.
+
+## Chaves de API
+
+O IZI Pay fornece dois tipos de chaves de API:
+
+- **Chaves de Teste**: Use-as para desenvolvimento e testes. Transações feitas com chaves de teste não processam pagamentos reais.
+- **Chaves de Produção**: Use-as em produção. Transações feitas com chaves de produção processam pagamentos reais.
+
+Cada tipo tem dois componentes:
+
+- **App Id**: Seguro para incluir em código do lado do cliente (como JavaScript executando no navegador).
+- **App Secret**: Deve ser mantido confidencial e usado apenas em código do lado do servidor.
+
+## Obtendo suas Chaves de API
+
+Para obter suas chaves de API:
+
+1. Faça login no [Portal do Comerciante IZI Pay](https://portal.izipay.ao)
+2. Navegue até **Configurações > Chaves de API**
+3. Você verá suas chaves de teste e produção listadas
+
+<Warning>
+  Nunca compartilhe suas chaves secretas ou as inclua em código do lado do cliente. Sempre mantenha suas chaves secretas seguras.
+</Warning>
+
+## Autenticação de Requisições
+
+Para autenticar suas requisições de API, você precisa incluir suas chaves de API no cabeçalho de autorização:
+
+```bash
+curl -X GET \
+  https://api.izipay.ao/v1/references \
+  -H "Authorization: Bearer seu_app_secret" \
+  -H "Content-Type: application/json"
+```
+
+## Usando o SDK
+
+Nossos SDKs oficiais gerenciam a autenticação para você. Basta fornecer suas chaves de API ao inicializar o cliente:
+
+```javascript
+// JavaScript
+const IZIPay = require('izipay-sdk');
+
+const client = new IZIPay({
+  appId: 'seu_app_id',
+  appSecret: 'seu_app_secret',
+  environment: 'production' // ou 'sandbox' para testes
+});
+
+// Agora você pode fazer chamadas de API autenticadas
+const references = await client.references.list();
+```
+
+## Ambientes
+
+O IZI Pay fornece dois ambientes:
+
+- **Sandbox**: Para desenvolvimento e testes. Use suas chaves de teste aqui.
+- **Produção**: Para aplicações em produção. Use suas chaves de produção aqui.
+
+Certifique-se de usar o ambiente correto para suas necessidades:
+
+```javascript
+// Para sandbox (testes)
+const testClient = new IZIPay({
+  appId: 'seu_app_id_de_teste',
+  appSecret: 'seu_app_secret_de_teste',
+  environment: 'sandbox'
+});
+
+// Para produção
+const liveClient = new IZIPay({
+  appId: 'seu_app_id_de_producao',
+  appSecret: 'seu_app_secret_de_producao',
+  environment: 'production'
+});
+```
+
+## Melhores Práticas de Segurança
+
+Para manter suas integrações seguras:
+
+1. **Nunca exponha suas chaves secretas**: Mantenha-as apenas no servidor.
+2. **Use variáveis de ambiente**: Armazene suas chaves em variáveis de ambiente, não no código-fonte.
+3. **Rotação de chaves**: Periodicamente gere novas chaves e atualize suas aplicações.
+4. **Monitoramento**: Monitore o uso da API para detectar atividades suspeitas.
+5. **Restrições de IP**: Considere restringir o acesso à API a IPs específicos.
+
+## Solução de Problemas
+
+Se você encontrar erros de autenticação:
+
+- Verifique se está usando a chave correta para o ambiente (teste vs. produção)
+- Confirme se a chave está formatada corretamente no cabeçalho de autorização
+- Verifique se sua chave não expirou ou foi revogada
+
+Para assistência adicional, entre em contato com [suporte@izipay.ao](mailto:suporte@izipay.ao). 

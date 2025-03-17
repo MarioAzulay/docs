@@ -1,0 +1,98 @@
+---
+title: 'Visão Geral da API'
+description: 'Documentação completa de referência para a API do IZI Pay'
+---
+
+# Referência da API
+
+Bem-vindo à documentação de referência da API do IZI Pay. Nossa API é organizada em torno dos princípios REST e usa códigos de resposta HTTP padrão, autenticação e verbos. Todas as respostas, incluindo erros, são retornadas como objetos JSON.
+
+## URL Base
+
+Todas as requisições de API devem ser feitas para a seguinte URL base:
+
+```
+https://api.izipay.ao/v1
+```
+
+## Autenticação
+
+Todas as requisições de API requerem autenticação usando suas chaves de API. Consulte nosso [Guia de Autenticação](/pt/authentication) para informações detalhadas sobre como autenticar suas requisições.
+
+## Limitação de Taxa
+
+A API do IZI Pay implementa limitação de taxa para proteger nossa infraestrutura e garantir um uso justo. Os limites atuais são:
+
+- 100 requisições por minuto para contas padrão
+- 300 requisições por minuto para contas empresariais
+
+Se você exceder esses limites, receberá uma resposta `429 Too Many Requests`.
+
+## Paginação
+
+Os endpoints de listagem retornam resultados paginados. Você pode controlar a paginação usando os seguintes parâmetros de consulta:
+
+- `limit`: Número de itens a retornar (padrão: 20, máximo: 100)
+- `offset`: Número de itens a pular (padrão: 0)
+
+Exemplo:
+
+```
+GET /references?limit=50&offset=100
+```
+
+A resposta incluirá metadados de paginação:
+
+```json
+{
+  "data": [...],
+  "pagination": {
+    "total": 156,
+    "limit": 50,
+    "offset": 100,
+    "has_more": true
+  }
+}
+```
+
+## Tratamento de Erros
+
+A API usa códigos de resposta HTTP convencionais para indicar o sucesso ou falha de uma requisição:
+
+- `2xx`: Sucesso
+- `4xx`: Erro do cliente (requisição inválida)
+- `5xx`: Erro do servidor
+
+As respostas de erro incluem um objeto JSON com detalhes:
+
+```json
+{
+  "error": {
+    "code": "invalid_parameter",
+    "message": "O parâmetro 'amount' é obrigatório",
+    "param": "amount",
+    "type": "validation_error"
+  }
+}
+```
+
+## Versionamento
+
+A API do IZI Pay é versionada para garantir compatibilidade retroativa. A versão atual é `v1`. Recomendamos especificar a versão na URL para garantir que sua integração não quebre quando lançarmos novas versões.
+
+## Webhooks
+
+O IZI Pay pode enviar notificações de webhook para seu servidor quando eventos ocorrem em sua conta. Consulte nosso [Guia de Webhooks](/pt/webhooks/overview) para mais informações.
+
+## SDKs
+
+Fornecemos SDKs oficiais para várias linguagens de programação para facilitar a integração:
+
+- [JavaScript/Node.js](/pt/sdks/javascript)
+- [PHP](/pt/sdks/php)
+- [Python](/pt/sdks/python)
+- [Java](/pt/sdks/java)
+
+## Suporte
+
+Se você tiver alguma dúvida ou precisar de assistência com a API, entre em contato com nossa equipe de suporte em [suporte@izipay.ao](mailto:suporte@izipay.ao). 

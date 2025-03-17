@@ -1,0 +1,139 @@
+---
+title: 'Query Accounting Period'
+api: 'GET https://gpo-sandbox.izipay.ao/v1/points-of-sale/{posId}/periods/{clearingPeriodNumber}'
+description: 'Query a specific local accounting period for a terminal'
+---
+
+## Query Accounting Period
+
+This service allows you to query a specific local accounting period for a terminal. The accounting period contains an aggregated view of transactions, amounts, commissions, and other information corresponding to a specific period between a terminal opening and closing.
+
+### Authentication
+
+<ParamField header="Authorization" type="string" required>
+  Bearer token in the format: `Bearer {token}`
+</ParamField>
+
+### Path Parameters
+
+<ParamField path="posId" type="string" required>
+  Terminal ID
+</ParamField>
+
+<ParamField path="clearingPeriodNumber" type="integer" required>
+  Accounting period number
+</ParamField>
+
+### Response
+
+<ResponseField name="result" type="object">
+  <Expandable title="Properties">
+    <ResponseField name="number" type="integer">
+      Accounting period number
+    </ResponseField>
+    <ResponseField name="openDate" type="string">
+      Opening date
+    </ResponseField>
+    <ResponseField name="closeDate" type="string">
+      Closing date
+    </ResponseField>
+    <ResponseField name="state" type="string">
+      Period state (OPEN, CLOSED)
+    </ResponseField>
+    <ResponseField name="transactionCount" type="integer">
+      Number of transactions
+    </ResponseField>
+    <ResponseField name="totalAmount" type="number">
+      Total amount
+    </ResponseField>
+    <ResponseField name="currency" type="string">
+      Currency code
+    </ResponseField>
+    <ResponseField name="pointOfSale" type="object">
+      <Expandable title="Properties">
+        <ResponseField name="id" type="string">
+          Terminal ID
+        </ResponseField>
+        <ResponseField name="name" type="string">
+          Terminal name
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+    <ResponseField name="transactions" type="array">
+      <Expandable title="Items">
+        <ResponseField name="id" type="string">
+          Transaction ID
+        </ResponseField>
+        <ResponseField name="transactionType" type="string">
+          Transaction type
+        </ResponseField>
+        <ResponseField name="transactionState" type="string">
+          Transaction state
+        </ResponseField>
+        <ResponseField name="amount" type="number">
+          Transaction amount
+        </ResponseField>
+        <ResponseField name="currency" type="string">
+          Currency code
+        </ResponseField>
+        <ResponseField name="createdDate" type="string">
+          Creation date
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+### Example Request
+
+```bash
+curl --request GET \
+  --url "https://gpo-sandbox.izipay.ao/v1/points-of-sale/413206/periods/123" \
+  --header "Authorization: Bearer YOUR_TOKEN"
+```
+
+### Example Response
+
+```json
+{
+  "result": {
+    "number": 123,
+    "openDate": "2023-01-01T12:00:00Z",
+    "closeDate": "2023-01-02T12:00:00Z",
+    "state": "CLOSED",
+    "transactionCount": 2,
+    "totalAmount": 1500.00,
+    "currency": "AOA",
+    "pointOfSale": {
+      "id": "413206",
+      "name": "Terminal Name"
+    },
+    "transactions": [
+      {
+        "id": "3WJ0PDFXH76GVLT3",
+        "transactionType": "PAYMENT",
+        "transactionState": "COMPLETED",
+        "amount": 1000.00,
+        "currency": "AOA",
+        "createdDate": "2023-01-01T14:00:00Z"
+      },
+      {
+        "id": "4KL1PDFXH76GVLT4",
+        "transactionType": "PAYMENT",
+        "transactionState": "COMPLETED",
+        "amount": 500.00,
+        "currency": "AOA",
+        "createdDate": "2023-01-01T16:00:00Z"
+      }
+    ]
+  }
+}
+```
+
+### Response Codes
+
+| Status Code | Description |
+|-------------|-------------|
+| 200 | OK - Accounting period retrieved successfully |
+| 401 | Unauthorized - Invalid token |
+| 404 | Not Found - Terminal or accounting period not found | 

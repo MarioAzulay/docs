@@ -1,0 +1,104 @@
+---
+title: 'Open Terminal'
+api: 'GET https://gpo-sandbox.izipay.ao/v1/points-of-sale/{posId}/open'
+description: 'Open a terminal to start a new accounting period'
+---
+
+## Open Terminal
+
+To perform financial operations, a virtual terminal must be open. Opening a terminal initiates a new local accounting period and transaction sequence, with these values automatically assigned to the operations performed.
+
+The first operation of the day always requires opening the terminal. If the terminal is already open, it will be closed and then reopened.
+
+### Authentication
+
+<ParamField header="Authorization" type="string" required>
+  Bearer token in the format: `Bearer {token}`
+</ParamField>
+
+### Path Parameters
+
+<ParamField path="posId" type="string" required>
+  Terminal ID
+</ParamField>
+
+### Query Parameters
+
+<ParamField query="supervisorId" type="string" required>
+  Supervisor ID
+</ParamField>
+
+### Response
+
+<ResponseField name="result" type="object">
+  <Expandable title="Properties">
+    <ResponseField name="id" type="string">
+      Transaction ID
+    </ResponseField>
+    <ResponseField name="transactionType" type="string">
+      Transaction type (OPEN)
+    </ResponseField>
+    <ResponseField name="transactionState" type="string">
+      Transaction state
+    </ResponseField>
+    <ResponseField name="createdDate" type="string">
+      Creation date
+    </ResponseField>
+    <ResponseField name="updatedDate" type="string">
+      Update date
+    </ResponseField>
+    <ResponseField name="clearingPeriodNumber" type="integer">
+      Accounting period number
+    </ResponseField>
+    <ResponseField name="pointOfSale" type="object">
+      <Expandable title="Properties">
+        <ResponseField name="id" type="string">
+          Terminal ID
+        </ResponseField>
+        <ResponseField name="name" type="string">
+          Terminal name
+        </ResponseField>
+        <ResponseField name="state" type="string">
+          Terminal state
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+### Example Request
+
+```bash
+curl --request GET \
+  --url "https://gpo-sandbox.izipay.ao/v1/points-of-sale/413206/open?supervisorId=0000000000000000000000" \
+  --header "Authorization: Bearer YOUR_TOKEN"
+```
+
+### Example Response
+
+```json
+{
+  "result": {
+    "id": "3WJ0PDFXH76GVLT3",
+    "transactionType": "OPEN",
+    "transactionState": "COMPLETED",
+    "createdDate": "2023-01-01T12:00:00Z",
+    "updatedDate": "2023-01-01T12:00:00Z",
+    "clearingPeriodNumber": 123,
+    "pointOfSale": {
+      "id": "413206",
+      "name": "Terminal Name",
+      "state": "OPEN"
+    }
+  }
+}
+```
+
+### Response Codes
+
+| Status Code | Description |
+|-------------|-------------|
+| 200 | OK - Terminal opened successfully |
+| 400 | Bad Request - Invalid request |
+| 401 | Unauthorized - Invalid token |
+| 404 | Not Found - Terminal not found | 

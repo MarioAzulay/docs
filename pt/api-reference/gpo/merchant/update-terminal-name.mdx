@@ -1,0 +1,112 @@
+---
+title: 'Update Terminal Name'
+api: 'PUT {{baseuri}}/v1/points-of-sale/{posId}'
+description: 'Update the name of a terminal'
+---
+
+## Update Terminal Name
+
+This service allows you to update the name of a terminal.
+
+### Authentication
+
+<ParamField header="Authorization" type="string" required>
+  Bearer token in the format: `Bearer {token}`
+</ParamField>
+
+### Path Parameters
+
+<ParamField path="posId" type="string" required>
+  Terminal ID
+</ParamField>
+
+### Request Body
+
+<ParamField body="name" type="string" required>
+  New terminal name
+</ParamField>
+
+### Response
+
+<ResponseField name="result" type="object">
+  <Expandable title="Properties">
+    <ResponseField name="id" type="string">
+      Terminal ID
+    </ResponseField>
+    <ResponseField name="name" type="string">
+      Updated terminal name
+    </ResponseField>
+    <ResponseField name="state" type="string">
+      Terminal state
+    </ResponseField>
+    <ResponseField name="createdDate" type="string">
+      Creation date
+    </ResponseField>
+    <ResponseField name="updatedDate" type="string">
+      Update date
+    </ResponseField>
+    <ResponseField name="establishment" type="object">
+      <Expandable title="Properties">
+        <ResponseField name="id" type="string">
+          Establishment ID
+        </ResponseField>
+        <ResponseField name="name" type="string">
+          Establishment name
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+    <ResponseField name="merchant" type="object">
+      <Expandable title="Properties">
+        <ResponseField name="id" type="string">
+          Merchant ID
+        </ResponseField>
+        <ResponseField name="name" type="string">
+          Merchant name
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+### Example Request
+
+```bash
+curl --request PUT \
+  --url "https://gpo-sandbox.izipay.ao/v1/points-of-sale/413206" \
+  --header "Authorization: Bearer YOUR_TOKEN" \
+  --header "Content-Type: application/json" \
+  --data '{
+    "name": "New Terminal Name"
+  }'
+```
+
+### Example Response
+
+```json
+{
+  "result": {
+    "id": "413206",
+    "name": "New Terminal Name",
+    "state": "OPEN",
+    "createdDate": "2022-01-01T12:00:00Z",
+    "updatedDate": "2023-01-01T12:00:00Z",
+    "establishment": {
+      "id": "12345",
+      "name": "Establishment Name"
+    },
+    "merchant": {
+      "id": "185737",
+      "name": "Merchant Name"
+    }
+  }
+}
+```
+
+### Response Codes
+
+| Status Code | Description |
+|-------------|-------------|
+| 200 | OK - Terminal name updated successfully |
+| 400 | Bad Request - Invalid request |
+| 401 | Unauthorized - Invalid token |
+| 404 | Not Found - Terminal not found | 

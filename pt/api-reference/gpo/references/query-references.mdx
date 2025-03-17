@@ -1,0 +1,133 @@
+---
+title: 'Query References'
+api: 'GET https://gpo-sandbox.izipay.ao/v1/merchants/{merchantId}/references'
+description: 'Query payment references for a merchant'
+---
+
+## Query References
+
+This service allows you to search for one or more payment references associated with a merchant. This service provides optional parameters that allow you to define pagination, sorting, and filtering.
+
+### Authentication
+
+<ParamField header="Authorization" type="string" required>
+  Bearer token in the format: `Bearer {token}`
+</ParamField>
+
+### Path Parameters
+
+<ParamField path="merchantId" type="string" required>
+  Merchant ID
+</ParamField>
+
+### Query Parameters
+
+<ParamField query="$skip" type="integer">
+  Number of records to skip (for pagination)
+</ParamField>
+
+<ParamField query="$top" type="integer">
+  Maximum number of records to return (for pagination)
+</ParamField>
+
+<ParamField query="$orderBy" type="string">
+  Field and direction to order results (e.g., "updatedDate desc")
+</ParamField>
+
+<ParamField query="$filter" type="string">
+  Filter expression (e.g., "amount gt 1000")
+</ParamField>
+
+### Response
+
+<ResponseField name="result" type="array">
+  <Expandable title="Items">
+    <ResponseField name="id" type="string">
+      Reference ID
+    </ResponseField>
+    <ResponseField name="amount" type="number">
+      Payment amount
+    </ResponseField>
+    <ResponseField name="currency" type="string">
+      Currency code
+    </ResponseField>
+    <ResponseField name="expirationDate" type="string">
+      Expiration date in ISO 8601 format
+    </ResponseField>
+    <ResponseField name="merchantReferenceNumber" type="string">
+      Merchant reference number
+    </ResponseField>
+    <ResponseField name="description" type="string">
+      Description of the payment reference
+    </ResponseField>
+    <ResponseField name="createdDate" type="string">
+      Creation date
+    </ResponseField>
+    <ResponseField name="updatedDate" type="string">
+      Update date
+    </ResponseField>
+    <ResponseField name="merchant" type="object">
+      <Expandable title="Properties">
+        <ResponseField name="id" type="string">
+          Merchant ID
+        </ResponseField>
+        <ResponseField name="name" type="string">
+          Merchant name
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+### Example Request
+
+```bash
+curl --request GET \
+  --url "https://gpo-sandbox.izipay.ao/v1/merchants/123456/references?$orderBy=updatedDate desc" \
+  --header "Authorization: Bearer YOUR_TOKEN"
+```
+
+### Example Response
+
+```json
+{
+  "result": [
+    {
+      "id": "REF8TU5PDFXH76GVLT8",
+      "amount": 1000.00,
+      "currency": "AOA",
+      "expirationDate": "2023-12-31T23:59:59Z",
+      "merchantReferenceNumber": "REF123456",
+      "description": "Payment for order #123456",
+      "createdDate": "2023-01-01T12:00:00Z",
+      "updatedDate": "2023-01-01T12:00:00Z",
+      "merchant": {
+        "id": "123456",
+        "name": "Merchant Name"
+      }
+    },
+    {
+      "id": "REF7RS4PDFXH76GVLT7",
+      "amount": 500.00,
+      "currency": "AOA",
+      "expirationDate": "2023-12-31T23:59:59Z",
+      "merchantReferenceNumber": "REF123457",
+      "description": "Payment for order #123457",
+      "createdDate": "2023-01-01T11:00:00Z",
+      "updatedDate": "2023-01-01T11:00:00Z",
+      "merchant": {
+        "id": "123456",
+        "name": "Merchant Name"
+      }
+    }
+  ]
+}
+```
+
+### Response Codes
+
+| Status Code | Description |
+|-------------|-------------|
+| 200 | OK - References retrieved successfully |
+| 401 | Unauthorized - Invalid token |
+| 404 | Not Found - Merchant not found | 

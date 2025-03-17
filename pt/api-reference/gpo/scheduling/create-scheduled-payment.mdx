@@ -1,0 +1,213 @@
+---
+title: 'Create Scheduled Payment'
+api: 'POST https://gpo-sandbox.izipay.ao/v1/merchants/{merchantId}/scheduled-payments'
+description: 'Create a scheduled payment'
+---
+
+## Create Scheduled Payment
+
+This service allows you to create a scheduled payment that will be processed at a specified future date. The scheduled payment is associated with a specific merchant and can be used to automate recurring payments.
+
+### Authentication
+
+<ParamField header="Authorization" type="string" required>
+  Bearer token in the format: `Bearer {token}`
+</ParamField>
+
+### Path Parameters
+
+<ParamField path="merchantId" type="string" required>
+  Merchant ID
+</ParamField>
+
+### Request Body
+
+<ParamField body="amount" type="number" required>
+  Payment amount
+</ParamField>
+
+<ParamField body="currency" type="string" required>
+  Currency code (e.g., "AOA")
+</ParamField>
+
+<ParamField body="scheduledDate" type="string" required>
+  Date when the payment should be processed, in ISO 8601 format (e.g., "2023-12-31T12:00:00Z")
+</ParamField>
+
+<ParamField body="paymentMethod" type="object" required>
+  <Expandable title="Properties">
+    <ParamField body="type" type="string" required>
+      Payment method type (MOBILE, CARD)
+    </ParamField>
+    <ParamField body="mobile" type="object">
+      <Expandable title="Properties">
+        <ParamField body="phoneNumber" type="string" required>
+          Customer phone number
+        </ParamField>
+      </Expandable>
+    </ParamField>
+  </Expandable>
+</ParamField>
+
+<ParamField body="merchantReferenceNumber" type="string">
+  Merchant reference number for tracking purposes
+</ParamField>
+
+<ParamField body="description" type="string">
+  Description of the scheduled payment
+</ParamField>
+
+<ParamField body="callbackUrl" type="string">
+  URL to be called after payment processing
+</ParamField>
+
+### Response
+
+<ResponseField name="id" type="string">
+  Scheduled Payment ID
+</ResponseField>
+
+<ResponseField name="amount" type="number">
+  Payment amount
+</ResponseField>
+
+<ResponseField name="currency" type="string">
+  Currency code
+</ResponseField>
+
+<ResponseField name="scheduledDate" type="string">
+  Date when the payment will be processed
+</ResponseField>
+
+<ResponseField name="status" type="string">
+  Scheduled payment status (PENDING, PROCESSED, FAILED, CANCELLED)
+</ResponseField>
+
+<ResponseField name="merchantReferenceNumber" type="string">
+  Merchant reference number
+</ResponseField>
+
+<ResponseField name="description" type="string">
+  Description of the scheduled payment
+</ResponseField>
+
+<ResponseField name="callbackUrl" type="string">
+  URL to be called after payment processing
+</ResponseField>
+
+<ResponseField name="createdDate" type="string">
+  Creation date
+</ResponseField>
+
+<ResponseField name="updatedDate" type="string">
+  Update date
+</ResponseField>
+
+<ResponseField name="paymentMethod" type="object">
+  <Expandable title="Properties">
+    <ResponseField name="type" type="string">
+      Payment method type (MOBILE, CARD)
+    </ResponseField>
+    <ResponseField name="mobile" type="object">
+      <Expandable title="Properties">
+        <ResponseField name="phoneNumber" type="string">
+          Customer phone number
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="merchant" type="object">
+  <Expandable title="Properties">
+    <ResponseField name="id" type="string">
+      Merchant ID
+    </ResponseField>
+    <ResponseField name="name" type="string">
+      Merchant name
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="payment" type="object">
+  <Expandable title="Properties">
+    <ResponseField name="id" type="string">
+      Payment ID
+    </ResponseField>
+    <ResponseField name="transactionType" type="string">
+      Transaction type
+    </ResponseField>
+    <ResponseField name="transactionState" type="string">
+      Transaction state
+    </ResponseField>
+    <ResponseField name="amount" type="number">
+      Payment amount
+    </ResponseField>
+    <ResponseField name="currency" type="string">
+      Currency code
+    </ResponseField>
+    <ResponseField name="createdDate" type="string">
+      Creation date
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+### Example Request
+
+```bash
+curl --request POST \
+  --url "https://gpo-sandbox.izipay.ao/v1/merchants/123456/scheduled-payments" \
+  --header "Authorization: Bearer YOUR_TOKEN" \
+  --header "Content-Type: application/json" \
+  --data '{
+    "amount": 1000.00,
+    "currency": "AOA",
+    "scheduledDate": "2023-12-31T12:00:00Z",
+    "paymentMethod": {
+      "type": "MOBILE",
+      "mobile": {
+        "phoneNumber": "923456789"
+      }
+    },
+    "merchantReferenceNumber": "REF123456",
+    "description": "Monthly subscription payment",
+    "callbackUrl": "https://example.com/callback"
+  }'
+```
+
+### Example Response
+
+```json
+{
+  "id": "SP8TU5PDFXH76GVLT8",
+  "amount": 1000.00,
+  "currency": "AOA",
+  "scheduledDate": "2023-12-31T12:00:00Z",
+  "status": "PENDING",
+  "merchantReferenceNumber": "REF123456",
+  "description": "Monthly subscription payment",
+  "callbackUrl": "https://example.com/callback",
+  "createdDate": "2023-01-01T12:00:00Z",
+  "updatedDate": "2023-01-01T12:00:00Z",
+  "paymentMethod": {
+    "type": "MOBILE",
+    "mobile": {
+      "phoneNumber": "923456789"
+    }
+  },
+  "merchant": {
+    "id": "123456",
+    "name": "Merchant Name"
+  },
+  "payment": null
+}
+```
+
+### Response Codes
+
+| Status Code | Description |
+|-------------|-------------|
+| 201 | Created - Scheduled payment created successfully |
+| 400 | Bad Request - Invalid request body |
+| 401 | Unauthorized - Invalid token |
+| 404 | Not Found - Merchant not found | 

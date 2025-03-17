@@ -1,0 +1,109 @@
+---
+title: 'Guia de Início Rápido'
+description: 'Comece a usar o IZI Pay em minutos'
+---
+
+# Guia de Início Rápido
+
+Este guia irá ajudá-lo a começar com o IZI Pay, orientando-o pelo processo de criação do seu primeiro link de pagamento.
+
+## Pré-requisitos
+
+Antes de começar, certifique-se de ter:
+
+1. Uma conta IZI Pay. Se você não tiver uma, [cadastre-se aqui](https://app.izipay.ao/signup).
+2. Chaves de API para sua conta. Você pode encontrá-las no [Painel](https://app.izipay.ao/settings/api-keys).
+
+## Passo 1: Instale o SDK
+
+Escolha sua linguagem preferida e instale o SDK do IZI Pay:
+
+```bash
+# NPM
+npm install izipay-sdk
+
+# Yarn
+yarn add izipay-sdk
+
+# Composer
+composer require izipay/izipay-php
+
+# Python
+pip install izipay
+```
+
+## Passo 2: Configure o SDK
+
+Inicialize o SDK com suas credenciais:
+
+```javascript
+// JavaScript
+const IZIPay = require('izipay-sdk');
+
+const client = new IZIPay({
+  apiKey: 'sua_chave_api',
+  merchantId: 'seu_id_de_comerciante',
+  environment: 'production' // ou 'sandbox' para testes
+});
+```
+
+## Passo 3: Crie uma Referência de Pagamento
+
+Uma referência é um identificador único para uma transação:
+
+```javascript
+// Criar uma nova referência
+const reference = await client.references.create({
+  amount: 1000, // valor em centavos
+  currency: 'AOA',
+  description: 'Pagamento de teste',
+  metadata: {
+    customer_id: '123456',
+    order_id: 'ORD-789'
+  }
+});
+
+console.log('Referência criada:', reference.id);
+```
+
+## Passo 4: Gere um Link de Pagamento
+
+Com a referência criada, você pode gerar um link de pagamento:
+
+```javascript
+// Gerar link de pagamento
+const paymentLink = await client.payments.createLink({
+  reference_id: reference.id,
+  success_url: 'https://seusite.com/sucesso',
+  cancel_url: 'https://seusite.com/cancelado'
+});
+
+console.log('Link de pagamento:', paymentLink.url);
+```
+
+## Passo 5: Verifique o Status do Pagamento
+
+Após o cliente completar o pagamento, você pode verificar seu status:
+
+```javascript
+// Verificar status do pagamento
+const payment = await client.payments.get(paymentId);
+
+if (payment.status === 'succeeded') {
+  console.log('Pagamento concluído com sucesso!');
+} else if (payment.status === 'pending') {
+  console.log('Pagamento ainda está pendente.');
+} else {
+  console.log('Pagamento falhou ou foi cancelado.');
+}
+```
+
+## Próximos Passos
+
+Agora que você concluiu o guia de início rápido, você pode:
+
+- Explorar a [Referência da API](/pt/api-reference/overview) para mais detalhes sobre os endpoints disponíveis
+- Configurar [Webhooks](/pt/webhooks/overview) para receber notificações em tempo real sobre eventos de pagamento
+- Implementar fluxos de pagamento mais complexos usando nossos [SDKs](/pt/sdks/overview)
+
+Para qualquer dúvida ou suporte adicional, entre em contato com nossa equipe em [suporte@izipay.ao](mailto:suporte@izipay.ao). 

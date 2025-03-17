@@ -1,0 +1,154 @@
+---
+title: 'Query Merchant Terminals'
+api: 'GET https://gpo-sandbox.izipay.ao/v1/merchants/{merchantId}/points-of-sale'
+description: 'Query all terminals of a merchant'
+---
+
+## Query Merchant Terminals
+
+This service allows you to query all terminals of a specific merchant, regardless of how many establishments the merchant has. This service allows the use of filters and sorting to request terminals under specific conditions, for example, all open terminals.
+
+### Authentication
+
+<ParamField header="Authorization" type="string" required>
+  Bearer token in the format: `Bearer {token}`
+</ParamField>
+
+### Path Parameters
+
+<ParamField path="merchantId" type="string" required>
+  Merchant ID
+</ParamField>
+
+### Query Parameters
+
+<ParamField query="$skip" type="integer">
+  Number of records to skip (for pagination)
+</ParamField>
+
+<ParamField query="$top" type="integer">
+  Maximum number of records to return (for pagination)
+</ParamField>
+
+<ParamField query="$orderBy" type="string">
+  Field and direction to order results (e.g., "name asc")
+</ParamField>
+
+<ParamField query="$filter" type="string">
+  Filter expression (e.g., "state eq 'OPEN'")
+</ParamField>
+
+### Response
+
+<ResponseField name="result" type="array">
+  <Expandable title="Items">
+    <ResponseField name="id" type="string">
+      Terminal ID
+    </ResponseField>
+    <ResponseField name="name" type="string">
+      Terminal name
+    </ResponseField>
+    <ResponseField name="state" type="string">
+      Terminal state (OPEN, CLOSED)
+    </ResponseField>
+    <ResponseField name="createdDate" type="string">
+      Creation date
+    </ResponseField>
+    <ResponseField name="updatedDate" type="string">
+      Update date
+    </ResponseField>
+    <ResponseField name="establishment" type="object">
+      <Expandable title="Properties">
+        <ResponseField name="id" type="string">
+          Establishment ID
+        </ResponseField>
+        <ResponseField name="name" type="string">
+          Establishment name
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+    <ResponseField name="merchant" type="object">
+      <Expandable title="Properties">
+        <ResponseField name="id" type="string">
+          Merchant ID
+        </ResponseField>
+        <ResponseField name="name" type="string">
+          Merchant name
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+    <ResponseField name="currentClearingPeriod" type="object">
+      <Expandable title="Properties">
+        <ResponseField name="number" type="integer">
+          Accounting period number
+        </ResponseField>
+        <ResponseField name="openDate" type="string">
+          Opening date
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+### Example Request
+
+```bash
+curl --request GET \
+  --url "https://gpo-sandbox.izipay.ao/v1/merchants/185737/points-of-sale?$filter=state eq 'OPEN'" \
+  --header "Authorization: Bearer YOUR_TOKEN"
+```
+
+### Example Response
+
+```json
+{
+  "result": [
+    {
+      "id": "413206",
+      "name": "Terminal 1",
+      "state": "OPEN",
+      "createdDate": "2022-01-01T12:00:00Z",
+      "updatedDate": "2022-01-01T12:00:00Z",
+      "establishment": {
+        "id": "12345",
+        "name": "Establishment 1"
+      },
+      "merchant": {
+        "id": "185737",
+        "name": "Merchant Name"
+      },
+      "currentClearingPeriod": {
+        "number": 123,
+        "openDate": "2023-01-01T12:00:00Z"
+      }
+    },
+    {
+      "id": "413208",
+      "name": "Terminal 3",
+      "state": "OPEN",
+      "createdDate": "2022-01-01T12:00:00Z",
+      "updatedDate": "2022-01-01T12:00:00Z",
+      "establishment": {
+        "id": "67890",
+        "name": "Establishment 2"
+      },
+      "merchant": {
+        "id": "185737",
+        "name": "Merchant Name"
+      },
+      "currentClearingPeriod": {
+        "number": 45,
+        "openDate": "2023-01-01T12:00:00Z"
+      }
+    }
+  ]
+}
+```
+
+### Response Codes
+
+| Status Code | Description |
+|-------------|-------------|
+| 200 | OK - Terminals retrieved successfully |
+| 401 | Unauthorized - Invalid token |
+| 404 | Not Found - Merchant not found | 

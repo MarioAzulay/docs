@@ -1,0 +1,137 @@
+---
+title: 'Cancel Scheduled Payment'
+api: 'POST https://gpo-sandbox.izipay.ao/v1/merchants/{merchantId}/scheduled-payments/{scheduledPaymentId}/cancellations'
+description: 'Cancel a scheduled payment'
+---
+
+## Cancel Scheduled Payment
+
+This service allows you to cancel a scheduled payment that has not yet been processed. Once cancelled, the scheduled payment will not be processed on the scheduled date.
+
+### Authentication
+
+<ParamField header="Authorization" type="string" required>
+  Bearer token in the format: `Bearer {token}`
+</ParamField>
+
+### Path Parameters
+
+<ParamField path="merchantId" type="string" required>
+  Merchant ID
+</ParamField>
+
+<ParamField path="scheduledPaymentId" type="string" required>
+  Scheduled Payment ID
+</ParamField>
+
+### Response
+
+<ResponseField name="id" type="string">
+  Scheduled Payment ID
+</ResponseField>
+
+<ResponseField name="amount" type="number">
+  Payment amount
+</ResponseField>
+
+<ResponseField name="currency" type="string">
+  Currency code
+</ResponseField>
+
+<ResponseField name="scheduledDate" type="string">
+  Date when the payment was scheduled to be processed
+</ResponseField>
+
+<ResponseField name="status" type="string">
+  Scheduled payment status (will be "CANCELLED")
+</ResponseField>
+
+<ResponseField name="merchantReferenceNumber" type="string">
+  Merchant reference number
+</ResponseField>
+
+<ResponseField name="description" type="string">
+  Description of the scheduled payment
+</ResponseField>
+
+<ResponseField name="callbackUrl" type="string">
+  URL to be called after payment processing
+</ResponseField>
+
+<ResponseField name="createdDate" type="string">
+  Creation date
+</ResponseField>
+
+<ResponseField name="updatedDate" type="string">
+  Update date
+</ResponseField>
+
+<ResponseField name="paymentMethod" type="object">
+  <Expandable title="Properties">
+    <ResponseField name="type" type="string">
+      Payment method type (MOBILE, CARD)
+    </ResponseField>
+    <ResponseField name="mobile" type="object">
+      <Expandable title="Properties">
+        <ResponseField name="phoneNumber" type="string">
+          Customer phone number
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="merchant" type="object">
+  <Expandable title="Properties">
+    <ResponseField name="id" type="string">
+      Merchant ID
+    </ResponseField>
+    <ResponseField name="name" type="string">
+      Merchant name
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+### Example Request
+
+```bash
+curl --request POST \
+  --url "https://gpo-sandbox.izipay.ao/v1/merchants/123456/scheduled-payments/SP8TU5PDFXH76GVLT8/cancellations" \
+  --header "Authorization: Bearer YOUR_TOKEN"
+```
+
+### Example Response
+
+```json
+{
+  "id": "SP8TU5PDFXH76GVLT8",
+  "amount": 1000.00,
+  "currency": "AOA",
+  "scheduledDate": "2023-12-31T12:00:00Z",
+  "status": "CANCELLED",
+  "merchantReferenceNumber": "REF123456",
+  "description": "Monthly subscription payment",
+  "callbackUrl": "https://example.com/callback",
+  "createdDate": "2023-01-01T12:00:00Z",
+  "updatedDate": "2023-01-02T10:00:00Z",
+  "paymentMethod": {
+    "type": "MOBILE",
+    "mobile": {
+      "phoneNumber": "923456789"
+    }
+  },
+  "merchant": {
+    "id": "123456",
+    "name": "Merchant Name"
+  }
+}
+```
+
+### Response Codes
+
+| Status Code | Description |
+|-------------|-------------|
+| 200 | OK - Scheduled payment cancelled successfully |
+| 400 | Bad Request - Cannot cancel a payment that has already been processed or cancelled |
+| 401 | Unauthorized - Invalid token |
+| 404 | Not Found - Merchant or scheduled payment not found | 
