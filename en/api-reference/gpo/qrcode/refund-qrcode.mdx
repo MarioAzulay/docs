@@ -1,0 +1,63 @@
+---
+title: 'Refund QR Code'
+api: 'POST /vl/points-of-sale/{posId}/qrcode/{paymentId}/refunds'
+description: 'Refund a QR Code payment'
+---
+
+## Refund QR Code Payment
+
+This service allows you to refund a payment that was made using a QR Code. The refund can be processed by providing the payment ID and the required refund details.
+
+### Authentication
+
+<ParamField header="Authorization" type="string" required>
+  Bearer token in the format: `Bearer {token}`
+</ParamField>
+
+### Path Parameters
+
+<ParamField path="posId" type="string" required>
+  Point of Sale ID
+</ParamField>
+
+<ParamField path="paymentId" type="string" required>
+  Payment ID to be refunded
+</ParamField>
+
+### Request Body
+
+<ParamField body="amount" type="number" required>
+  Refund amount
+</ParamField>
+
+<ParamField body="currency" type="string" required>
+  Currency code (e.g., "AOA")
+</ParamField>
+
+<ParamField body="supervisorId" type="string" required>
+  Supervisor ID for authorization
+</ParamField>
+
+### Example Request
+
+```bash
+curl --request POST \
+  --url "https://gpo-sandbox.izipay.ao/v1/points-of-sale/123456/qrcode/PAYMENT123/refunds" \
+  --header "Authorization: Bearer YOUR_TOKEN" \
+  --header "Content-Type: application/json" \
+  --data '{
+    "amount": 5,
+    "currency": "AOA",
+    "supervisorId": "insert your supervisor id here"
+  }'
+```
+
+### Response Codes
+
+| Status Code | Description |
+|-------------|-------------|
+| 201 | Created - Refund processed successfully |
+| 400 | Bad Request - Invalid request body |
+| 401 | Unauthorized - Invalid token |
+| 404 | Not Found - Payment or Point of Sale not found |
+| 422 | Unprocessable Entity - Invalid refund amount or currency | 

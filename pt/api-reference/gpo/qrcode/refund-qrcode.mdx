@@ -1,0 +1,63 @@
+---
+title: 'Reembolso de Pagamento QR Code'
+api: 'POST /vl/points-of-sale/{posId}/qrcode/{paymentId}/refunds'
+description: 'Reembolsar um pagamento QR Code'
+---
+
+## Reembolso de Pagamento QR Code
+
+Este serviço permite reembolsar um pagamento que foi feito usando um QR Code. O reembolso pode ser processado fornecendo o ID do pagamento e os detalhes necessários do reembolso.
+
+### Autenticação
+
+<ParamField header="Authorization" type="string" required>
+  Token Bearer no formato: `Bearer {token}`
+</ParamField>
+
+### Parâmetros do Caminho
+
+<ParamField path="posId" type="string" required>
+  ID do Ponto de Venda
+</ParamField>
+
+<ParamField path="paymentId" type="string" required>
+  ID do pagamento a ser reembolsado
+</ParamField>
+
+### Corpo da Requisição
+
+<ParamField body="amount" type="number" required>
+  Valor do reembolso
+</ParamField>
+
+<ParamField body="currency" type="string" required>
+  Código da moeda (ex: "AOA")
+</ParamField>
+
+<ParamField body="supervisorId" type="string" required>
+  ID do supervisor para autorização
+</ParamField>
+
+### Exemplo de Requisição
+
+```bash
+curl --request POST \
+  --url "https://gpo-sandbox.izipay.ao/v1/points-of-sale/123456/qrcode/PAYMENT123/refunds" \
+  --header "Authorization: Bearer YOUR_TOKEN" \
+  --header "Content-Type: application/json" \
+  --data '{
+    "amount": 5,
+    "currency": "AOA",
+    "supervisorId": "insira seu id de supervisor aqui"
+  }'
+```
+
+### Códigos de Resposta
+
+| Código de Status | Descrição |
+|-------------|-------------|
+| 201 | Criado - Reembolso processado com sucesso |
+| 400 | Requisição Inválida - Corpo da requisição inválido |
+| 401 | Não Autorizado - Token inválido |
+| 404 | Não Encontrado - Pagamento ou Ponto de Venda não encontrado |
+| 422 | Entidade Não Processável - Valor do reembolso ou moeda inválidos | 

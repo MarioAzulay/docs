@@ -28,11 +28,11 @@
             ]
           },
           {
-            "anchor": "API Reference",
+            "anchor": "API",
             "icon": "rectangle-terminal",
             "groups": [
               {
-                "group": "API Reference",
+                "group": "API",
                 "pages": [
                   "en/api-reference/overview",
                   {
@@ -44,20 +44,6 @@
                       "en/api-reference/references/get-reference-history",
                       "en/api-reference/references/verify-reference",
                       "en/api-reference/references/list-references"
-                    ]
-                  },
-                  {
-                    "group": "Payments",
-                    "pages": [
-                      "en/api-reference/payments/list-payments",
-                      "en/api-reference/payments/get-payment"
-                    ]
-                  },
-                  {
-                    "group": "Notifications",
-                    "pages": [
-                      "en/api-reference/notifications/list-notifications",
-                      "en/api-reference/notifications/update-notification"
                     ]
                   },
                   {
@@ -136,7 +122,7 @@
                         "group": "QR Code",
                         "pages": [
                           "en/api-reference/gpo/qrcode/create-qrcode",
-                          "en/api-reference/gpo/qrcode/view-qrcode"
+                          "en/api-reference/gpo/qrcode/refund-qrcode"
                         ]
                       },
                       {
@@ -176,11 +162,11 @@
             ]
           },
           {
-            "anchor": "Referência da API",
+            "anchor": "API",
             "icon": "rectangle-terminal",
             "groups": [
               {
-                "group": "Referência da API",
+                "group": "API",
                 "pages": [
                   "pt/api-reference/overview",
                   {
@@ -192,20 +178,6 @@
                       "pt/api-reference/references/get-reference-history",
                       "pt/api-reference/references/verify-reference",
                       "pt/api-reference/references/list-references"
-                    ]
-                  },
-                  {
-                    "group": "Pagamentos",
-                    "pages": [
-                      "pt/api-reference/payments/list-payments",
-                      "pt/api-reference/payments/get-payment"
-                    ]
-                  },
-                  {
-                    "group": "Notificações",
-                    "pages": [
-                      "pt/api-reference/notifications/list-notifications",
-                      "pt/api-reference/notifications/update-notification"
                     ]
                   },
                   {
@@ -281,10 +253,10 @@
                         ]
                       },
                       {
-                        "group": "Código QR",
+                        "group": "QR Code",
                         "pages": [
                           "pt/api-reference/gpo/qrcode/create-qrcode",
-                          "pt/api-reference/gpo/qrcode/view-qrcode"
+                          "pt/api-reference/gpo/qrcode/refund-qrcode"
                         ]
                       },
                       {

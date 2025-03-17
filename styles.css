@@ -1,18 +1,6 @@
 /* Custom styles for IZI Pay documentation */
 
-/* Increase logo size */
-.logo-container img {
-  width: 580px !important; /* Increase from default size */
-  height: auto !important; /* Maintain aspect ratio */
-}
-
-/* Ensure the logo is properly centered in mobile view */
-@media (max-width: 768px) {
-  .logo-container img {
-    width: 150px !important; /* Slightly smaller on mobile but still larger than default */
-  }
-}
-
-.w-auto h-7 relative object-contain block dark:hidden {
-  width: 450px !important;
+.logo {
+  width: 200px !important;
+  height: auto !important;
 }
