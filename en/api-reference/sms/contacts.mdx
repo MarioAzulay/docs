@@ -18,6 +18,14 @@ https://sms.izipay.ao
 
 ## Create Contact
 
+### Endpoint
+
+```
+POST /api/Contactos/CadastrarContacto
+```
+
+### Request Parameters
+
 <ParamField body="id" type="integer">
     Contact ID (system-generated if not provided).
 </ParamField>
@@ -92,11 +100,17 @@ https://sms.izipay.ao
 
 </CodeGroup>
 
+---
+
 ## Create Contact List
 
-<ParamField path="criar-lista-com-contactos" type="string">
-    Endpoint for creating a contact list.
-</ParamField>
+### Endpoint
+
+```
+POST /api/Contactos/criar-lista-com-contactos
+```
+
+### Request Parameters
 
 <ParamField body="id" type="integer">
     List ID (system-generated if not provided).
@@ -141,32 +155,19 @@ https://sms.izipay.ao
     console.log('Contact list created:', response.data);
     ```
 
-    ```python Python
-    import requests
-
-    response = requests.post(
-    'https://sms.izipay.ao/api/Contactos/criar-lista-com-contactos',
-    json={
-    "nome": "Marketing List",
-    "contactoIds": [1, 2, 3, 4]
-},
-    headers={
-    'Authorization': 'Bearer YOUR_TOKEN',
-    'Content-Type': 'application/json'
-}
-    )
-
-    data = response.json()
-    print(f"Contact list created: {data}")
-    ```
-
 </CodeGroup>
+
+---
 
 ## List Contacts
 
-<ParamField path="ListarContactos" type="string">
-    Endpoint for retrieving all contacts.
-</ParamField>
+### Endpoint
+
+```
+GET /api/Contactos/ListarContactos
+```
+
+### Query Parameters
 
 <ParamField query="pageNumber" type="integer" default="1">
     Page number for pagination.
@@ -178,55 +179,23 @@ https://sms.izipay.ao
 
 ### Example Request
 
-<CodeGroup>
+```bash
+curl -X GET \
+"https://sms.izipay.ao/api/Contactos/ListarContactos?pageNumber=1&pageSize=10" \
+-H "Authorization: Bearer YOUR_TOKEN"
+```
 
-    ```bash cURL
-    curl -X GET \
-    "https://sms.izipay.ao/api/Contactos/ListarContactos?pageNumber=1&pageSize=10" \
-    -H "Authorization: Bearer YOUR_TOKEN"
-    ```
-
-    ```javascript Node.js
-    const axios = require('axios');
-
-    const response = await axios.get('https://sms.izipay.ao/api/Contactos/ListarContactos', {
-    params: {
-    pageNumber: 1,
-    pageSize: 10
-},
-    headers: {
-    'Authorization': 'Bearer YOUR_TOKEN'
-}
-});
-
-    console.log('Contacts:', response.data);
-    ```
-
-    ```python Python
-    import requests
-
-    response = requests.get(
-    'https://sms.izipay.ao/api/Contactos/ListarContactos',
-    params={
-    'pageNumber': 1,
-    'pageSize': 10
-},
-    headers={
-    'Authorization': 'Bearer YOUR_TOKEN'
-}
-    )
-
-    data = response.json()
-    print(f"Contacts: {data}")
-    ```
-
-</CodeGroup>
+---
 
 ## List Contact Lists
 
-<ParamField path="ListarListasDeContactos" type="string">
-    Endpoint for retrieving all contact lists.
-</ParamField>
+### Endpoint
+
+```
+GET /api/Contactos/ListarListasDeContactos
+```
+
+### Query Parameters
 
 <ParamField query="pageNumber" type="integer" default="1">
     Page number for pagination.
@@ -238,59 +207,23 @@ https://sms.izipay.ao
 
 ### Example Request
 
-<CodeGroup>
+```bash
+curl -X GET \
+"https://sms.izipay.ao/api/Contactos/ListarListasDeContactos?pageNumber=1&pageSize=10" \
+-H "Authorization: Bearer YOUR_TOKEN"
+```
 
-    ```bash cURL
-    curl -X GET \
-    "https://sms.izipay.ao/api/Contactos/ListarListasDeContactos?pageNumber=1&pageSize=10" \
-    -H "Authorization: Bearer YOUR_TOKEN"
-    ```
-
-    ```javascript Node.js
-    const axios = require('axios');
-
-    const response = await axios.get('https://sms.izipay.ao/api/Contactos/ListarListasDeContactos', {
-    params: {
-    pageNumber: 1,
-    pageSize: 10
-},
-    headers: {
-    'Authorization': 'Bearer YOUR_TOKEN'
-}
-});
-
-    console.log('Contact Lists:', response.data);
-    ```
-
-    ```python Python
-    import requests
-
-    response = requests.get(
-    'https://sms.izipay.ao/api/Contactos/ListarListasDeContactos',
-    params={
-    'pageNumber': 1,
-    'pageSize': 10
-},
-    headers={
-    'Authorization': 'Bearer YOUR_TOKEN'
-}
-    )
-
-    data = response.json()
-    print(f"Contact Lists: {data}")
-    ```
-
-</CodeGroup>
+---
 
 ## Error Codes
 
-| Code | Description |
-|------|-------------|
+| Code | Description                                       |
+|------|---------------------------------------------------|
 | 400  | Invalid request format or missing required fields |
-| 401  | Unauthorized - Invalid or expired token |
-| 403  | Forbidden - Insufficient permissions |
-| 404  | Resource not found |
-| 500  | Server error |
+| 401  | Unauthorized - Invalid or expired token           |
+| 403  | Forbidden - Insufficient permissions              |
+| 404  | Resource not found                                |
+| 500  | Server error                                      |
 
 ## Best Practices
 
@@ -298,4 +231,4 @@ https://sms.izipay.ao
 - Regularly update contact information to ensure delivery
 - Segment contacts into targeted lists for better campaign performance
 - Respect privacy regulations when collecting and storing contact information
-- Implement proper validation for phone numbers to ensure correct format 
+- Implement proper validation for phone numbers to ensure correct format

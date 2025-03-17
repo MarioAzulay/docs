@@ -1,126 +1,58 @@
 ---
-title: 'Get Reference History'
-api: 'GET /v1/referencias/:id/historico'
-description: 'Get the history of a reference'
+title: 'Obter Histórico da Referência'
+api: 'GET https://api-sandbox.izipay.ao/v1/referencias/:id/historico'
+description: 'Obter o histórico de uma referência'
 ---
 
-## Get Reference History
+## Obter Histórico da Referência
 
-Retrieves the history of a previously created reference, including creation and status changes.
+Recupera o histórico de uma referência previamente criada, incluindo a criação e mudanças de estado.
 
-### Authentication
+### Autenticação
 
 <ParamField header="Authorization" type="string" required>
-  HMAC signature in the format: `ApiKey AppId:hash:nonce:timestamp`
+    Assinatura HMAC no formato: `ApiKey AppId:hash:nonce:timestamp`
 </ParamField>
 
 <ParamField query="AppId" type="string" required>
-  Your application ID provided by IZI Pay
+    O seu ID de aplicação fornecido pela IZI Pay
 </ParamField>
 
 <ParamField query="AppSecret" type="string" required>
-  Your application secret provided by IZI Pay (Base64 encoded)
+    O seu segredo de aplicação fornecido pela IZI Pay (codificado em Base64)
 </ParamField>
 
-### Path Parameters
+### Parâmetros de Caminho
 
 <ParamField path="id" type="string" required>
-  Unique reference ID
+    ID único da referência
 </ParamField>
 
-### Response
+### Resposta
 
 <ResponseField name="result" type="array">
-  <Expandable title="Items">
-    <ResponseField name="data" type="string">
-      Date and time of the operation
-    </ResponseField>
-    <ResponseField name="operacao" type="string">
-      Operation type
-    </ResponseField>
-    <ResponseField name="estado" type="string">
-      Reference state
-    </ResponseField>
-  </Expandable>
+    <Expandable title="Itens">
+        <ResponseField name="data" type="string">
+            Data e hora da operação
+        </ResponseField>
+        <ResponseField name="operacao" type="string">
+            Tipo de operação
+        </ResponseField>
+        <ResponseField name="estado" type="string">
+            Estado da referência
+        </ResponseField>
+    </Expandable>
 </ResponseField>
 
-### Example Request
+### Exemplo de Pedido
 
 ```bash
 curl --request GET \
-  --url https://api.izipay.ao/v1/referencias/00000000-0000-0000-0000-00000000000a/historico \
-  --header 'Authorization: ApiKey YOUR_HMAC_SIGNATURE'
+  --url https://api-sandbox.izipay.ao/v1/referencias/00000000-0000-0000-0000-00000000000a/historico \
+  --header 'Authorization: ApiKey SUA_ASSINATURA_HMAC'
 ```
 
-### C# Authentication Example
-
-```csharp
-using System;
-using System.Net.Http;
-using System.Security.Cryptography;
-using System.Text;
-using System.Threading.Tasks;
-
-class Program
-{
-    private static readonly HttpClient client = new();
-
-    static async Task Main(string[] args)
-    {
-        try
-        {
-            var referenceId = "00000000-0000-0000-0000-00000000000a"; // Replace with your reference ID
-            var uri = $"https://api.izipay.ao/v1/referencias/{referenceId}/historico";
-            
-            var hmacSignature = GenerateHmacSignature(uri, HttpMethod.Get);
-            Console.WriteLine("Generated HMAC Signature: " + hmacSignature);
-
-            client.DefaultRequestHeaders.Add("Authorization", $"ApiKey {hmacSignature}");
-
-            Console.WriteLine("Sending request to: " + uri);
-            var response = await client.GetAsync(uri);
-
-            var responseContent = await response.Content.ReadAsStringAsync();
-            Console.WriteLine("Response Status Code: " + response.StatusCode);
-            Console.WriteLine("Response Content: " + responseContent);
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine($"Error: {ex.Message}");
-            Console.WriteLine(ex.StackTrace);
-        }
-    }
-
-    static string GenerateHmacSignature(string uri, HttpMethod method, string? body = null)
-    {
-        var appId = "YOUR_APP_ID"; // Replace with your AppId
-        var appSecret = Convert.FromBase64String("YOUR_APP_SECRET"); // Replace with your Base64 encoded AppSecret
-
-        var content = string.Empty;
-        var nonce = Guid.NewGuid().ToString("N");
-        var epochStart = new DateTime(1970, 01, 01, 0, 0, 0, 0, DateTimeKind.Utc);
-        var timeSpan = DateTime.UtcNow - epochStart;
-        var timeStamp = Convert.ToUInt64(timeSpan.TotalSeconds).ToString();
-
-        if (body != null)
-        {
-            var bodyBytes = Encoding.UTF8.GetBytes(body);
-            var bodyHash = MD5.Create().ComputeHash(bodyBytes);
-            content = Convert.ToBase64String(bodyHash);
-        }
-        var message = $"{appId}{method.Method}{uri}{timeStamp}{nonce}{content}";
-        var signatureBytes = Encoding.UTF8.GetBytes(message);
-        using (var hmac = new HMACSHA256(appSecret))
-        {
-            var signature = hmac.ComputeHash(signatureBytes);
-            var hashed = Convert.ToBase64String(signature);
-            return $"{appId}:{hashed}:{nonce}:{timeStamp}";
-        }
-    }
-}
-```
-
-### Example Response
+### Exemplo de Resposta
 
 ```json
 {
@@ -129,19 +61,16 @@ class Program
       "data": "01/01/2020 00:00",
       "operacao": "Criação",
       "estado": "Válida"
-    },
-    {
-      
     }
   ]
 }
 ```
 
-### Response Codes
+### Códigos de Resposta
 
-| Status Code | Description |
-|-------------|-------------|
-| 200 | OK - Successfully retrieved reference history |
-| 400 | Bad Request - Invalid request |
-| 401 | Unauthorized - Invalid signature |
-| 402 | Payment Required - Delinquent account | 
+| Código de Estado | Descrição                                       |
+|------------------|-------------------------------------------------|
+| 200              | OK - Histórico da referência obtido com sucesso |
+| 400              | Pedido Inválido - Requisição inválida           |
+| 401              | Não Autorizado - Assinatura inválida            |
+| 402              | Pagamento Necessário - Conta em dívida          |

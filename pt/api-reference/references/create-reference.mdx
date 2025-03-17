@@ -1,115 +1,115 @@
 ---
-title: 'Criar Referência'
+title: 'Criar uma Referência'
 api: 'POST https://api-sandbox.izipay.ao/v1/referencias'
 description: 'Criar uma nova referência de pagamento'
 ---
 
-## Create a Reference
+## Criar uma Referência
 
-Creates a new payment reference for processing payments through the multicaixa network.
+Cria uma nova referência de pagamento para processar pagamentos através da rede Multicaixa.
 
-### Authentication
+### Autenticação
 
 <ParamField header="Authorization" type="string" required>
-  HMAC signature in the format: `ApiKey AppId:hash:nonce:timestamp`
+    Assinatura HMAC no formato: `ApiKey AppId:hash:nonce:timestamp`
 </ParamField>
 
 <ParamField query="AppId" type="string" required>
-  Your application ID provided by IZI Pay
+    O ID da sua aplicação fornecido pela IZI Pay
 </ParamField>
 
 <ParamField query="AppSecret" type="string" required>
-  Your application secret provided by IZI Pay (Base64 encoded)
+    O segredo da sua aplicação fornecido pela IZI Pay (codificado em Base64)
 </ParamField>
 
-### Request Body
+### Corpo da Requisição
 
 <ParamField body="montante" type="number" required>
-  Payment amount
+    Valor do pagamento
 </ParamField>
 
-<ParamField body="validade" type="string" required>
-  Reference validity date (format: DD/MM/YYYY HH:MM)
+<ParamField body="validade" type="string">
+    Data de validade da referência (formato: DD/MM/AAAA HH:MM)
 </ParamField>
 
-<ParamField body="cliente" type="object" required>
-  <Expandable title="Properties">
-    <ParamField body="nome" type="string" required>
-      Customer name
-    </ParamField>
-    <ParamField body="email" type="string">
-      Customer email
-    </ParamField>
-    <ParamField body="telefone" type="string">
-      Customer phone number
-    </ParamField>
-  </Expandable>
+<ParamField body="cliente" type="object">
+    <Expandable title="Propriedades">
+        <ParamField body="nome" type="string">
+            Nome do cliente
+        </ParamField>
+        <ParamField body="email" type="string">
+            Email do cliente
+        </ParamField>
+        <ParamField body="telefone" type="string">
+            Número de telefone do cliente
+        </ParamField>
+    </Expandable>
 </ParamField>
 
 <ParamField body="referencia" type="string">
-  Reference number (if not provided, a random one will be generated)
+    Número da referência (se não for informado, um será gerado automaticamente)
 </ParamField>
 
-### Response
+### Resposta
 
 <ResponseField name="result" type="object">
-  <Expandable title="Properties">
-    <ResponseField name="pago" type="string">
-      Amount paid
-    </ResponseField>
-    <ResponseField name="montante" type="string">
-      Total amount
-    </ResponseField>
-    <ResponseField name="emissao" type="string">
-      Issue date
-    </ResponseField>
-    <ResponseField name="validade" type="string">
-      Validity date
-    </ResponseField>
-    <ResponseField name="numero" type="string">
-      Reference number
-    </ResponseField>
-    <ResponseField name="tipo" type="string">
-      Reference type
-    </ResponseField>
-    <ResponseField name="estado" type="string">
-      Reference state
-    </ResponseField>
-    <ResponseField name="entidade" type="object">
-      <Expandable title="Properties">
-        <ResponseField name="nome" type="string">
-          Entity name
+    <Expandable title="Propriedades">
+        <ResponseField name="pago" type="string">
+            Valor pago
+        </ResponseField>
+        <ResponseField name="montante" type="string">
+            Valor total
+        </ResponseField>
+        <ResponseField name="emissao" type="string">
+            Data de emissão
+        </ResponseField>
+        <ResponseField name="validade" type="string">
+            Data de validade
         </ResponseField>
         <ResponseField name="numero" type="string">
-          Entity number
+            Número da referência
         </ResponseField>
-      </Expandable>
-    </ResponseField>
-    <ResponseField name="cliente" type="object">
-      <Expandable title="Properties">
-        <ResponseField name="nome" type="string">
-          Customer name
+        <ResponseField name="tipo" type="string">
+            Tipo de referência
         </ResponseField>
-        <ResponseField name="email" type="string">
-          Customer email
+        <ResponseField name="estado" type="string">
+            Estado da referência
         </ResponseField>
-        <ResponseField name="telefone" type="string">
-          Customer phone
+        <ResponseField name="entidade" type="object">
+            <Expandable title="Propriedades">
+                <ResponseField name="nome" type="string">
+                    Nome da entidade
+                </ResponseField>
+                <ResponseField name="numero" type="string">
+                    Número da entidade
+                </ResponseField>
+            </Expandable>
         </ResponseField>
-      </Expandable>
-    </ResponseField>
-    <ResponseField name="id" type="string">
-      Unique reference ID
-    </ResponseField>
-  </Expandable>
+        <ResponseField name="cliente" type="object">
+            <Expandable title="Propriedades">
+                <ResponseField name="nome" type="string">
+                    Nome do cliente
+                </ResponseField>
+                <ResponseField name="email" type="string">
+                    Email do cliente
+                </ResponseField>
+                <ResponseField name="telefone" type="string">
+                    Telefone do cliente
+                </ResponseField>
+            </Expandable>
+        </ResponseField>
+        <ResponseField name="id" type="string">
+            ID único da referência
+        </ResponseField>
+    </Expandable>
 </ResponseField>
 
-### Example Request
+### Exemplo de Requisição
 
 ```bash
 curl --request POST \
   --url https://api.izipay.ao/v1/referencias \
-  --header 'Authorization: ApiKey YOUR_HMAC_SIGNATURE' \
+  --header 'Authorization: ApiKey SUA_ASSINATURA_HMAC' \
   --header 'Content-Type: application/json' \
   --data '{
   "montante": 10000,
@@ -121,92 +121,7 @@ curl --request POST \
   }
 }'
 ```
-
-### C# Authentication Example
-
-```csharp
-using System;
-using System.Net.Http;
-using System.Security.Cryptography;
-using System.Text;
-using System.Threading.Tasks;
-using Newtonsoft.Json;
-
-class Program
-{
-    private static readonly HttpClient client = new();
-
-    static async Task Main(string[] args)
-    {
-        try
-        {
-            var uri = "https://api.izipay.ao/v1/referencias";
-            var referenceRequest = new
-            {
-                montante = "1000,25",
-                validade = "27/02/2025 17:00",
-                cliente = new
-                {
-                    nome = "John Doe",
-                    email = "john.doe@domain.xx",
-                    telefone = "900000000"
-                }
-            };
-
-            var jsonBody = JsonConvert.SerializeObject(referenceRequest);
-            Console.WriteLine("Request Body: " + jsonBody);
-
-            var hmacSignature = GenerateHmacSignature(uri, HttpMethod.Post, jsonBody);
-            Console.WriteLine("Generated HMAC Signature: " + hmacSignature);
-
-            client.DefaultRequestHeaders.Add("Authorization", $"ApiKey {hmacSignature}");
-
-            var content = new StringContent(jsonBody, Encoding.UTF8, "application/json");
-
-            Console.WriteLine("Sending request to: " + uri);
-            var response = await client.PostAsync(uri, content);
-
-            var responseContent = await response.Content.ReadAsStringAsync();
-            Console.WriteLine("Response Status Code: " + response.StatusCode);
-            Console.WriteLine("Response Content: " + responseContent);
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine($"Error: {ex.Message}");
-            Console.WriteLine(ex.StackTrace);
-        }
-    }
-
-    static string GenerateHmacSignature(string uri, HttpMethod method, string? body = null)
-    {
-        var appId = "YOUR_APP_ID"; // Replace with your AppId
-        var appSecret = Convert.FromBase64String("YOUR_APP_SECRET"); // Replace with your Base64 encoded AppSecret
-
-        var content = string.Empty;
-        var nonce = Guid.NewGuid().ToString("N");
-        var epochStart = new DateTime(1970, 01, 01, 0, 0, 0, 0, DateTimeKind.Utc);
-        var timeSpan = DateTime.UtcNow - epochStart;
-        var timeStamp = Convert.ToUInt64(timeSpan.TotalSeconds).ToString();
-
-        if (body != null)
-        {
-            var bodyBytes = Encoding.UTF8.GetBytes(body);
-            var bodyHash = MD5.Create().ComputeHash(bodyBytes);
-            content = Convert.ToBase64String(bodyHash);
-        }
-        var message = $"{appId}{method.Method}{uri}{timeStamp}{nonce}{content}";
-        var signatureBytes = Encoding.UTF8.GetBytes(message);
-        using (var hmac = new HMACSHA256(appSecret))
-        {
-            var signature = hmac.ComputeHash(signatureBytes);
-            var hashed = Convert.ToBase64String(signature);
-            return $"{appId}:{hashed}:{nonce}:{timeStamp}";
-        }
-    }
-}
-```
-
-### Example Response
+### Exemplo de Resposta
 
 ```json
 {
@@ -232,12 +147,12 @@ class Program
 }
 ```
 
-### Response Codes
+### Códigos de resposta
 
-| Status Code | Description |
-|-------------|-------------|
-| 200 | OK - Successfully created reference |
-| 400 | Bad Request - Invalid request |
-| 401 | Unauthorized - Invalid signature |
-| 402 | Payment Required - Delinquent account |
-| 422 | Unprocessable Entity - Reference already exists | 
+| Status Code | Description                                     |
+|-------------|-------------------------------------------------|
+| 200         | OK - Successfully created reference             |
+| 400         | Bad Request - Invalid request                   |
+| 401         | Unauthorized - Invalid signature                |
+| 402         | Payment Required - Delinquent account           |
+| 422         | Unprocessable Entity - Reference already exists | 

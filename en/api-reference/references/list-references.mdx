@@ -1,6 +1,6 @@
 ---
 title: 'List References'
-api: 'GET /v1/referencias'
+api: 'GET https://api-sandbox.izipay.ao/v1/referencias'
 description: 'List all references created previously'
 ---
 
@@ -118,75 +118,8 @@ Lists all references created previously. References are returned in order, with 
 
 ```bash
 curl --request GET \
-  --url 'https://api.izipay.ao/v1/referencias?page=1&pageSize=10' \
+  --url 'https://api-sandbox.izipay.ao/v1/referencias?page=1&pageSize=10' \
   --header 'Authorization: ApiKey YOUR_HMAC_SIGNATURE'
-```
-
-### C# Authentication Example
-
-```csharp
-using System;
-using System.Net.Http;
-using System.Security.Cryptography;
-using System.Text;
-using System.Threading.Tasks;
-
-class Program
-{
-    private static readonly HttpClient client = new();
-
-    static async Task Main(string[] args)
-    {
-        try
-        {
-            var uri = "https://api.izipay.ao/v1/referencias?page=1&pageSize=10";
-            
-            var hmacSignature = GenerateHmacSignature(uri, HttpMethod.Get);
-            Console.WriteLine("Generated HMAC Signature: " + hmacSignature);
-
-            client.DefaultRequestHeaders.Add("Authorization", $"ApiKey {hmacSignature}");
-
-            Console.WriteLine("Sending request to: " + uri);
-            var response = await client.GetAsync(uri);
-
-            var responseContent = await response.Content.ReadAsStringAsync();
-            Console.WriteLine("Response Status Code: " + response.StatusCode);
-            Console.WriteLine("Response Content: " + responseContent);
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine($"Error: {ex.Message}");
-            Console.WriteLine(ex.StackTrace);
-        }
-    }
-
-    static string GenerateHmacSignature(string uri, HttpMethod method, string? body = null)
-    {
-        var appId = "YOUR_APP_ID"; // Replace with your AppId
-        var appSecret = Convert.FromBase64String("YOUR_APP_SECRET"); // Replace with your Base64 encoded AppSecret
-
-        var content = string.Empty;
-        var nonce = Guid.NewGuid().ToString("N");
-        var epochStart = new DateTime(1970, 01, 01, 0, 0, 0, 0, DateTimeKind.Utc);
-        var timeSpan = DateTime.UtcNow - epochStart;
-        var timeStamp = Convert.ToUInt64(timeSpan.TotalSeconds).ToString();
-
-        if (body != null)
-        {
-            var bodyBytes = Encoding.UTF8.GetBytes(body);
-            var bodyHash = MD5.Create().ComputeHash(bodyBytes);
-            content = Convert.ToBase64String(bodyHash);
-        }
-        var message = $"{appId}{method.Method}{uri}{timeStamp}{nonce}{content}";
-        var signatureBytes = Encoding.UTF8.GetBytes(message);
-        using (var hmac = new HMACSHA256(appSecret))
-        {
-            var signature = hmac.ComputeHash(signatureBytes);
-            var hashed = Convert.ToBase64String(signature);
-            return $"{appId}:{hashed}:{nonce}:{timeStamp}";
-        }
-    }
-}
 ```
 
 ### Example Response
@@ -224,9 +157,9 @@ class Program
 
 ### Response Codes
 
-| Status Code | Description |
-|-------------|-------------|
-| 200 | OK - Successfully retrieved references |
-| 400 | Bad Request - Invalid request |
-| 401 | Unauthorized - Invalid signature |
-| 402 | Payment Required - Delinquent account | 
+| Status Code | Description                            |
+|-------------|----------------------------------------|
+| 200         | OK - Successfully retrieved references |
+| 400         | Bad Request - Invalid request          |
+| 401         | Unauthorized - Invalid signature       |
+| 402         | Payment Required - Delinquent account  | 

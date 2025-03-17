@@ -1,51 +1,51 @@
 ---
-title: 'SMS History & Reporting'
+title: 'Histórico e Relatórios de SMS'
 api: 'GET https://sms.izipay.ao/api/Envio/ListarSmsEnviadas'
-description: 'Access and analyze your SMS messaging history and reports.'
+description: 'Acesse e analise o histórico e os relatórios das suas mensagens SMS.'
 ---
 
-# SMS History & Reporting
+# Histórico e Relatórios de SMS
 
-Access detailed information about your SMS messaging history, including delivery status, timestamps, and analytics.
+Acesse informações detalhadas sobre o histórico das suas mensagens SMS, incluindo status de entrega, timestamps e análises.
 
-## Base URL
+## URL Base
 
-All API requests should be made to the following base URL:
+Todas as solicitações da API devem ser feitas para o seguinte URL base:
 
 ```
 https://sms.izipay.ao
 ```
 
-## List Sent SMS Messages
+## Listar Mensagens SMS Enviadas
 
-Retrieve a paginated list of all SMS messages sent from your account.
+Recupere uma lista paginada de todas as mensagens SMS enviadas da sua conta.
 
 <ParamField path="Envio/ListarSmsEnviadas" type="string">
-    Endpoint for listing sent SMS messages.
+    Endpoint para listar mensagens SMS enviadas.
 </ParamField>
 
 <ParamField query="pageNumber" type="integer" default="1">
-    Page number for pagination.
+    Número da página para paginação.
 </ParamField>
 
 <ParamField query="pageSize" type="integer" default="10">
-    Number of SMS messages per page.
+    Número de mensagens SMS por página.
 </ParamField>
 
 ### Headers
 
 <ParamField header="Authorization" type="string" required>
-    Bearer token received from the authentication endpoint. Format: `Bearer YOUR_TOKEN`
+    Token Bearer recebido do endpoint de autenticação. Formato: `Bearer SEU_TOKEN`
 </ParamField>
 
-### Example Request
+### Exemplo de Requisição
 
 <CodeGroup>
 
     ```bash cURL
     curl -X GET \
     "https://sms.izipay.ao/api/Envio/ListarSmsEnviadas?pageNumber=1&pageSize=10" \
-    -H "Authorization: Bearer YOUR_TOKEN"
+    -H "Authorization: Bearer SEU_TOKEN"
     ```
 
     ```javascript Node.js
@@ -57,11 +57,11 @@ Retrieve a paginated list of all SMS messages sent from your account.
     pageSize: 10
 },
     headers: {
-    'Authorization': 'Bearer YOUR_TOKEN'
+    'Authorization': 'Bearer SEU_TOKEN'
 }
 });
 
-    console.log('SMS History:', response.data);
+    console.log('Histórico de SMS:', response.data);
     ```
 
     ```python Python
@@ -74,224 +74,145 @@ Retrieve a paginated list of all SMS messages sent from your account.
     'pageSize': 10
 },
     headers={
-    'Authorization': 'Bearer YOUR_TOKEN'
+    'Authorization': 'Bearer SEU_TOKEN'
 }
     )
 
     data = response.json()
-    print(f"SMS History: {data}")
+    print(f"Histórico de SMS: {data}")
     ```
 
 </CodeGroup>
 
-## Search SMS by Date
+## Pesquisar SMS por Data
 
-Search for SMS messages sent on a specific date.
+Pesquise mensagens SMS enviadas em uma data específica.
 
 <ParamField path="Envio/PesquisarSMSEnviados" type="string">
-    Endpoint for searching SMS messages by date.
+    Endpoint para pesquisar mensagens SMS por data.
 </ParamField>
 
 <ParamField query="dia" type="integer" required>
-    Day of the month (1-31).
+    Dia do mês (1-31).
 </ParamField>
 
 <ParamField query="mes" type="integer" required>
-    Month (1-12).
+    Mês (1-12).
 </ParamField>
 
 <ParamField query="ano" type="integer" required>
-    Year (e.g., 2023).
+    Ano (ex.: 2023).
 </ParamField>
 
-### Example Request
+### Exemplo de Requisição
 
 <CodeGroup>
 
     ```bash cURL
     curl -X GET \
     "https://sms.izipay.ao/api/Envio/PesquisarSMSEnviados?dia=15&mes=3&ano=2023" \
-    -H "Authorization: Bearer YOUR_TOKEN"
-    ```
-
-    ```javascript Node.js
-    const axios = require('axios');
-
-    const response = await axios.get('https://sms.izipay.ao/api/Envio/PesquisarSMSEnviados', {
-    params: {
-    dia: 15,
-    mes: 3,
-    ano: 2023
-},
-    headers: {
-    'Authorization': 'Bearer YOUR_TOKEN'
-}
-});
-
-    console.log('SMS Messages:', response.data);
-    ```
-
-    ```python Python
-    import requests
-
-    response = requests.get(
-    'https://sms.izipay.ao/api/Envio/PesquisarSMSEnviados',
-    params={
-    'dia': 15,
-    'mes': 3,
-    'ano': 2023
-},
-    headers={
-    'Authorization': 'Bearer YOUR_TOKEN'
-}
-    )
-
-    data = response.json()
-    print(f"SMS Messages: {data}")
+    -H "Authorization: Bearer SEU_TOKEN"
     ```
 
 </CodeGroup>
 
-## Search SMS by Date Range
+## Pesquisar SMS por Intervalo de Datas
 
-Search for SMS messages sent within a specific date range.
+Pesquise mensagens SMS enviadas dentro de um intervalo de datas específico.
 
 <ParamField path="Envio/pesquisarEnviosPorIntervaloDeDatas" type="string">
-    Endpoint for searching SMS messages by date range.
+    Endpoint para pesquisar mensagens SMS por intervalo de datas.
 </ParamField>
 
 <ParamField query="diaInicio" type="integer" required>
-    Start day (1-31).
+    Dia inicial (1-31).
 </ParamField>
 
 <ParamField query="mesInicio" type="integer" required>
-    Start month (1-12).
+    Mês inicial (1-12).
 </ParamField>
 
 <ParamField query="anoInicio" type="integer" required>
-    Start year (e.g., 2023).
+    Ano inicial (ex.: 2023).
 </ParamField>
 
 <ParamField query="diaFim" type="integer" required>
-    End day (1-31).
+    Dia final (1-31).
 </ParamField>
 
 <ParamField query="mesFim" type="integer" required>
-    End month (1-12).
+    Mês final (1-12).
 </ParamField>
 
 <ParamField query="anoFim" type="integer" required>
-    End year (e.g., 2023).
+    Ano final (ex.: 2023).
 </ParamField>
 
-### Example Request
+### Exemplo de Requisição
 
 <CodeGroup>
 
     ```bash cURL
     curl -X GET \
-    "https://sms.izipay.ao/api/Envio/pesquisarEnviosPorIntervaloDeDatas?diaInicio=1&mesInicio=3&anoInicio=2023&diaFim=15&mesFim=3&anoFim=2023"
-    \
-    -H "Authorization: Bearer YOUR_TOKEN"
-    ```
-
-    ```javascript Node.js
-    const axios = require('axios');
-
-    const response = await axios.get('https://sms.izipay.ao/api/Envio/pesquisarEnviosPorIntervaloDeDatas', {
-    params: {
-    diaInicio: 1,
-    mesInicio: 3,
-    anoInicio: 2023,
-    diaFim: 15,
-    mesFim: 3,
-    anoFim: 2023
-},
-    headers: {
-    'Authorization': 'Bearer YOUR_TOKEN'
-}
-});
-
-    console.log('SMS Messages:', response.data);
-    ```
-
-    ```python Python
-    import requests
-
-    response = requests.get(
-    'https://sms.izipay.ao/api/Envio/pesquisarEnviosPorIntervaloDeDatas',
-    params={
-    'diaInicio': 1,
-    'mesInicio': 3,
-    'anoInicio': 2023,
-    'diaFim': 15,
-    'mesFim': 3,
-    'anoFim': 2023
-},
-    headers={
-    'Authorization': 'Bearer YOUR_TOKEN'
-}
-    )
-
-    data = response.json()
-    print(f"SMS Messages: {data}")
+    "https://sms.izipay.ao/api/Envio/pesquisarEnviosPorIntervaloDeDatas?diaInicio=1&mesInicio=3&anoInicio=2023&diaFim=15&mesFim=3&anoFim=2023" \
+    -H "Authorization: Bearer SEU_TOKEN"
     ```
 
 </CodeGroup>
 
-## Response Format
+## Formato de Resposta
 
 <ResponseField name="items" type="array">
-    Array of SMS message objects.
+    Lista de objetos de mensagens SMS.
 </ResponseField>
 
 <ResponseField name="items[].id" type="integer">
-    Unique identifier for the SMS message.
+    Identificador único da mensagem SMS.
 </ResponseField>
 
 <ResponseField name="items[].conteudo" type="string">
-    Content of the SMS message.
+    Conteúdo da mensagem SMS.
 </ResponseField>
 
 <ResponseField name="items[].dataEnvio" type="string">
-    Date and time when the SMS was sent.
+    Data e hora de envio da SMS.
 </ResponseField>
 
 <ResponseField name="items[].destinatario" type="string">
-    Recipient phone number.
+    Número de telefone do destinatário.
 </ResponseField>
 
 <ResponseField name="items[].status" type="string">
-    Delivery status of the SMS (e.g., "Delivered", "Failed").
+    Status de entrega da SMS (ex.: "Entregue", "Falhou").
 </ResponseField>
 
 <ResponseField name="totalItems" type="integer">
-    Total number of SMS messages matching the query.
+    Número total de mensagens SMS correspondentes à consulta.
 </ResponseField>
 
 <ResponseField name="totalPages" type="integer">
-    Total number of pages available.
+    Número total de páginas disponíveis.
 </ResponseField>
 
 <ResponseField name="currentPage" type="integer">
-    Current page number.
+    Número da página atual.
 </ResponseField>
 
-## Error Codes
+## Códigos de Erro
 
-| Code | Description |
-|------|-------------|
-| 400  | Invalid request format or missing required fields |
-| 401  | Unauthorized - Invalid or expired token |
-| 403  | Forbidden - Insufficient permissions |
-| 500  | Server error |
+| Código | Descrição                                                       |
+|--------|-----------------------------------------------------------------|
+| 400    | Formato de solicitação inválido ou campos obrigatórios ausentes |
+| 401    | Não autorizado - Token inválido ou expirado                     |
+| 403    | Proibido - Permissões insuficientes                             |
+| 500    | Erro interno do servidor                                        |
 
-## Best Practices
+## Melhores Práticas
 
-- Regularly review your SMS history to monitor delivery rates
-- Use date range searches for analyzing campaign performance
-- Export reports for long-term record keeping
-- Monitor failed deliveries and investigate patterns
-- Use reporting data to optimize future campaigns
-- Implement analytics to track engagement metrics
-- Review historical data before planning new campaigns 
+- Revise regularmente o histórico de SMS para monitorar taxas de entrega.
+- Utilize pesquisas por intervalo de datas para analisar o desempenho das campanhas.
+- Exporte relatórios para manter registros a longo prazo.
+- Monitore falhas de entrega e investigue padrões.
+- Utilize os dados dos relatórios para otimizar campanhas futuras.
+- Implemente análises para rastrear métricas de engajamento.
+- Revise dados históricos antes de planejar novas campanhas.

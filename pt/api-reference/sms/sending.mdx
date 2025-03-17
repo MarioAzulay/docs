@@ -1,49 +1,48 @@
 ---
-title: 'Sending SMS'
+title: 'Envio de SMS'
 api: 'POST https://sms.izipay.ao/api/enviar'
-description: 'Send SMS messages to one or multiple phone numbers.'
+description: 'Envie mensagens SMS para um ou vários números de telefone.'
 ---
 
-# Sending SMS
+# Envio de SMS
 
-After authentication, you can use this endpoint to send SMS messages to one or multiple recipients.
+Após a autenticação, pode utilizar este endpoint para enviar mensagens SMS para um ou vários destinatários.
 
-## Base URL
+## URL Base
 
-All API requests should be made to the following base URL:
+Todas as requisições à API devem ser feitas para a seguinte URL base:
 
 ```
 https://sms.izipay.ao
 ```
 
-## Request
+## Requisição
 
 <ParamField body="message" type="string" required>
-    The SMS message content to be sent to the recipients.
+    O conteúdo da mensagem SMS a ser enviada aos destinatários.
 </ParamField>
 
 <ParamField body="phoneNumbers" type="array" required>
-    An array of phone numbers to send the SMS to. Each phone number should include the country code (e.g., "244" for
-    Angola).
+    Uma lista de números de telefone para onde o SMS será enviado. Cada número deve incluir o código do país (ex.: "244" para Angola).
 </ParamField>
 
-## Headers
+## Cabeçalhos
 
 <ParamField header="Authorization" type="string" required>
-    Bearer token received from the authentication endpoint. Format: `Bearer YOUR_TOKEN`
+    Token Bearer recebido do endpoint de autenticação. Formato: `Bearer SEU_TOKEN`
 </ParamField>
 
-## Response
+## Resposta
 
 <ResponseField name="Message" type="string">
-    Status message indicating the result of the SMS sending operation.
+    Mensagem de status indicando o resultado da operação de envio do SMS.
 </ResponseField>
 
 <ResponseField name="MessageCount" type="string">
-    Number of messages successfully sent, returned as a string.
+    Número de mensagens enviadas com sucesso, retornado como string.
 </ResponseField>
 
-## Example Request
+## Exemplo de Requisição
 
 <CodeGroup>
 
@@ -51,9 +50,9 @@ https://sms.izipay.ao
     curl -X POST \
     https://sms.izipay.ao/api/enviar \
     -H "Content-Type: application/json" \
-    -H "Authorization: Bearer YOUR_TOKEN" \
+    -H "Authorization: Bearer SEU_TOKEN" \
     -d '{
-    "message": "Test SMS to be sent",
+    "message": "Teste de envio de SMS",
     "phoneNumbers": [
     "244999999999"
     ]
@@ -64,17 +63,17 @@ https://sms.izipay.ao
     const axios = require('axios');
 
     const response = await axios.post('https://sms.izipay.ao/api/enviar', {
-    message: "Test SMS to be sent",
+    message: "Teste de envio de SMS",
     phoneNumbers: ["244999999999"]
 }, {
     headers: {
-    'Authorization': 'Bearer YOUR_TOKEN',
+    'Authorization': 'Bearer SEU_TOKEN',
     'Content-Type': 'application/json'
 }
 });
 
-    console.log('SMS sent:', response.data);
-    console.log(`Message: ${response.data.Message}, Count: ${response.data.MessageCount}`);
+    console.log('SMS enviado:', response.data);
+    console.log(`Mensagem: ${response.data.Message}, Quantidade: ${response.data.MessageCount}`);
     ```
 
     ```python Python
@@ -83,54 +82,54 @@ https://sms.izipay.ao
     response = requests.post(
     'https://sms.izipay.ao/api/enviar',
     json={
-    "message": "Test SMS to be sent",
+    "message": "Teste de envio de SMS",
     "phoneNumbers": ["244999999999"]
 },
     headers={
-    'Authorization': 'Bearer YOUR_TOKEN',
+    'Authorization': 'Bearer SEU_TOKEN',
     'Content-Type': 'application/json'
 }
     )
 
     data = response.json()
-    print(f"SMS sent: {data}")
-    print(f"Message: {data['Message']}, Count: {data['MessageCount']}")
+    print(f"SMS enviado: {data}")
+    print(f"Mensagem: {data['Message']}, Quantidade: {data['MessageCount']}")
     ```
 
 </CodeGroup>
 
-## Example Response
+## Exemplo de Resposta
 
 ```json
 {
-  "Message": "Success!",
+  "Message": "Sucesso!",
   "MessageCount": "1"
 }
 ```
 
-## Error Codes
+## Códigos de Erro
 
-| Code | Description |
-|------|-------------|
-| 400  | Invalid request format or missing required fields |
-| 401  | Unauthorized - Invalid or expired token |
-| 403  | Forbidden - Insufficient permissions to send SMS |
-| 429  | Rate limit exceeded - Too many requests |
-| 500  | Server error - Failed to send SMS |
+| Código | Descrição                                                      |
+|--------|----------------------------------------------------------------|
+| 400    | Formato de requisição inválido ou campos obrigatórios ausentes |
+| 401    | Não autorizado - Token inválido ou expirado                    |
+| 403    | Proibido - Permissões insuficientes para enviar SMS            |
+| 429    | Limite de requisições excedido - Muitas tentativas             |
+| 500    | Erro no servidor - Falha ao enviar SMS                         |
 
-## Error Response Examples
+## Exemplos de Resposta de Erro
 
-### Invalid Credentials (401)
+### Credenciais Inválidas (401)
 
 ```json
 "Utilizador ou senha inválidos"
 ```
 
-## Best Practices
+## Boas Práticas
 
-- Keep SMS messages concise (under 160 characters when possible)
-- Include country codes in all phone numbers
-- Implement retry logic for failed messages
-- Respect local regulations regarding SMS marketing and communication
-- Avoid sending sensitive information via SMS
-- Consider time zones when scheduling bulk SMS sends 
+- Mantenha as mensagens SMS curtas (menos de 160 caracteres sempre que possível)
+- Inclua códigos de país em todos os números de telefone
+- Implemente lógica de reenvio para mensagens que falharem
+- Respeite as regulamentações locais sobre marketing e comunicação por SMS
+- Evite enviar informações sensíveis via SMS
+- Considere os fusos horários ao agendar envios em massa de SMS

@@ -1,68 +1,68 @@
 ---
-title: 'Scheduled SMS'
+title: 'Envio Agendado de SMS'
 api: 'POST https://sms.izipay.ao/api/EnvioAgendado/agendar-envio'
-description: 'Schedule SMS messages to be sent at a specific date and time.'
+description: 'Agende o envio de mensagens SMS para uma data e hora específicas.'
 ---
 
-# Scheduled SMS
+# Envio Agendado de SMS
 
-Schedule SMS messages to be sent at a specific date and time, allowing you to plan your messaging campaigns in advance.
+Agende o envio de mensagens SMS para uma data e hora específicas, permitindo planejar campanhas com antecedência.
 
-## Base URL
+## URL Base
 
-All API requests should be made to the following base URL:
+Todas as requisições devem ser feitas para a seguinte URL base:
 
 ```
 https://sms.izipay.ao
 ```
 
-## Schedule SMS
+## Agendar Envio de SMS
 
 <ParamField path="EnvioAgendado/agendar-envio" type="string">
-    Endpoint for scheduling an SMS to be sent at a later time.
+    Endpoint para agendar um SMS para envio posterior.
 </ParamField>
 
-### Request Parameters
+### Parâmetros da Requisição
 
 <ParamField body="smsId" type="integer" required>
-    ID of the SMS template to use.
+    ID do template de SMS a ser utilizado.
 </ParamField>
 
 <ParamField body="ano" type="integer" required>
-    Year for scheduled delivery (e.g., 2023).
+    Ano de envio agendado (exemplo: 2023).
 </ParamField>
 
 <ParamField body="mes" type="integer" required>
-    Month for scheduled delivery (1-12).
+    Mês do envio agendado (1-12).
 </ParamField>
 
 <ParamField body="dia" type="integer" required>
-    Day for scheduled delivery (1-31).
+    Dia do envio agendado (1-31).
 </ParamField>
 
 <ParamField body="hora" type="integer" required>
-    Hour for scheduled delivery (0-23, 24-hour format).
+    Hora do envio agendado (0-23, formato 24h).
 </ParamField>
 
 <ParamField body="minuto" type="integer" required>
-    Minute for scheduled delivery (0-59).
+    Minuto do envio agendado (0-59).
 </ParamField>
 
 <ParamField body="contactosIds" type="array" required>
-    Array of contact IDs to send the SMS to.
+    Lista de IDs de contatos para envio do SMS.
 </ParamField>
 
-### Headers
+### Cabeçalhos
 
 <ParamField header="Authorization" type="string" required>
-    Bearer token received from the authentication endpoint. Format: `Bearer YOUR_TOKEN`
+    Token Bearer recebido no endpoint de autenticação. Formato: `Bearer YOUR_TOKEN`
 </ParamField>
 
 <ParamField header="Content-Type" type="string" required>
-    Must be set to `application/json`.
+    Deve ser `application/json`.
 </ParamField>
 
-### Example Request
+### Exemplo de Requisição
 
 <CodeGroup>
 
@@ -100,7 +100,7 @@ https://sms.izipay.ao
 }
 });
 
-    console.log('SMS scheduled:', response.data);
+    console.log('SMS agendado:', response.data);
     ```
 
     ```python Python
@@ -123,118 +123,42 @@ https://sms.izipay.ao
 }
     )
 
-    data = response.json()
-    print(f"SMS scheduled: {data}")
+    print(f"SMS agendado: {response.json()}")
     ```
 
 </CodeGroup>
 
-## Schedule SMS to a Contact List
-
-You can also schedule an SMS to be sent to a contact list by using the following endpoint:
-
-<ParamField path="Envio/enviar-para-lista" type="string">
-    Endpoint for sending SMS to a contact list.
-</ParamField>
-
-<ParamField body="listaId" type="integer" required>
-    ID of the contact list to send the SMS to.
-</ParamField>
-
-<ParamField body="remetente" type="string">
-    Sender name or number (if supported by your provider).
-</ParamField>
-
-<ParamField body="conteudo" type="string" required>
-    Content of the SMS message.
-</ParamField>
-
-### Example Request
-
-<CodeGroup>
-
-    ```bash cURL
-    curl -X POST \
-    https://sms.izipay.ao/api/Envio/enviar-para-lista \
-    -H "Content-Type: application/json" \
-    -H "Authorization: Bearer YOUR_TOKEN" \
-    -d '{
-    "listaId": 123,
-    "remetente": "IZI PAY",
-    "conteudo": "Your scheduled message content here"
-}'
-    ```
-
-    ```javascript Node.js
-    const axios = require('axios');
-
-    const response = await axios.post('https://sms.izipay.ao/api/Envio/enviar-para-lista', {
-    listaId: 123,
-    remetente: "IZI PAY",
-    conteudo: "Your scheduled message content here"
-}, {
-    headers: {
-    'Authorization': 'Bearer YOUR_TOKEN',
-    'Content-Type': 'application/json'
-}
-});
-
-    console.log('SMS scheduled to list:', response.data);
-    ```
-
-    ```python Python
-    import requests
-
-    response = requests.post(
-    'https://sms.izipay.ao/api/Envio/enviar-para-lista',
-    json={
-    "listaId": 123,
-    "remetente": "IZI PAY",
-    "conteudo": "Your scheduled message content here"
-},
-    headers={
-    'Authorization': 'Bearer YOUR_TOKEN',
-    'Content-Type': 'application/json'
-}
-    )
-
-    data = response.json()
-    print(f"SMS scheduled to list: {data}")
-    ```
-
-</CodeGroup>
-
-## Response Format
+## Formato da Resposta
 
 <ResponseField name="success" type="boolean">
-    Indicates whether the scheduling operation was successful.
+    Indica se a operação foi bem-sucedida.
 </ResponseField>
 
 <ResponseField name="data" type="object">
-    Contains information about the scheduled SMS.
+    Contém informações sobre o SMS agendado.
 </ResponseField>
 
 <ResponseField name="message" type="string">
-    A message describing the result of the scheduling operation.
+    Mensagem descrevendo o resultado da operação.
 </ResponseField>
 
-## Error Codes
+## Códigos de Erro
 
-| Code | Description |
-|------|-------------|
-| 400  | Invalid request format or missing required fields |
-| 401  | Unauthorized - Invalid or expired token |
-| 403  | Forbidden - Insufficient permissions |
-| 404  | Template or contact not found |
-| 422  | Invalid scheduling parameters (e.g., date in the past) |
-| 500  | Server error |
+| Código | Descrição                                                      |
+|--------|----------------------------------------------------------------|
+| 400    | Formato de requisição inválido ou campos obrigatórios ausentes |
+| 401    | Não autorizado - Token inválido ou expirado                    |
+| 403    | Acesso negado - Permissões insuficientes                       |
+| 404    | Template ou contato não encontrado                             |
+| 422    | Parâmetros de agendamento inválidos (exemplo: data no passado) |
+| 500    | Erro interno no servidor                                       |
 
-## Best Practices
+## Boas Práticas
 
-- Schedule messages during business hours to respect recipients' time
-- Avoid scheduling messages for holidays or weekends unless necessary
-- Allow sufficient lead time for scheduling (at least 15 minutes in advance)
-- Verify that all contacts in the list are valid before scheduling
-- Consider time zones when scheduling messages for international recipients
-- Use templates for scheduled messages to ensure consistency
-- Test the scheduling feature with a small group before large campaigns 
+- Agende mensagens dentro do horário comercial para respeitar os destinatários.
+- Evite agendamentos para feriados ou fins de semana, a menos que necessário.
+- Certifique-se de agendar mensagens com pelo menos 15 minutos de antecedência.
+- Verifique se todos os contatos na lista são válidos antes de agendar.
+- Considere fusos horários ao agendar mensagens para destinatários internacionais.
+- Utilize templates para manter a consistência das mensagens.
+- Teste a funcionalidade de agendamento com um grupo pequeno antes de campanhas maiores.

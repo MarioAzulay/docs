@@ -1,126 +1,51 @@
 ---
-title: 'Delete a Reference'
-api: 'DELETE /v1/referencias/:id'
-description: 'Cancel a valid reference'
+title: 'Eliminar uma Referência'
+api: 'DELETE https://api-sandbox.izipay.ao/v1/referencias/:id'
+description: 'Cancelar uma referência válida'
 ---
 
-## Delete a Reference
+## Eliminar uma Referência
 
-Cancels a valid reference, making it unavailable for payment.
+Cancela uma referência válida, tornando-a indisponível para pagamento.
 
-### Authentication
+### Autenticação
 
 <ParamField header="Authorization" type="string" required>
-  HMAC signature in the format: `ApiKey AppId:hash:nonce:timestamp`
+    Assinatura HMAC no formato: `ApiKey AppId:hash:nonce:timestamp`
 </ParamField>
 
 <ParamField query="AppId" type="string" required>
-  Your application ID provided by IZI Pay
+    O seu ID de aplicação fornecido pelo IZI Pay
 </ParamField>
 
 <ParamField query="AppSecret" type="string" required>
-  Your application secret provided by IZI Pay (Base64 encoded)
+    O seu segredo de aplicação fornecido pelo IZI Pay (codificado em Base64)
 </ParamField>
 
-### Path Parameters
+### Parâmetros de Caminho
 
 <ParamField path="id" type="string" required>
-  Unique reference ID
+    ID único da referência
 </ParamField>
 
-### Example Request
+### Exemplo de Requisição
 
 ```bash
 curl --request DELETE \
-  --url https://api.izipay.ao/v1/referencias/00000000-0000-0000-0000-000000000000 \
+  --url https://api-sandbox.izipay.ao/v1/referencias/00000000-0000-0000-0000-000000000000 \
   --header 'Authorization: ApiKey YOUR_HMAC_SIGNATURE'
 ```
 
-### C# Authentication Example
+### Resposta
 
-```csharp
-using System;
-using System.Net.Http;
-using System.Security.Cryptography;
-using System.Text;
-using System.Threading.Tasks;
+Nenhum conteúdo é retornado para uma requisição bem-sucedida.
 
-class Program
-{
-    private static readonly HttpClient client = new();
+### Códigos de Resposta
 
-    static async Task Main(string[] args)
-    {
-        try
-        {
-            var referenceId = "00000000-0000-0000-0000-000000000000"; // Replace with your reference ID
-            var uri = $"https://api.izipay.ao/v1/referencias/{referenceId}";
-            
-            var hmacSignature = GenerateHmacSignature(uri, HttpMethod.Delete);
-            Console.WriteLine("Generated HMAC Signature: " + hmacSignature);
-
-            client.DefaultRequestHeaders.Add("Authorization", $"ApiKey {hmacSignature}");
-
-            Console.WriteLine("Sending request to: " + uri);
-            var response = await client.DeleteAsync(uri);
-
-            Console.WriteLine("Response Status Code: " + response.StatusCode);
-            if (response.StatusCode != System.Net.HttpStatusCode.NoContent)
-            {
-                var responseContent = await response.Content.ReadAsStringAsync();
-                Console.WriteLine("Response Content: " + responseContent);
-            }
-            else
-            {
-                Console.WriteLine("Reference successfully deleted");
-            }
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine($"Error: {ex.Message}");
-            Console.WriteLine(ex.StackTrace);
-        }
-    }
-
-    static string GenerateHmacSignature(string uri, HttpMethod method, string? body = null)
-    {
-        var appId = "YOUR_APP_ID"; // Replace with your AppId
-        var appSecret = Convert.FromBase64String("YOUR_APP_SECRET"); // Replace with your Base64 encoded AppSecret
-
-        var content = string.Empty;
-        var nonce = Guid.NewGuid().ToString("N");
-        var epochStart = new DateTime(1970, 01, 01, 0, 0, 0, 0, DateTimeKind.Utc);
-        var timeSpan = DateTime.UtcNow - epochStart;
-        var timeStamp = Convert.ToUInt64(timeSpan.TotalSeconds).ToString();
-
-        if (body != null)
-        {
-            var bodyBytes = Encoding.UTF8.GetBytes(body);
-            var bodyHash = MD5.Create().ComputeHash(bodyBytes);
-            content = Convert.ToBase64String(bodyHash);
-        }
-        var message = $"{appId}{method.Method}{uri}{timeStamp}{nonce}{content}";
-        var signatureBytes = Encoding.UTF8.GetBytes(message);
-        using (var hmac = new HMACSHA256(appSecret))
-        {
-            var signature = hmac.ComputeHash(signatureBytes);
-            var hashed = Convert.ToBase64String(signature);
-            return $"{appId}:{hashed}:{nonce}:{timeStamp}";
-        }
-    }
-}
-```
-
-### Response
-
-No content is returned for a successful request.
-
-### Response Codes
-
-| Status Code | Description |
-|-------------|-------------|
-| 204 | No Content - Successfully deleted reference |
-| 400 | Bad Request - Invalid request |
-| 401 | Unauthorized - Invalid signature |
-| 402 | Payment Required - Delinquent account |
-| 422 | Unprocessable Entity - Non-existent reference | 
+| Código de Estado | Descrição                                         |
+|------------------|---------------------------------------------------|
+| 204              | Sem Conteúdo - Referência eliminada com sucesso   |
+| 400              | Pedido Inválido - Requisição inválida             |
+| 401              | Não Autorizado - Assinatura inválida              |
+| 402              | Pagamento Necessário - Conta em dívida            |
+| 422              | Entidade Não Processável - Referência inexistente |

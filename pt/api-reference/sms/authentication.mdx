@@ -1,39 +1,39 @@
 ---
-title: 'SMS Authentication'
+title: 'Autenticação'
 api: 'POST https://sms.izipay.ao/api/login'
-description: 'Authenticate a user via username and password before sending SMS messages.'
+description: 'Autentica um utilizador via nome de utilizador e senha antes de enviar mensagens SMS.'
 ---
 
-# SMS Authentication
+# Autenticação por SMS
 
-Before sending SMS messages, users must first authenticate using their username and password.
+Antes de enviar mensagens SMS, os utilizadores devem primeiro autenticar-se usando o nome de utilizador e a senha.
 
-## Base URL
+## URL Base
 
-All API requests should be made to the following base URL:
+Todas as requisições à API devem ser feitas para o seguinte URL base:
 
 ```
 https://sms.izipay.ao
 ```
 
-## Request
+## Pedido
 
 <ParamField body="user" type="string" required>
-    The user's username or email address.
+    Nome de utilizador ou endereço de e-mail do utilizador.
 </ParamField>
 
 <ParamField body="password" type="string" required>
-    The user's password.
+    Senha do utilizador.
 </ParamField>
 
-## Response
+## Resposta
 
 <ResponseField name="token" type="string">
-    Authentication token (JWT) to be used for subsequent API calls. The token contains encoded user information and
-    expiration details.
+    Token de autenticação (JWT) a ser usado em chamadas subsequentes à API. O token contém informações do utilizador e
+    detalhes de expiração.
 </ResponseField>
 
-## Example Request
+## Exemplo de Pedido
 
 <CodeGroup>
 
@@ -56,7 +56,7 @@ https://sms.izipay.ao
 });
 
     const {token} = response.data;
-    console.log('Authentication successful:', token);
+    console.log('Autenticação bem-sucedida:', token);
     ```
 
     ```python Python
@@ -72,12 +72,12 @@ https://sms.izipay.ao
 
     data = response.json()
     token = data['token']
-    print(f"Authentication successful: {token}")
+    print(f"Autenticação bem-sucedida: {token}")
     ```
 
 </CodeGroup>
 
-## Example Response
+## Exemplo de Resposta
 
 ```json
 {
@@ -85,26 +85,26 @@ https://sms.izipay.ao
 }
 ```
 
-## Error Codes
+## Códigos de Erro
 
-| Code | Description |
-|------|-------------|
-| 401  | Invalid credentials |
-| 403  | Account locked due to too many failed attempts |
-| 404  | User not found |
-| 429  | Too many requests, please try again later |
+| Código | Descrição                                           |
+|--------|-----------------------------------------------------|
+| 401    | Credenciais inválidas                               |
+| 403    | Conta bloqueada devido a muitas tentativas falhadas |
+| 404    | Utilizador não encontrado                           |
+| 429    | Muitas requisições, tente novamente mais tarde      |
 
-## Error Response Examples
+## Exemplos de Respostas de Erro
 
-### Invalid Credentials (401)
+### Credenciais Inválidas (401)
 
 ```json
 "Utilizador ou senha inválidos"
 ```
 
-## Security Recommendations
+## Recomendações de Segurança
 
-- Always use HTTPS for authentication requests
-- Implement rate limiting to prevent brute force attacks
-- Store the authentication token securely
-- Do not hardcode credentials in your application code 
+- Utilize sempre HTTPS para pedidos de autenticação
+- Implemente limites de taxa para evitar ataques de força bruta
+- Armazene o token de autenticação de forma segura
+- Não inclua credenciais hardcoded no código da aplicação

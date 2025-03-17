@@ -1,46 +1,53 @@
 ---
-title: 'Contact Management'
+title: 'Gestão de Contactos para SMS'
 api: 'POST https://sms.izipay.ao/api/Contactos/CadastrarContacto'
-description: 'Manage contacts and contact lists for SMS messaging.'
+description: 'Endpoints para gerir contactos e listas de contactos para envio de SMS.'
 ---
 
-# Contact Management
+# Gestão de Contactos para SMS
 
-Manage your SMS contacts and organize them into lists for efficient messaging campaigns.
+Este conjunto de endpoints permite cadastrar, listar e organizar contactos em listas para envio de SMS.
 
 ## Base URL
 
-All API requests should be made to the following base URL:
+Todas as requisições devem ser feitas para o seguinte endpoint base:
 
 ```
 https://sms.izipay.ao
 ```
 
-## Create Contact
+---
 
-<ParamField body="id" type="integer">
-    Contact ID (system-generated if not provided).
-</ParamField>
+## Criar Contacto
+
+Cria um novo contacto para envio de SMS.
+
+### **Endpoint**
+```
+POST /api/Contactos/CadastrarContacto
+```
+
+### **Parâmetros**
 
 <ParamField body="nome" type="string" required>
-    Contact name.
+    Nome do contacto.
 </ParamField>
 
 <ParamField body="telefone" type="string" required>
-    Contact phone number with country code (e.g., "244999999999").
+    Número de telefone com código do país (ex: "244999999999").
 </ParamField>
 
-### Headers
+### **Headers**
 
 <ParamField header="Authorization" type="string" required>
-    Bearer token received from the authentication endpoint. Format: `Bearer YOUR_TOKEN`
+    Token de autenticação. Formato: `Bearer YOUR_TOKEN`
 </ParamField>
 
 <ParamField header="Content-Type" type="string" required>
-    Must be set to `application/json`.
+    Deve ser `application/json`.
 </ParamField>
 
-### Example Request
+### **Exemplo de Requisição**
 
 <CodeGroup>
 
@@ -68,7 +75,7 @@ https://sms.izipay.ao
 }
 });
 
-    console.log('Contact created:', response.data);
+    console.log('Contacto criado:', response.data);
     ```
 
     ```python Python
@@ -87,215 +94,123 @@ https://sms.izipay.ao
     )
 
     data = response.json()
-    print(f"Contact created: {data}")
+    print(f"Contacto criado: {data}")
     ```
 
 </CodeGroup>
 
-## Create Contact List
+### **Exemplo de Resposta**
+```json
+{
+    "id": 123,
+    "nome": "John Doe",
+    "telefone": "244999999999",
+    "status": "Ativo"
+}
+```
 
-<ParamField path="criar-lista-com-contactos" type="string">
-    Endpoint for creating a contact list.
-</ParamField>
+---
 
-<ParamField body="id" type="integer">
-    List ID (system-generated if not provided).
-</ParamField>
+## Criar Lista de Contactos
+
+Cria uma lista contendo múltiplos contactos para campanhas de SMS.
+
+### **Endpoint**
+```
+POST /api/Contactos/criar-lista-com-contactos
+```
+
+### **Parâmetros**
 
 <ParamField body="nome" type="string" required>
-    Name of the contact list.
+    Nome da lista de contactos.
 </ParamField>
 
 <ParamField body="contactoIds" type="array" required>
-    Array of contact IDs to include in the list.
+    Lista de IDs de contactos a serem incluídos na lista.
 </ParamField>
 
-### Example Request
+### **Exemplo de Requisição**
 
-<CodeGroup>
-
-    ```bash cURL
-    curl -X POST \
-    https://sms.izipay.ao/api/Contactos/criar-lista-com-contactos \
-    -H "Content-Type: application/json" \
-    -H "Authorization: Bearer YOUR_TOKEN" \
-    -d '{
-    "nome": "Marketing List",
-    "contactoIds": [1, 2, 3, 4]
-}'
-    ```
-
-    ```javascript Node.js
-    const axios = require('axios');
-
-    const response = await axios.post('https://sms.izipay.ao/api/Contactos/criar-lista-com-contactos', {
-    nome: "Marketing List",
-    contactoIds: [1, 2, 3, 4]
-}, {
-    headers: {
-    'Authorization': 'Bearer YOUR_TOKEN',
-    'Content-Type': 'application/json'
+```json
+{
+    "nome": "Lista Marketing",
+    "contactoIds": [123, 456, 789]
 }
-});
+```
 
-    console.log('Contact list created:', response.data);
-    ```
-
-    ```python Python
-    import requests
-
-    response = requests.post(
-    'https://sms.izipay.ao/api/Contactos/criar-lista-com-contactos',
-    json={
-    "nome": "Marketing List",
-    "contactoIds": [1, 2, 3, 4]
-},
-    headers={
-    'Authorization': 'Bearer YOUR_TOKEN',
-    'Content-Type': 'application/json'
+### **Exemplo de Resposta**
+```json
+{
+    "id": 10,
+    "nome": "Lista Marketing",
+    "totalContactos": 3
 }
-    )
+```
 
-    data = response.json()
-    print(f"Contact list created: {data}")
-    ```
+---
 
-</CodeGroup>
+## Listar Contactos
 
-## List Contacts
+Retorna uma lista paginada de contactos cadastrados.
 
-<ParamField path="ListarContactos" type="string">
-    Endpoint for retrieving all contacts.
-</ParamField>
+### **Endpoint**
+```
+GET /api/Contactos/ListarContactos?pageNumber=1&pageSize=10
+```
+
+### **Parâmetros de Query**
 
 <ParamField query="pageNumber" type="integer" default="1">
-    Page number for pagination.
+    Número da página para paginação.
 </ParamField>
 
 <ParamField query="pageSize" type="integer" default="10">
-    Number of contacts per page.
+    Número de contactos por página.
 </ParamField>
 
-### Example Request
-
-<CodeGroup>
-
-    ```bash cURL
-    curl -X GET \
-    "https://sms.izipay.ao/api/Contactos/ListarContactos?pageNumber=1&pageSize=10" \
-    -H "Authorization: Bearer YOUR_TOKEN"
-    ```
-
-    ```javascript Node.js
-    const axios = require('axios');
-
-    const response = await axios.get('https://sms.izipay.ao/api/Contactos/ListarContactos', {
-    params: {
-    pageNumber: 1,
-    pageSize: 10
-},
-    headers: {
-    'Authorization': 'Bearer YOUR_TOKEN'
+### **Exemplo de Resposta**
+```json
+{
+    "page": 1,
+    "totalPages": 5,
+    "contactos": [
+        {
+            "id": 123,
+            "nome": "John Doe",
+            "telefone": "244999999999"
+        },
+        {
+            "id": 124,
+            "nome": "Jane Doe",
+            "telefone": "244888888888"
+        }
+    ]
 }
-});
+```
 
-    console.log('Contacts:', response.data);
-    ```
+---
 
-    ```python Python
-    import requests
+## Códigos de Erro
 
-    response = requests.get(
-    'https://sms.izipay.ao/api/Contactos/ListarContactos',
-    params={
-    'pageNumber': 1,
-    'pageSize': 10
-},
-    headers={
-    'Authorization': 'Bearer YOUR_TOKEN'
-}
-    )
+| Código | Descrição                                           |
+|--------|-----------------------------------------------------|
+| 400    | Requisição inválida ou campos obrigatórios ausentes |
+| 401    | Não autorizado - Token inválido ou expirado         |
+| 403    | Acesso negado - Permissões insuficientes            |
+| 404    | Recurso não encontrado                              |
+| 500    | Erro interno do servidor                            |
 
-    data = response.json()
-    print(f"Contacts: {data}")
-    ```
+---
 
-</CodeGroup>
+## Boas Práticas
 
-## List Contact Lists
+- **Valide os números de telefone** para garantir que estejam no formato correto.
+- **Organize os contactos em listas** para segmentação eficiente de campanhas.
+- **Utilize tokens de autenticação seguros** e renove-os periodicamente.
+- **Evite duplicação de contactos** verificando se um número já está cadastrado.
+- **Mantenha os dados atualizados** para garantir entregabilidade nas mensagens.
 
-<ParamField path="ListarListasDeContactos" type="string">
-    Endpoint for retrieving all contact lists.
-</ParamField>
+---
 
-<ParamField query="pageNumber" type="integer" default="1">
-    Page number for pagination.
-</ParamField>
-
-<ParamField query="pageSize" type="integer" default="10">
-    Number of contact lists per page.
-</ParamField>
-
-### Example Request
-
-<CodeGroup>
-
-    ```bash cURL
-    curl -X GET \
-    "https://sms.izipay.ao/api/Contactos/ListarListasDeContactos?pageNumber=1&pageSize=10" \
-    -H "Authorization: Bearer YOUR_TOKEN"
-    ```
-
-    ```javascript Node.js
-    const axios = require('axios');
-
-    const response = await axios.get('https://sms.izipay.ao/api/Contactos/ListarListasDeContactos', {
-    params: {
-    pageNumber: 1,
-    pageSize: 10
-},
-    headers: {
-    'Authorization': 'Bearer YOUR_TOKEN'
-}
-});
-
-    console.log('Contact Lists:', response.data);
-    ```
-
-    ```python Python
-    import requests
-
-    response = requests.get(
-    'https://sms.izipay.ao/api/Contactos/ListarListasDeContactos',
-    params={
-    'pageNumber': 1,
-    'pageSize': 10
-},
-    headers={
-    'Authorization': 'Bearer YOUR_TOKEN'
-}
-    )
-
-    data = response.json()
-    print(f"Contact Lists: {data}")
-    ```
-
-</CodeGroup>
-
-## Error Codes
-
-| Code | Description |
-|------|-------------|
-| 400  | Invalid request format or missing required fields |
-| 401  | Unauthorized - Invalid or expired token |
-| 403  | Forbidden - Insufficient permissions |
-| 404  | Resource not found |
-| 500  | Server error |
-
-## Best Practices
-
-- Use meaningful names for contacts and contact lists
-- Regularly update contact information to ensure delivery
-- Segment contacts into targeted lists for better campaign performance
-- Respect privacy regulations when collecting and storing contact information
-- Implement proper validation for phone numbers to ensure correct format 
+Esse documento foi otimizado para melhor compreensão e usabilidade. 🚀

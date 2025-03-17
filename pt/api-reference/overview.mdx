@@ -1,98 +1,97 @@
 ---
-title: 'Visão Geral da API'
-description: 'Documentação completa de referência para a API do IZI Pay'
+title: 'Visão Geral'
+description: 'Comece a utilizar a API IZI Pay, um serviço RESTful para processamento de pagamentos de forma simples e eficiente.'
 ---
 
-# Referência da API
+# Introdução à API IZI Pay
 
-Bem-vindo à documentação de referência da API do IZI Pay. Nossa API é organizada em torno dos princípios REST e usa códigos de resposta HTTP padrão, autenticação e verbos. Todas as respostas, incluindo erros, são retornadas como objetos JSON.
+A API IZI Pay é um serviço RESTful projetado para processamento de pagamentos de forma segura e eficiente. Ela oferece URLs previsíveis orientadas a recursos, corpos de requisição e resposta codificados em JSON, além de métodos HTTP e códigos de resposta padronizados.
 
-## URL Base
+## URLs Base
 
-Todas as requisições de API devem ser feitas para a seguinte URL base:
+A API suporta os ambientes de produção e sandbox:
 
-```
-https://api.izipay.ao/v1
-```
+- **Produção:** `https://api.izipay.ao`
+- **Sandbox:** `https://api-sandbox.izipay.ao`
 
 ## Autenticação
 
-Todas as requisições de API requerem autenticação usando suas chaves de API. Consulte nosso [Guia de Autenticação](/pt/authentication) para informações detalhadas sobre como autenticar suas requisições.
+A API IZI Pay utiliza autenticação baseada em HMAC. Cada aplicação (cliente) recebe um `AppId` (ID do cliente) e um `AppSecret` (segredo do cliente).
 
-## Limitação de Taxa
+<Warning>
+    Estas credenciais devem ser armazenadas de forma segura e nunca expostas em repositórios públicos!
+</Warning>
 
-A API do IZI Pay implementa limitação de taxa para proteger nossa infraestrutura e garantir um uso justo. Os limites atuais são:
+### Geração da Assinatura HMAC
 
-- 100 requisições por minuto para contas padrão
-- 300 requisições por minuto para contas empresariais
+A autenticação é feita através da geração de uma assinatura HMAC utilizando os seguintes componentes:
 
-Se você exceder esses limites, receberá uma resposta `429 Too Many Requests`.
-
-## Paginação
-
-Os endpoints de listagem retornam resultados paginados. Você pode controlar a paginação usando os seguintes parâmetros de consulta:
-
-- `limit`: Número de itens a retornar (padrão: 20, máximo: 100)
-- `offset`: Número de itens a pular (padrão: 0)
-
-Exemplo:
-
-```
-GET /references?limit=50&offset=100
+```plaintext
+AppId + Método HTTP + Nonce + URI + Timestamp UNIX + base64 MD5 do payload
 ```
 
-A resposta incluirá metadados de paginação:
+Esta assinatura é então criptografada utilizando SHA256 e enviada no cabeçalho `Authorization`:
 
-```json
-{
-  "data": [...],
-  "pagination": {
-    "total": 156,
-    "limit": 50,
-    "offset": 100,
-    "has_more": true
-  }
-}
+```plaintext
+Authorization: ApiKey AppId:hash:nonce:timestamp
 ```
 
-## Tratamento de Erros
+## Códigos de Resposta da API
 
-A API usa códigos de resposta HTTP convencionais para indicar o sucesso ou falha de uma requisição:
+A API segue os códigos de status HTTP padrão para indicar o sucesso ou falha de uma requisição:
 
-- `2xx`: Sucesso
-- `4xx`: Erro do cliente (requisição inválida)
-- `5xx`: Erro do servidor
+| Código de Status            | Significado                                      |
+|-----------------------------|-------------------------------------------------|
+| `200 OK`                    | Requisição bem-sucedida                         |
+| `201 Created`               | Recurso criado com sucesso                      |
+| `204 No Content`            | Recurso modificado ou excluído                  |
+| `400 Bad Request`           | Sintaxe inválida na requisição                  |
+| `401 Unauthorized`          | Credenciais inválidas ou autorização ausente    |
+| `402 Payment Required`      | Conta inadimplente                              |
+| `403 Forbidden`             | Acesso negado                                   |
+| `404 Not Found`             | Recurso não encontrado                          |
+| `422 Unprocessable Entity`  | Parâmetros inválidos ou violação de regra       |
+| `429 Too Many Requests`     | Limite de requisições excedido                  |
+| `500 Internal Server Error` | Falha na API                                    |
 
-As respostas de erro incluem um objeto JSON com detalhes:
+## Limites de Requisição
 
-```json
-{
-  "error": {
-    "code": "invalid_parameter",
-    "message": "O parâmetro 'amount' é obrigatório",
-    "param": "amount",
-    "type": "validation_error"
-  }
-}
-```
+Para evitar abusos, a API impõe limites de requisição:
 
-## Versionamento
+- **Modo de Teste:** 100 requisições por minuto
+- **Modo de Produção:** 1000 requisições por minuto
 
-A API do IZI Pay é versionada para garantir compatibilidade retroativa. A versão atual é `v1`. Recomendamos especificar a versão na URL para garantir que sua integração não quebre quando lançarmos novas versões.
+<Warning>
+    O exceder esses limites resultará em uma resposta `429 Too Many Requests`.
+</Warning>
 
-## Webhooks
+## APIs Disponíveis
 
-O IZI Pay pode enviar notificações de webhook para seu servidor quando eventos ocorrem em sua conta. Consulte nosso [Guia de Webhooks](/pt/webhooks/overview) para mais informações.
+A API IZI Pay fornece múltiplos endpoints para gestão de pagamentos e transações:
 
-## SDKs
+<CardGroup cols={2}>
+    <Card title="API de Referências" icon="link" href="/api-reference/references/create-reference">
+        Criar, recuperar e gerir referências de pagamento
+    </Card>
+    <Card title="API de Pagamentos" icon="credit-card" href="/api-reference/payments/list-payments">
+        Processar e recuperar detalhes de pagamentos
+    </Card>
+    <Card title="API de Notificações" icon="bell" href="/api-reference/notifications/list-notifications">
+        Receber e gerir notificações do sistema
+    </Card>
+    <Card title="API de SMS" icon="message" href="/api-reference/sms/authentication">
+        Enviar notificações SMS e códigos de verificação
+    </Card>
+</CardGroup>
 
-Fornecemos SDKs oficiais para várias linguagens de programação para facilitar a integração:
+## Como Começar
 
-- [JavaScript/Node.js](/pt/sdks/javascript)
-- [PHP](/pt/sdks/php)
-- [Python](/pt/sdks/python)
-- [Java](/pt/sdks/java)
+Para começar a integração com a API IZI Pay:
 
-## Suporte
+1. Registe-se e obtenha seu `AppId` e `AppSecret`.
+2. Autentique as requisições utilizando o método HMAC.
+3. Consulte a documentação da API para detalhes sobre os endpoints.
 
-Se você tiver alguma dúvida ou precisar de assistência com a API, entre em contato com nossa equipe de suporte em [suporte@izipay.ao](mailto:suporte@izipay.ao). 
+<Tip>
+    Para suporte adicional, entre em contacto com a nossa equipa de desenvolvimento através do e-mail [dev-tech@suplitel.ao](mailto:dev-tech@suplitel.ao).
+</Tip>

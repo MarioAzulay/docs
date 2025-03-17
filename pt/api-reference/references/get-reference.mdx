@@ -1,164 +1,88 @@
 ---
-title: 'Get Reference Details'
-api: 'GET /v1/referencias/:id'
-description: 'Get details of a previously created reference'
+title: 'Obter Detalhes da Referência'
+api: 'GET https://api-sandbox.izipay.ao/v1/referencias/:id'
+description: 'Obter detalhes de uma referência previamente criada'
 ---
 
-## Get Reference Details
+## Obter Detalhes da Referência
 
-Retrieves details of a previously created reference. Provide the unique reference ID and IZI Pay will return the corresponding reference information.
+Recupera os detalhes de uma referência previamente criada. Forneça o ID único da referência e a IZI Pay retornará as informações correspondentes.
 
-### Authentication
+### Autenticação
 
 <ParamField header="Authorization" type="string" required>
-  HMAC signature in the format: `ApiKey AppId:hash:nonce:timestamp`
+    Assinatura HMAC no formato: `ApiKey AppId:hash:nonce:timestamp`
 </ParamField>
 
-<ParamField query="AppId" type="string" required>
-  Your application ID provided by IZI Pay
-</ParamField>
-
-<ParamField query="AppSecret" type="string" required>
-  Your application secret provided by IZI Pay (Base64 encoded)
-</ParamField>
-
-### Path Parameters
+### Parâmetros de Caminho
 
 <ParamField path="id" type="string" required>
-  Unique reference ID
+    ID único da referência
 </ParamField>
 
-### Response
+### Resposta
 
 <ResponseField name="result" type="object">
-  <Expandable title="Properties">
-    <ResponseField name="pago" type="string">
-      Amount paid
-    </ResponseField>
-    <ResponseField name="montante" type="string">
-      Total amount
-    </ResponseField>
-    <ResponseField name="emissao" type="string">
-      Issue date
-    </ResponseField>
-    <ResponseField name="validade" type="string">
-      Validity date
-    </ResponseField>
-    <ResponseField name="numero" type="string">
-      Reference number
-    </ResponseField>
-    <ResponseField name="tipo" type="string">
-      Reference type
-    </ResponseField>
-    <ResponseField name="estado" type="string">
-      Reference state
-    </ResponseField>
-    <ResponseField name="entidade" type="object">
-      <Expandable title="Properties">
-        <ResponseField name="nome" type="string">
-          Entity name
+    <Expandable title="Propriedades">
+        <ResponseField name="pago" type="string">
+            Valor pago
+        </ResponseField>
+        <ResponseField name="montante" type="string">
+            Valor total
+        </ResponseField>
+        <ResponseField name="emissao" type="string">
+            Data de emissão
+        </ResponseField>
+        <ResponseField name="validade" type="string">
+            Data de validade
         </ResponseField>
         <ResponseField name="numero" type="string">
-          Entity number
+            Número da referência
         </ResponseField>
-      </Expandable>
-    </ResponseField>
-    <ResponseField name="cliente" type="object">
-      <Expandable title="Properties">
-        <ResponseField name="nome" type="string">
-          Customer name
+        <ResponseField name="tipo" type="string">
+            Tipo de referência
         </ResponseField>
-        <ResponseField name="email" type="string">
-          Customer email
+        <ResponseField name="estado" type="string">
+            Estado da referência
         </ResponseField>
-        <ResponseField name="telefone" type="string">
-          Customer phone
+        <ResponseField name="entidade" type="object">
+            <Expandable title="Propriedades">
+                <ResponseField name="nome" type="string">
+                    Nome da entidade
+                </ResponseField>
+                <ResponseField name="numero" type="string">
+                    Número da entidade
+                </ResponseField>
+            </Expandable>
         </ResponseField>
-      </Expandable>
-    </ResponseField>
-    <ResponseField name="id" type="string">
-      Unique reference ID
-    </ResponseField>
-  </Expandable>
+        <ResponseField name="cliente" type="object">
+            <Expandable title="Propriedades">
+                <ResponseField name="nome" type="string">
+                    Nome do cliente
+                </ResponseField>
+                <ResponseField name="email" type="string">
+                    Email do cliente
+                </ResponseField>
+                <ResponseField name="telefone" type="string">
+                    Telefone do cliente
+                </ResponseField>
+            </Expandable>
+        </ResponseField>
+        <ResponseField name="id" type="string">
+            ID único da referência
+        </ResponseField>
+    </Expandable>
 </ResponseField>
 
-### Example Request
+### Exemplo de Requisição
 
 ```bash
 curl --request GET \
-  --url https://api.izipay.ao/v1/referencias/00000000-0000-0000-0000-000000000000 \
-  --header 'Authorization: ApiKey YOUR_HMAC_SIGNATURE'
+  --url https://api-sandbox.izipay.ao/v1/referencias/00000000-0000-0000-0000-000000000000 \
+  --header 'Authorization: ApiKey SUA_ASSINATURA_HMAC'
 ```
 
-### C# Authentication Example
-
-```csharp
-using System;
-using System.Net.Http;
-using System.Security.Cryptography;
-using System.Text;
-using System.Threading.Tasks;
-
-class Program
-{
-    private static readonly HttpClient client = new();
-
-    static async Task Main(string[] args)
-    {
-        try
-        {
-            var referenceId = "00000000-0000-0000-0000-000000000000"; // Replace with your reference ID
-            var uri = $"https://api.izipay.ao/v1/referencias/{referenceId}";
-            
-            var hmacSignature = GenerateHmacSignature(uri, HttpMethod.Get);
-            Console.WriteLine("Generated HMAC Signature: " + hmacSignature);
-
-            client.DefaultRequestHeaders.Add("Authorization", $"ApiKey {hmacSignature}");
-
-            Console.WriteLine("Sending request to: " + uri);
-            var response = await client.GetAsync(uri);
-
-            var responseContent = await response.Content.ReadAsStringAsync();
-            Console.WriteLine("Response Status Code: " + response.StatusCode);
-            Console.WriteLine("Response Content: " + responseContent);
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine($"Error: {ex.Message}");
-            Console.WriteLine(ex.StackTrace);
-        }
-    }
-
-    static string GenerateHmacSignature(string uri, HttpMethod method, string? body = null)
-    {
-        var appId = "YOUR_APP_ID"; // Replace with your AppId
-        var appSecret = Convert.FromBase64String("YOUR_APP_SECRET"); // Replace with your Base64 encoded AppSecret
-
-        var content = string.Empty;
-        var nonce = Guid.NewGuid().ToString("N");
-        var epochStart = new DateTime(1970, 01, 01, 0, 0, 0, 0, DateTimeKind.Utc);
-        var timeSpan = DateTime.UtcNow - epochStart;
-        var timeStamp = Convert.ToUInt64(timeSpan.TotalSeconds).ToString();
-
-        if (body != null)
-        {
-            var bodyBytes = Encoding.UTF8.GetBytes(body);
-            var bodyHash = MD5.Create().ComputeHash(bodyBytes);
-            content = Convert.ToBase64String(bodyHash);
-        }
-        var message = $"{appId}{method.Method}{uri}{timeStamp}{nonce}{content}";
-        var signatureBytes = Encoding.UTF8.GetBytes(message);
-        using (var hmac = new HMACSHA256(appSecret))
-        {
-            var signature = hmac.ComputeHash(signatureBytes);
-            var hashed = Convert.ToBase64String(signature);
-            return $"{appId}:{hashed}:{nonce}:{timeStamp}";
-        }
-    }
-}
-```
-
-### Example Response
+### Exemplo de Resposta
 
 ```json
 {
@@ -184,12 +108,12 @@ class Program
 }
 ```
 
-### Response Codes
+### Códigos de Resposta
 
-| Status Code | Description |
-|-------------|-------------|
-| 200 | OK - Successfully retrieved reference details |
-| 400 | Bad Request - Invalid request |
-| 401 | Unauthorized - Invalid signature |
-| 402 | Payment Required - Delinquent account |
-| 422 | Unprocessable Entity - Non-existent reference | 
+| Código de Status | Descrição                                           |
+|------------------|-----------------------------------------------------|
+| 200              | OK - Detalhes da referência recuperados com sucesso |
+| 400              | Bad Request - Requisição inválida                   |
+| 401              | Unauthorized - Assinatura inválida                  |
+| 402              | Payment Required - Conta inadimplente               |
+| 422              | Unprocessable Entity - Referência inexistente       |
